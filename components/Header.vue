@@ -1,0 +1,230 @@
+<template>
+    <div>
+        <!-- =============== Topbar area start =============== -->
+        <div class="topbar-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 tob-contact-row">
+                        <div class="topbar-contact">
+                            <ul>
+                                <li>
+                                    <client-only>
+                                        <icon icon="phone-alt"></icon>
+                                    </client-only>
+                                    <a href="tel:+17632275032" class="ms-1">+1 763-227-5032</a>
+                                </li>
+                                <li>
+                                    <client-only>
+                                        <icon icon="envelope"></icon>
+                                    </client-only>
+                                    <a href="mailto:shafayetalanik@gmail.com" class="ms-1">
+                                        <span class="__cf_email__">
+                                            shafayetalanik@gmail.com
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="topbar-contact">
+                            <ul class="justify-content-end" v-if="authCheck">
+                                <li>
+                                    <nuxt-link to="/dashboard">Dashboard</nuxt-link>
+                                </li>
+                            </ul>
+                            <ul class="justify-content-end" v-else>
+                                <li>
+                                    <nuxt-link to="/login">Login</nuxt-link>
+                                </li>
+                                <li>
+                                    <nuxt-link to="/register">Register</nuxt-link>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- =============== Topbar area end =============== -->
+
+        <!-- ===============  header area start =============== -->
+        <header>
+            <div class="header-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
+                            <div class="navbar-wrap">
+                                <div class="logo d-flex justify-content-between">
+                                    <nuxt-link to="/" class="navbar-brand">
+                                        <img :src="assetURL + 'images/logo.png'" alt="logo" />
+                                    </nuxt-link>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <!-- Mobile Menu Start -->
+                            <nav class="main-nav">
+                                <ul>
+                                    <li>
+                                        <nuxt-link to="/">Home</nuxt-link>
+                                    </li>
+                                    <li>
+                                        <a href="about.html">About us </a>
+                                    </li>
+                                    <li>
+                                        <a href="destination.html">Destinations</a>
+                                    </li>
+                                    <li>
+                                        <a href="contact.html">Contact Us </a>
+                                    </li>
+                                </ul>
+                                <div class="navbar-icons-2">
+                                    <div class="searchbar-open">
+                                        <client-only>
+                                            <icon icon="search" @click="active_search = !active_search"></icon>
+                                        </client-only>
+                                    </div>
+                                    <div class="user-dropdown-icon">
+                                        <client-only>
+                                            <icon :icon="['far', 'user']" @click="account_dropdown = !account_dropdown"></icon>
+                                        </client-only>
+                                        <div class="account-dropdown" :class="account_dropdown ? 'activeCard' : ''">
+                                            <ul v-if="authCheck">
+                                                <li class="account-el">
+                                                    <nuxt-link to="/dashboard">
+                                                        <client-only>
+                                                            <icon :icon="['far','user-circle',]" @click="account_dropdown =!account_dropdown"></icon>
+                                                        </client-only>
+                                                    My Account</nuxt-link>
+                                                </li>
+                                                <li class="account-el">
+                                                    <a href="#">
+                                                        <client-only>
+                                                            <icon icon="cogs"></icon>
+                                                        </client-only>
+                                                    Settings</a>
+                                                </li>
+                                                <li class="account-el">
+                                                    <a @click.prevent="logout" class="pointer">
+                                                        <client-only>
+                                                            <icon icon="sign-out-alt"></icon>
+                                                        </client-only>
+                                                    Log out</a>
+                                                </li>
+                                            </ul>
+                                            <ul v-else>
+                                                <li class="account-el">
+                                                    <a class="pointer" @click.prevent="login">
+                                                        <client-only>
+                                                            <icon :icon="[ 'far', 'user-circle', ]"></icon>
+                                                        </client-only>
+                                                    login</a>
+                                                </li>
+                                                <li class="account-el">
+                                                    <a class="pointer" @click.prevent="register">
+                                                        <client-only>
+                                                            <icon :icon="[ 'far', 'user-circle', ]"></icon>
+                                                        </client-only>
+                                                    Register</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sidebar-contact">
+                                    <ul>
+                                        <li class="sidebar-single-contact">
+                                            <i class="bx bxs-phone"></i>
+                                            <a href="tel:+17632275032">
+                                                +1 763-227-5032
+                                            </a>
+                                        </li>
+                                        <li class="sidebar-single-contact">
+                                            <i class="bx bxs-envelope"></i>
+                                            <a href="https://demo.egenslab.com/cdn-cgi/l/email-protection#d1b8bfb7be91b4a9b0bca1bdb4ffb2bebc">
+                                                <span class="__cf_email__" data-cfemail="630a0d050c23061b020e130f064d000c0e">
+                                                    [email&#160;protected]
+                                                </span
+                                                >
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            <!-- Mobile Menu End -->
+                        </div>
+                    </div>
+                </div>
+                <form>
+                    <div class="main-searchbar" :class="active_search ? 'activeSearch' : ''">
+                        <div class="searchbar-close">
+                            <client-only>
+                                <icon icon="times" @click="active_search = !active_search"></icon>
+                            </client-only>
+                        </div>
+                        <input type="text" placeholder="Search Here......"  v-model="search"/>
+                        <div class="searchbar-icon">
+                            <client-only>
+                                <icon icon="search"></icon>
+                            </client-only>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </header>
+        <!-- ===============  header area end =============== -->
+    </div>
+</template>
+<script>
+export default {
+    data() {
+        return {
+            account_dropdown: false,
+            active_search: false,
+            progress: 0,
+            search: "",
+        };
+    },
+
+    methods: {
+        // Logout
+        logout() {
+            this.account_dropdown = false,
+            this.$auth.logout("laravelJWT");
+        },
+
+        // For Tracking Scroll
+        handleScroll() {
+            this.progress = window.scrollY;
+        },
+
+        // For Push Login & Register
+        login() {
+            this.account_dropdown = false;
+            this.$router.push("/login");
+        },
+        register() {
+            this.account_dropdown = false;
+            this.$router.push("/register");
+        },
+    },
+
+    // For Tracking Scroll
+    beforeMount() {
+        window.addEventListener("scroll", this.handleScroll);
+    },
+    beforeDestroy() {
+        window.removeEventListener("scroll", this.handleScroll);
+    },
+
+    computed: {
+        // Get Asset URL
+        assetURL() {
+            return process.env.assetURL;
+        },
+    },
+};
+</script>
