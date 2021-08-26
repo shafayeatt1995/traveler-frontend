@@ -4,22 +4,13 @@
             <div class="col-lg-4 offset-lg-4 input-form">
                 <h1 class="text-center mb-4">Login</h1>
                 <input type="email" id="email" placeholder="Type Your Email" v-model="credential.email" />
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Type Your Password"
-                    v-model="credential.password"
-                />
-                <button type="submit" class="strong" v-if="loading">
-                    <div class="spinner">
-                        <div class="rect1"></div>
-                        <div class="rect2"></div>
-                        <div class="rect3"></div>
-                        <div class="rect4"></div>
-                        <div class="rect5"></div>
-                    </div>
+                <input type="password" id="password" placeholder="Type Your Password" v-model="credential.password"/>
+                <button type="submit" class="strong">
+                    <transition name="fade" mode="out-in">
+                        <Loading v-if="loading"/>
+                        <span v-else>Login</span>
+                    </transition>
                 </button>
-                <button type="submit" class="strong" v-else>Login</button>
             </div>
         </form>
     </div>
@@ -28,7 +19,7 @@
 export default {
     head() {
         return {
-            title: "Login - " + process.env.appName,
+            title: "Login - " + this.appName,
         };
     },
     data() {
@@ -49,13 +40,14 @@ export default {
                     email: this.credential.email,
                     password: this.credential.password,
                 },
-            }).then(()=>{
-                this.loading = false
-            },
-            error=>{
-                this.loading = false
-                $nuxt.$emit("error", "Email or Password Not Matched");
-            });
+            }).then(
+                ()=>{
+                    this.loading = false
+                },
+                ()=>{
+                    this.loading = false
+                    $nuxt.$emit("error", "Email or Password Not Matched");
+                });
         },
     },
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container dashboard-container mt-5" v-if="adminOrGuide">
         <div class="row">
             <div class="col-lg-3">
                 <Sidebar />
@@ -10,74 +10,76 @@
                         <button type="button" class="btn add-btn" @click="newModal">Add New Package</button>
                         <h3 class="strong">Tour Package</h3>
                     </div>
-                    <table class="table">
-                        <thead>
-                            <tr class="text-center">
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Info</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody v-if="empty">
-                            <tr>
-                                <th colspan="4">
-                                    <Empty message="No Package Found"/>
-                                </th>
-                            </tr>
-                        </tbody>
-                        <tbody v-else>
-                            <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
-                                <th class="align-middle text-center">{{pack.id}}</th>
-                                <td class="align-middle">
-                                    <nuxt-link :to="'../package/'+pack.slug">
-                                        <img :src="url+JSON.parse(pack.images)[0]" class="img-fluid max-w-200">
-                                    </nuxt-link>
-                                </td>
-                                <td class="align-middle border-none">
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>{{pack.name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Category</td>
-                                        <td>{{pack.category.name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Location</td>
-                                        <td>{{pack.address}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Duration</td>
-                                        <td>{{pack.duration}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Group Size</td>
-                                        <td>{{pack.group_size}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>price</td>
-                                        <td v-if="pack.discount === null">${{pack.price}}</td>
-                                        <td v-else><del>${{pack.price}}</del> ${{pack.discount}}</td>
-                                    </tr>
-                                </td>
-                                <td class="align-middle">
-                                    <button type="button" class="btn btn-success" @click="editPackage(pack)">
-                                        <client-only>
-                                            <icon icon="edit"></icon>
-                                        </client-only>
-                                    </button>
-                                    <button type="button" class="btn btn-danger" @click="deletePackage(pack.id)">
-                                        <client-only>
-                                            <icon icon="trash-alt"></icon>
-                                        </client-only>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>ID</th>
+                                    <th>Image</th>
+                                    <th>Info</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody v-if="empty">
+                                <tr>
+                                    <th colspan="4">
+                                        <Empty message="No Package Found"/>
+                                    </th>
+                                </tr>
+                            </tbody>
+                            <tbody v-else>
+                                <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
+                                    <th class="align-middle text-center">{{pack.id}}</th>
+                                    <td class="align-middle">
+                                        <nuxt-link :to="'../package/'+pack.slug">
+                                            <img :src="assetURL+JSON.parse(pack.images)[0]" class="img-fluid mw-200">
+                                        </nuxt-link>
+                                    </td>
+                                    <td class="align-middle border-none">
+                                        <tr>
+                                            <td>Name</td>
+                                            <td>{{pack.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category</td>
+                                            <td>{{pack.category.name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>{{pack.address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Duration</td>
+                                            <td>{{pack.duration}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Group Size</td>
+                                            <td>{{pack.group_size}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>price</td>
+                                            <td v-if="pack.discount === null">${{pack.price}}</td>
+                                            <td v-else><del>${{pack.price}}</del> ${{pack.discount}}</td>
+                                        </tr>
+                                    </td>
+                                    <td class="align-middle">
+                                        <button type="button" class="btn btn-success" @click="editPackage(pack)">
+                                            <client-only>
+                                                <icon icon="edit"></icon>
+                                            </client-only>
+                                        </button>
+                                        <button type="button" class="btn btn-danger" @click="deletePackage(pack.id)">
+                                            <client-only>
+                                                <icon icon="trash-alt"></icon>
+                                            </client-only>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-                    <pagination :data="packages" @pagination-change-page="getResults" class="justify-content-center"></pagination>
+                    <pagination :data="packages" @pagination-change-page="getResults" class="justify-content-center mt-3 paginate"></pagination>
                 </div>
             </div>
         </div>
@@ -90,12 +92,12 @@
                         <h5 class="modal-title" v-else>Add New Tour Package</h5>
                     </div>
                     <div class="modal-body">
-                        <h2 class="text-center">Package Thumbnail</h2>
+                        <h2 class="text-center">Package Thumbnails</h2>
                         <div class="dashboard-thumbnail my-2">
-                                <img :src="editMode ? url+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'">
+                                <img :src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'">
                                 <img :src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'">
-                            <label for="thumbnail" class="pointer"> Select an Image</label>
-                            <input type="file" accept="image/*" class="d-none" id="thumbnail" placeholder="Type Your Package Name" @change="image($event)" multiple>
+                            <label for="thumbnail" class="pointer"> Select Images</label>
+                            <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)" multiple>
                         </div>
                         <h2 class="text-center">Package Information</h2>
                         <div class="form-group">
@@ -104,9 +106,16 @@
                         </div>
                         <div class="form-group">
                             <label for="category">Select A Category</label>
-                            <select class="form-control" id="category" v-model="form.category_id" :style="'background-image: url(' + url +'images/dropdown.svg);'" placeholder="Select A Category">
+                            <select class="form-control" id="category" v-model="form.category_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Category">
                                 <option value="">Select A Category</option>
                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="place">Select A Place</label>
+                            <select class="form-control" id="place" v-model="form.place_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Place">
+                                <option value="">Select A Place</option>
+                                <option v-for="place in places" :key="place.id" :value="place.id">{{place.name}}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -122,8 +131,12 @@
                             <input type="text" class="form-control" id="vehicle" v-model="form.vehicle" placeholder="Type Your Tour Vehicle">
                         </div>
                         <div class="form-group">
-                            <label for="group_size">Group Size</label>
-                            <input type="text" class="form-control" id="group_size" v-model="form.group_size" placeholder="Type Your Group Size">
+                            <label for="group-size">Group Size</label>
+                            <input type="text" class="form-control" id="group-size" v-model="form.group_size" placeholder="Type Your Group Size">
+                        </div>
+                        <div class="form-group">
+                            <label for="ticket-quantity">Ticket Quantity</label>
+                            <input type="number" class="form-control" id="ticket-quantity" v-model="form.ticket" placeholder="Set Available Ticket">
                         </div>
                         <div class="form-group">
                             <label for="price">Tour Package Price</label>
@@ -132,6 +145,10 @@
                         <div class="form-group">
                             <label for="discount">Tour Package Discount Price <small>(Optional)</small></label>
                             <input type="number" class="form-control" id="discount" v-model="form.discount" placeholder="Set Your Package Discount Price">
+                        </div>
+                        <div class="form-group">
+                            <label for="min-booking">Partial Booking Minimum ammount</label>
+                            <input type="number" class="form-control" id="min-booking" v-model="form.min_booking_amount" placeholder="Set Your Partial Booking Minimum Amount">
                         </div>
                         <div class="form-group">
                             <label for="overview">Tour Package Overview</label>
@@ -173,7 +190,7 @@
                         <h2 class="text-center">Tour Plan</h2>
                         <ul class="table-list-disallow">
                                 <li v-for="(data, key) in form.tour_plan" :key="key" class="pointer my-3" @click="removeTourPlan(key)" v-tooltip.top-center="'Click to Remove Tour Plan'">
-                                    <h3>{{data.title}}</h3>
+                                    <h3>({{key+1}}) {{data.title}}</h3>
                                     <h4>{{data.time}}</h4>
                                     <p>{{data.description}}</p>
                                 </li>
@@ -214,6 +231,7 @@ export default {
         return {
             packages: {},
             categories: [],
+            places: [],
             editMode: false,
             empty: false,
             form: {
@@ -221,12 +239,15 @@ export default {
                 images: [],
                 name: "",
                 category_id: "",
+                place_id: "",
                 address: "",
                 duration: "",
                 vehicle: "",
                 group_size: "",
+                ticket: "",
                 price: "",
                 discount: "",
+                min_booking_amount: "",
                 overview: "",
                 start_date: "",
                 return_date: "",
@@ -252,12 +273,15 @@ export default {
             this.form.name = "";
             this.form.images = [];
             this.form.category_id = "";
+            this.form.place_id = "";
             this.form.address = "";
             this.form.duration = "";
             this.form.vehicle = "";
             this.form.group_size = "";
+            this.form.ticket = "";
             this.form.price = "";
             this.form.discount = "";
+            this.form.min_booking_amount = "";
             this.form.overview = "";
             this.form.start_date = "";
             this.form.return_date = "";
@@ -281,9 +305,10 @@ export default {
                     this.empty = response.data.packages.data.length > 0 ? false : true;
                     this.packages = response.data.packages
                     this.categories = response.data.categories
+                    this.places = response.data.places
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again")
                 }
             )
         },
@@ -304,12 +329,15 @@ export default {
                     this.form.name = "";
                     this.form.images = [];
                     this.form.category_id = "";
+                    this.form.place_id = "";
                     this.form.address = "";
                     this.form.duration = "";
                     this.form.vehicle = "";
                     this.form.group_size = "";
+                    this.form.ticket = "";
                     this.form.price = "";
                     this.form.discount = "";
+                    this.form.min_booking_amount = "";
                     this.form.overview = "";
                     this.form.start_date = "";
                     this.form.return_date = "";
@@ -327,7 +355,7 @@ export default {
                     $nuxt.$emit('success', 'Package Created Successfully');
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : "Something Wrong! Please try Again");
+                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
                 }
             )
         },
@@ -339,12 +367,15 @@ export default {
             this.form.name = pack.name;
             this.form.images = JSON.parse(pack.images);
             this.form.category_id = pack.category_id;
+            this.form.place_id = pack.place_id;
             this.form.address = pack.address;
             this.form.duration = pack.duration;
             this.form.vehicle = pack.vehicle;
             this.form.group_size = pack.group_size;
+            this.form.ticket = pack.ticket;
             this.form.price = pack.price;
             this.form.discount = pack.discount;
+            this.form.min_booking_amount = pack.min_booking_amount;
             this.form.overview = pack.overview;
             this.form.start_date = moment(pack.start_date).format('YYYY-MM-DD, hh:mm a');
             this.form.return_date = moment(pack.return_date).format('YYYY-MM-DD, hh:mm a');
@@ -370,12 +401,15 @@ export default {
                     this.form.name = "";
                     this.form.images = [];
                     this.form.category_id = "";
+                    this.form.place_id = "";
                     this.form.address = "";
                     this.form.duration = "";
                     this.form.vehicle = "";
                     this.form.group_size = "";
+                    this.form.ticket = "";
                     this.form.price = "";
                     this.form.discount = "";
+                    this.form.min_booking_amount = "";
                     this.form.overview = "";
                     this.form.start_date = "";
                     this.form.return_date = "";
@@ -393,7 +427,7 @@ export default {
                     $nuxt.$emit('success', 'Package Updated Successfully');
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : "Something Wrong! Please try Again");
+                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
                 }
             )
         },
@@ -420,7 +454,7 @@ export default {
                             $nuxt.$emit('triggerPackages');
                         },
                         (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : "Something Wrong! Please try Again");
+                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
                         }
                     )
                 }
@@ -429,12 +463,14 @@ export default {
 
         // Add Package Image
         image(event) {
-            for (let file of Object.entries(event.target.files)) {
-                let reader = new FileReader();
-                reader.onloadend = () => {
-                    file[1].size < 2097153 ? this.form.images.length + this.form.new_images.length < 5 ? this.editMode ? this.form.new_images.push(reader.result) : this.form.images.push(reader.result) : $nuxt.$emit("error", "You Can Upload Maximum 5 Images") : $nuxt.$emit("error", "Maximum Image Size 2 MB");
-                };
-                file !== undefined ? reader.readAsDataURL(file[1]) : "";
+            if (event.target.files.length > 0) {
+                for (let file of Object.entries(event.target.files)) {
+                    let reader = new FileReader();
+                    reader.onloadend = () => {
+                        file[1].size < 2097153 ? this.form.images.length + this.form.new_images.length < 5 ? this.editMode ? this.form.new_images.push(reader.result) : this.form.images.push(reader.result) : $nuxt.$emit("error", "You Can Upload Maximum 5 Images") : $nuxt.$emit("error", "Maximum Image Size 2 MB");
+                    };
+                    file !== undefined ? reader.readAsDataURL(file[1]) : "";
+                }
             }
         },
 
@@ -486,7 +522,7 @@ export default {
     },
 
     created() {
-        if (this.authCheck) {
+        if (this.adminOrGuide) {
             this.getPackage();
             this.$nuxt.$on('triggerPackages', () => {
                 this.getPackage();
@@ -494,12 +530,6 @@ export default {
         } else {
             this.$router.push("/login");
         }
-    },
-
-    computed: {
-        url() {
-            return process.env.assetURL;
-        },
     },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-40">
         <!-- =============== Topbar area start =============== -->
         <div class="topbar-area">
             <div class="container">
@@ -72,6 +72,9 @@
                                         <nuxt-link to="/">Home</nuxt-link>
                                     </li>
                                     <li>
+                                        <nuxt-link to="/guides">Guides</nuxt-link>
+                                    </li>
+                                    <li>
                                         <a href="about.html">About us </a>
                                     </li>
                                     <li>
@@ -94,11 +97,11 @@
                                         <div class="account-dropdown" :class="account_dropdown ? 'activeCard' : ''">
                                             <ul v-if="authCheck">
                                                 <li class="account-el">
-                                                    <nuxt-link to="/dashboard">
+                                                    <a @click.prevent="myAccount" class="pointer">
                                                         <client-only>
                                                             <icon :icon="['far','user-circle',]" @click="account_dropdown =!account_dropdown"></icon>
                                                         </client-only>
-                                                    My Account</nuxt-link>
+                                                    My Account</a>
                                                 </li>
                                                 <li class="account-el">
                                                     <a href="#">
@@ -179,6 +182,7 @@
     </div>
 </template>
 <script>
+import axios from "axios"
 export default {
     data() {
         return {
@@ -190,6 +194,11 @@ export default {
     },
 
     methods: {
+        // My Account
+        myAccount() {
+            this.account_dropdown = false,
+            this.$router.push("/dashboard");
+        },
         // Logout
         logout() {
             this.account_dropdown = false,
@@ -218,13 +227,6 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener("scroll", this.handleScroll);
-    },
-
-    computed: {
-        // Get Asset URL
-        assetURL() {
-            return process.env.assetURL;
-        },
     },
 };
 </script>

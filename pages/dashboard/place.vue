@@ -7,14 +7,15 @@
             <div class="col-lg-9">
                 <div class="dashboard-content">
                     <div class="dashboard-content-header">
-                        <button type="button" class="btn add-btn" @click="newModal">Add Category</button>
-                        <h3 class="strong">Category</h3>
+                        <button type="button" class="btn add-btn" @click="newModal">Add Place</button>
+                        <h3 class="strong">Place</h3>
                     </div>
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr class="text-center">
                                     <th>ID</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Created At</th>
                                     <th>Action</th>
@@ -22,23 +23,24 @@
                             </thead>
                             <tbody v-if="empty">
                                 <tr>
-                                    <th colspan="4">
-                                        <Empty message="No Category Found"/>
+                                    <th colspan="5">
+                                        <Empty message="No Place Found"/>
                                     </th>
                                 </tr>
                             </tbody>
                             <tbody v-else>
-                                <tr class="text-center" v-for="category in categories.data" :key="category.id">
-                                    <th class="align-middle text-center">{{category.id}}</th>
-                                    <td class="align-middle">{{category.name}}</td>
-                                    <td class="align-middle">{{category.created_at | date}}</td>
+                                <tr class="text-center" v-for="place in places.data" :key="place.id">
+                                    <th class="align-middle text-center">{{place.id}}</th>
+                                    <td class="align-middle"><img :src="assetURL + place.image" :alt="place.name" class="img-fluid mh-200"></td>
+                                    <td class="align-middle">{{place.name}}</td>
+                                    <td class="align-middle">{{place.created_at | date}}</td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editCategory(category)">
+                                        <button type="button" class="btn btn-success" @click="editPlace(place)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
                                         </button>
-                                        <button type="button" class="btn btn-danger" @click="deleteCategory(category.id)">
+                                        <button type="button" class="btn btn-danger" @click="deletePlace(place.id)">
                                             <client-only>
                                                 <icon icon="trash-alt"></icon>
                                             </client-only>
@@ -49,28 +51,33 @@
                         </table>
                     </div>
 
-                    <pagination :data="categories" @pagination-change-page="getResults" class="justify-content-center mt-3 paginate"></pagination>
+                    <pagination :data="places" @pagination-change-page="getResults" class="justify-content-center mt-3 paginate"></pagination>
                 </div>
             </div>
         </div>
         <!-- Modal Start -->
         <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
             <div class="modal-dialog">
-                <form class="modal-content" @submit.prevent="editMode ? updateCategory() : addCategory()">
+                <form class="modal-content" @submit.prevent="editMode ? updatePlace() : addPlace()">
                     <div class="modal-header">
-                        <h5 class="modal-title" v-if="editMode">Edit Category</h5>
-                        <h5 class="modal-title" v-else>Add New Category</h5>
+                        <h5 class="modal-title" v-if="editMode">Edit Place</h5>
+                        <h5 class="modal-title" v-else>Add New Place</h5>
                     </div>
                     <div class="modal-body">
+                        <div class="dashboard-thumbnail my-2">
+                            <img :src="form.image" class="img-fluid pointer">
+                            <label for="thumbnail" class="pointer"> Select an Image</label>
+                            <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
+                        </div>
                         <div class="form-group">
-                            <label for="category">Category Name</label>
-                            <input type="text" class="form-control" id="category" v-model="form.name">
+                            <label for="place">Place Name</label>
+                            <input type="text" class="form-control" id="place" v-model="form.name">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Edit Category</button>
-                        <button type="submit" class="btn btn-success" v-else>Add Category</button>
+                        <button type="submit" class="btn btn-success" v-if="editMode">Edit Place</button>
+                        <button type="submit" class="btn btn-success" v-else>Add Place</button>
                     </div>
                 </form>
             </div>
@@ -82,18 +89,19 @@
 export default {
     head() {
         return {
-            title: "Category - Dashboard",
+            title: "Place - Dashboard",
         };
     },
 
     data() {
         return {
-            categories:{},
+            places:{},
             editMode: false,
             empty: false,
             form: {
                 id: "",
                 name: "",
+                image: "",
             },
         }
     },
@@ -104,37 +112,39 @@ export default {
             this.editMode = false;
             this.form.id = "";
             this.form.name = "";
+            this.form.image = "";
             $("#modal").modal("show");
         },
 
         //Get All Category
-        getCategory(){
-            this.$axios.get("category").then(
+        getPlace(){
+            this.$axios.get("place").then(
                 (response)=>{
-                    this.empty = response.data.categories.data.length > 0 ? false : true;
-                    this.categories = response.data.categories
+                    this.empty = response.data.places.data.length > 0 ? false : true;
+                    this.places = response.data.places
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again")
                 }
             )
         },
         getResults(page = 1) {
-            this.$axios.get("category?page=" + page).then(
+            this.$axios.get("place?page=" + page).then(
                 (response) => {
-                    this.categories = response.data.categories;
+                    this.places = response.data.places;
                 });
         },
 
-        // Create New Category
-        addCategory(){
-            this.$axios.post("create-category", this.form).then(
+        // Create New Place
+        addPlace(){
+            this.$axios.post("create-place", this.form).then(
                 ()=>{
                     $("#modal").modal("hide");
                     this.form.id = "";
                     this.form.name = "";
-                    $nuxt.$emit("triggerCategory");
-                    $nuxt.$emit("success", "Category Created Successfully");
+                    this.form.image = "";
+                    $nuxt.$emit("triggerPlace");
+                    $nuxt.$emit("success", "Place Created Successfully");
                 },
                 (error)=>{
                     $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
@@ -142,23 +152,25 @@ export default {
             )
         },
 
-        // Edit Category
-        editCategory(category){
+        // Edit Place
+        editPlace(place){
             this.editMode = true;
-            this.form.id = category.id;
-            this.form.name = category.name;
+            this.form.id = place.id;
+            this.form.name = place.name;
+            this.form.image = this.assetURL + place.image;
             $("#modal").modal("show");
         },
 
-        // Update Category
-        updateCategory(){
-            this.$axios.post("update-category/"+ this.form.id, this.form).then(
+        // Update Place
+        updatePlace(){
+            this.$axios.post("update-place/"+ this.form.id, this.form).then(
                 ()=>{
                     $("#modal").modal("hide");
                     this.form.id = "";
                     this.form.name = "";
-                    $nuxt.$emit("triggerCategory");
-                    $nuxt.$emit("success", "Category Updated Successfully");
+                    this.form.image = "";
+                    $nuxt.$emit("triggerPlace");
+                    $nuxt.$emit("success", "Place Updated Successfully");
                 },
                 (error)=>{
                     $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
@@ -166,8 +178,8 @@ export default {
             )
         },
         
-        // Delete Category
-        deleteCategory(id){
+        // Delete Place
+        deletePlace(id){
             this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -178,14 +190,14 @@ export default {
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("delete-category/"+id).then(
+                    this.$axios.post("delete-place/"+id).then(
                         ()=>{
                             Swal.fire(
                             "Deleted!",
-                            "Category has been deleted.",
+                            "Place has been deleted.",
                             "success"
                             )
-                            $nuxt.$emit("triggerCategory");
+                            $nuxt.$emit("triggerPlace");
                         },
                         (error)=>{
                             $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
@@ -194,13 +206,25 @@ export default {
                 }
             })
         },
+
+        // Add Package Image
+        image(event) {
+            if (event.target.files.length > 0) {
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onloadend = () => {
+                    this.form.image = reader.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        },
     },
 
     created() {
         if (this.admin) {
-            this.getCategory();
-            this.$nuxt.$on("triggerCategory", () => {
-                this.getCategory();
+            this.getPlace();
+            this.$nuxt.$on("triggerPlace", () => {
+                this.getPlace();
             });
         } else {
             this.$router.push("/login");

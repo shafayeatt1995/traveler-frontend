@@ -8,8 +8,15 @@ const User = {
                 ...mapGetters({
                     authCheck: "authentication",
                     admin: "isAdmin",
+                    guide: "isGuide",
                     user: "isUser",
-                    userId: "user_id"
+                    adminOrGuide: "isAdminOrGuide",
+                    adminOrUser: "isAdminOrUser",
+                    userId: "user_id",
+                    paypal: "paypal_js",
+                    appName: "project_app_name",
+                    baseURL: "base_url",
+                    assetURL: "asset_url",
                 })
             }
         });

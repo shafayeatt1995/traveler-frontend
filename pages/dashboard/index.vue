@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="authCheck">
+    <div class="container dashboard-container mt-5" v-if="authCheck">
         <div class="row">
             <div class="col-lg-3">
                 <Sidebar />
@@ -14,7 +14,7 @@
 export default {
     head() {
         return {
-            title: "Dashboard - " + process.env.appName,
+            title: "Dashboard - " + this.appName,
         };
     },
 
