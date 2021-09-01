@@ -29,7 +29,7 @@
                             <tbody v-else>
                                 <tr class="text-center" v-for="booking in bookings.data" :key="booking.id">
                                     <td class="align-middle">
-                                        <nuxt-link :to="'../package/'+booking.package.slug">
+                                        <nuxt-link :to="{name: 'package-slug', params: {slug: booking.package.slug}}">
                                             <img :src="assetURL + JSON.parse(booking.package.images)[0]" :alt="booking.package.name" class="img-fluid mw-200"/>
                                             <p>{{booking.package.name}}</p>
                                         </nuxt-link>
@@ -102,12 +102,12 @@
                                         </tr>
                                     </td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success mb-3" @click="editBooking(booking)" v-tooltip.top-center="'Click to Edit Booking Information'">
+                                        <button type="button" class="btn btn-primary mb-3" @click="editBooking(booking)" v-tooltip.top-center="'Click to Edit Booking Information'">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
                                         </button>
-                                        <nuxt-link :to="'/booking-confirm/' + booking.id" class="btn btn-base-color px-3" v-tooltip.top-center="'Click for pay unpaid amount'" v-if="booking.package.status == false ? (booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price)) - booking.payments.reduce((total, payment) => total + +payment.amount, 0) > 0 : false">
+                                        <nuxt-link :to="{name: 'booking-confirm-id', params: {id: booking.id}}" class="btn btn-success px-3" v-tooltip.top-center="'Click for pay unpaid amount'" v-if="booking.package.status == false ? (booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price)) - booking.payments.reduce((total, payment) => total + +payment.amount, 0) > 0 : false">
                                             $
                                         </nuxt-link>
                                     </td>
@@ -148,7 +148,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Update Booking</button>
+                        <button type="submit" class="btn btn-primary">Update Booking</button>
                     </div>
                 </form>
             </div>
@@ -166,6 +166,7 @@ export default {
 
     data() {
         return {
+            click: true,
             bookings:{},
             form: {
                 id: "",
@@ -188,7 +189,7 @@ export default {
                     this.bookings = response.data.bookings
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again");
+                    $nuxt.$emit("customError", "Something Wrong! Please try Again");
                 }
             )
         },
@@ -210,21 +211,26 @@ export default {
                 this.form.status = booking.package.status;
                 $("#modal").modal("show");
             } else {
-                $nuxt.$emit("error", booking.package.status == true ? "Tour Already Complete" : "Tour Already Running");
+                $nuxt.$emit("customError", booking.package.status == true ? "Tour Already Complete" : "Tour Already Running");
             }
         },
 
         //Update Booking Information
         updateBooking(){
-            this.$axios.post("update-booking/" + this.form.id, this.form).then(
-                (response)=>{
-                    $nuxt.$emit("triggerUpdateBooking");
-                    $("#modal").modal("hide");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again");
-                },
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("update-booking/" + this.form.id, this.form).then(
+                    (response)=>{
+                        $nuxt.$emit("triggerUpdateBooking");
+                        $("#modal").modal("hide");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("customError", "Something Wrong! Please try Again");
+                        this.click = true;
+                    },
+                )
+            }
         },
     },
 

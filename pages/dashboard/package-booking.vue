@@ -31,7 +31,7 @@
                                 <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
                                     <td class="align-middle">{{pack.id}}</td>
                                     <td class="align-middle">
-                                        <nuxt-link :to="'../package/'+pack.slug">
+                                        <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
                                             <img :src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid mw-200"/>
                                         </nuxt-link>
                                     </td>
@@ -90,12 +90,12 @@
                                                 <icon icon="file-alt"></icon>
                                             </client-only>
                                         </button>
-                                        <button type="button" class="btn btn-base-color mb-3" @click="changeStatus({status : null}, pack.id)" v-tooltip.top-center="'Click to Status Tour Start'">
+                                        <button type="button" class="btn btn-success mb-3" @click="changeStatus({status : null}, pack.id)" v-tooltip.top-center="'Click to Status Tour Start'">
                                             <client-only>
                                                 <icon icon="running"></icon>
                                             </client-only>
                                         </button>
-                                        <button type="button" class="btn btn-success mb-3" @click="changeStatus({status : true}, pack.id)" v-tooltip.top-center="'Click to Status Tour Complete'">
+                                        <button type="button" class="btn btn-primary mb-3" @click="changeStatus({status : true}, pack.id)" v-tooltip.top-center="'Click to Status Tour Complete'">
                                             <client-only>
                                                 <icon icon="check-circle"></icon>
                                             </client-only>
@@ -175,6 +175,7 @@ export default {
 
     data() {
         return {
+            click: true,
             packages:{},
             bookingLists:[],
             empty: false,
@@ -190,7 +191,7 @@ export default {
                     this.packages = response.data.packages
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("customError", "Something Wrong! Please try Again")
                 }
             )
         },
@@ -203,14 +204,19 @@ export default {
 
         //Change Package Status
         changeStatus(status, id){
-            this.$axios.post("package-status/" + id, status).then(
-                ()=>{
-                    $nuxt.$emit("triggerPackageBooking");
-                },
-                ()=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
-                },
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("package-status/" + id, status).then(
+                    ()=>{
+                        $nuxt.$emit("triggerPackageBooking");
+                        this.click = true;
+                    },
+                    ()=>{
+                        $nuxt.$emit("customError", "Something Wrong! Please try Again")
+                        this.click = true;
+                    },
+                )
+            }
         },
 
         //show Booking List

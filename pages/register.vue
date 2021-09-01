@@ -26,6 +26,7 @@ export default {
     },
     data() {
         return {
+            click: true,
             loading: false,
             credential: {
                 name: "",
@@ -39,28 +40,33 @@ export default {
     methods: {
         submit() {
             this.loading = true;
-            this.$axios.post('register', this.credential).then(
-                ()=>{
-                    this.$auth.loginWith("laravelJWT", {
-                        data: {
-                            email: this.credential.email,
-                            password: this.credential.password,
-                        },
-                    }).then(
-                        ()=>{
-                            this.loading = false;
-                        },
-                        ()=>{
-                            this.loading = false;
-                            $nuxt.$emit("error", "Email or Password Not Matched");
-                        }
-                    )
-                },
-                (error)=>{
-                    this.loading = false;
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post('register', this.credential).then(
+                    ()=>{
+                        this.$auth.loginWith("laravelJWT", {
+                            data: {
+                                email: this.credential.email,
+                                password: this.credential.password,
+                            },
+                        }).then(
+                            ()=>{
+                                this.loading = false;
+                            },
+                            ()=>{
+                                this.loading = false;
+                                $nuxt.$emit("customError", "Email or Password Not Matched");
+                            }
+                        )
+                        this.click = true;
+                    },
+                    (error)=>{
+                        this.loading = false;
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
     },
 

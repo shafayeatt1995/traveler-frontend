@@ -33,7 +33,7 @@
                                     <td class="align-middle">{{category.name}}</td>
                                     <td class="align-middle">{{category.created_at | date}}</td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editCategory(category)">
+                                        <button type="button" class="btn btn-primary" @click="editCategory(category)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
@@ -69,8 +69,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Edit Category</button>
-                        <button type="submit" class="btn btn-success" v-else>Add Category</button>
+                        <button type="submit" class="btn btn-primary" v-if="editMode">Edit Category</button>
+                        <button type="submit" class="btn btn-primary" v-else>Add Category</button>
                     </div>
                 </form>
             </div>
@@ -88,6 +88,7 @@ export default {
 
     data() {
         return {
+            click: true,
             categories:{},
             editMode: false,
             empty: false,
@@ -115,7 +116,7 @@ export default {
                     this.categories = response.data.categories
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error)
                 }
             )
         },
@@ -128,18 +129,23 @@ export default {
 
         // Create New Category
         addCategory(){
-            this.$axios.post("create-category", this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    $nuxt.$emit("triggerCategory");
-                    $nuxt.$emit("success", "Category Created Successfully");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("create-category", this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        $nuxt.$emit("triggerCategory");
+                        $nuxt.$emit("success", "Category Created Successfully");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
 
         // Edit Category
@@ -152,18 +158,23 @@ export default {
 
         // Update Category
         updateCategory(){
-            this.$axios.post("update-category/"+ this.form.id, this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    $nuxt.$emit("triggerCategory");
-                    $nuxt.$emit("success", "Category Updated Successfully");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("update-category/"+ this.form.id, this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        $nuxt.$emit("triggerCategory");
+                        $nuxt.$emit("success", "Category Updated Successfully");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
         
         // Delete Category
@@ -173,24 +184,29 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("delete-category/"+id).then(
-                        ()=>{
-                            Swal.fire(
-                            "Deleted!",
-                            "Category has been deleted.",
-                            "success"
-                            )
-                            $nuxt.$emit("triggerCategory");
-                        },
-                        (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                        }
-                    )
+                    if(this.click) {
+                        this.click = false;
+                        this.$axios.post("delete-category/"+id).then(
+                            ()=>{
+                                Swal.fire(
+                                "Deleted!",
+                                "Category has been deleted.",
+                                "success"
+                                )
+                                $nuxt.$emit("triggerCategory");
+                                this.click = true;
+                            },
+                            (error)=>{
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            }
+                        )
+                    }
                 }
             })
         },

@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="authCheck">
+    <div class="container mt-40" v-if="authCheck">
         <form @submit.prevent="submit" class="row" v-if="user">
             <transition name="fade" mode="out-in">
                 <div class="col-lg-12 text-center" v-if="success">
@@ -31,6 +31,7 @@ export default {
     data() {
         return {
             form: {
+                click: true,
                 phone: "",
                 message: "",
             },
@@ -52,14 +53,19 @@ export default {
 
         // Submit Application
         submit(){
-            this.$axios.post("apply-guide", this.form).then(
-                (response)=>{
-                    this.success = true;
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                },
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("apply-guide", this.form).then(
+                    (response)=>{
+                        this.success = true;
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
         },
     },
 

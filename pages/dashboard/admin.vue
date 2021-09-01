@@ -37,7 +37,7 @@
                                     <td class="align-middle">{{user.email}}</td>
                                     <td class="align-middle">{{user.role.name}}</td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editUser(user)">
+                                        <button type="button" class="btn btn-primary" @click="editUser(user)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
@@ -94,8 +94,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Update User</button>
-                        <button type="submit" class="btn btn-success" v-else>Add User</button>
+                        <button type="submit" class="btn btn-primary" v-if="editMode">Update User</button>
+                        <button type="submit" class="btn btn-primary" v-else>Add User</button>
                     </div>
                 </form>
             </div>
@@ -113,6 +113,7 @@ export default {
 
     data() {
         return {
+            click: true,
             users:{},
             editMode: false,
             empty: false,
@@ -148,7 +149,7 @@ export default {
                     this.users = response.data.users
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error)
                 }
             )
         },
@@ -162,24 +163,29 @@ export default {
         // Create New User
         addUser(){
             if(this.form.password === this.form.password_confirmation){
-                this.$axios.post("create-user", this.form).then(
-                    ()=>{
-                        $("#modal").modal("hide");
-                        this.form.id = "";
-                        this.form.name = "";
-                        this.form.email = "";
-                        this.form.password = "";
-                        this.form.password_confirmation = "";
-                        this.form.userType = "";
-                        $nuxt.$emit("triggerAdmin");
-                        $nuxt.$emit("success", "User Created Successfully");
-                    },
-                    (error)=>{
-                        $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                    }
-                )
+                if (this.click) {
+                    this.click = false;
+                    this.$axios.post("create-user", this.form).then(
+                        ()=>{
+                            $("#modal").modal("hide");
+                            this.form.id = "";
+                            this.form.name = "";
+                            this.form.email = "";
+                            this.form.password = "";
+                            this.form.password_confirmation = "";
+                            this.form.userType = "";
+                            $nuxt.$emit("triggerAdmin");
+                            $nuxt.$emit("success", "User Created Successfully");
+                            this.click = true;
+                        },
+                        (error)=>{
+                            $nuxt.$emit("error", error);
+                            this.click = true;
+                        }
+                    )
+                }
             }else{
-                $nuxt.$emit("error", "Confirm Password Not Matched");
+                $nuxt.$emit("customError", "Confirm Password Not Matched");
             }
         },
 
@@ -197,22 +203,27 @@ export default {
 
         // Update User
         updateUser(){
-            this.$axios.post("update-user/"+ this.form.id, this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    this.form.email = "";
-                    this.form.password = "";
-                    this.form.password_confirmation = "";
-                    this.form.userType = "";
-                    $nuxt.$emit("triggerAdmin");
-                    $nuxt.$emit("success", "User Updated Successfully");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if (this.click) {
+                this.click = false;
+                this.$axios.post("update-user/"+ this.form.id, this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        this.form.email = "";
+                        this.form.password = "";
+                        this.form.password_confirmation = "";
+                        this.form.userType = "";
+                        $nuxt.$emit("triggerAdmin");
+                        $nuxt.$emit("success", "User Updated Successfully");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
         
         // Delete User
@@ -222,24 +233,29 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("delete-user/"+id).then(
-                        ()=>{
-                            Swal.fire(
-                            "Deleted!",
-                            "User has been deleted.",
-                            "success"
-                            )
-                            $nuxt.$emit("triggerAdmin");
-                        },
-                        (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                        }
-                    )
+                    if(this.click) {
+                        this.click = false;
+                        this.$axios.post("delete-user/"+id).then(
+                            ()=>{
+                                Swal.fire(
+                                "Deleted!",
+                                "User has been deleted.",
+                                "success"
+                                )
+                                $nuxt.$emit("triggerAdmin");
+                                this.click = true;
+                            },
+                            (error)=>{
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            }
+                        )
+                    }
                 }
             })
         },

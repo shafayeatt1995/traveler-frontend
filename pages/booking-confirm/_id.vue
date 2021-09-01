@@ -46,9 +46,9 @@
                                 <tbody>
                                     <tr v-for="payment in booking.payments" :key="payment.id">
                                         <td class="text-center">
-                                            <nuxt-link :to="'../package/'+payment.package.slug"><img :src="assetURL + JSON.parse(payment.package.images)[0]" :alt="payment.package.name" class="img-fluid text-center mw-200"></nuxt-link>
+                                            <nuxt-link :to="{name: 'package-slug', params: {slug: payment.package.slug}}"><img :src="assetURL + JSON.parse(payment.package.images)[0]" :alt="payment.package.name" class="img-fluid text-center mw-200"></nuxt-link>
                                         </td>
-                                        <td class="text-left align-middle"><nuxt-link :to="'../package/'+payment.package.slug" class="color-black">{{payment.package.name}}</nuxt-link></td>
+                                        <td class="text-left align-middle"><nuxt-link :to="{name: 'package-slug', params: {slug: payment.package.slug}}" class="color-black">{{payment.package.name}}</nuxt-link></td>
                                         <td class="text-center align-middle">{{payment.payment_type == 'paypal' ? 'Paypal' : 'Card'}}</td>
                                         <td class="text-center align-middle">{{payment.created_at | normalDate}}</td>
                                         <td class="text-center align-middle">${{payment.amount}}</td>
@@ -119,7 +119,7 @@
                     </div>
                 </div>
                 <div class="checkbox-success-cta">
-                    <nuxt-link to="/">Back To Home</nuxt-link>
+                    <nuxt-link :to="{name: 'index'}">Back To Home</nuxt-link>
                     <button type="button" v-if="booking.package.status == false ? booking.ticket * bookingAmount > booking.payments.reduce((total, payment) => total + payment.amount, 0) : false" @click="setPayment((booking.ticket * bookingAmount) - booking.payments.reduce((total, payment) => total + payment.amount, 0))">Pay Due Amount</button>
                 </div>
             </div>
@@ -198,6 +198,7 @@ export default {
 
     data() {
         return {
+            click: true,
             booking: {},
             loading: true,
             payment: false,
@@ -275,7 +276,7 @@ export default {
                     )
                 },
                 onError(err) {
-                    $nuxt.$emit("error", "Payment Failed. Please Try Again");
+                    $nuxt.$emit("customError", "Payment Failed. Please Try Again");
                 }
             }).render(this.$refs.paypal);
             }
@@ -292,24 +293,29 @@ export default {
         //Submit Payment
         paymentSubmit(){
             this.submitLoading = true
-            this.$axios.post("partial-payment", this.form).then(
-                (response)=>{
-                    this.submitLoading = false;
-                    this.payment = false;
-                    this.form.paypal.email = "";
-                    this.form.paypal.transaction = "";
-                    this.form.paypal.amount = "";
-                    this.form.card.number = "";
-                    this.form.card.cvc = "";
-                    this.form.card.date = "";
-                    $nuxt.$emit("triggerBooking");
-                    $nuxt.$emit("success", "Your Payment Successfully Complete");
-                },
-                (error)=>{
-                    this.submitLoading = false;
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.message ? error.response.data.message : "Something Wrong! Please try Again");
-                },
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("partial-payment", this.form).then(
+                    (response)=>{
+                        this.submitLoading = false;
+                        this.payment = false;
+                        this.form.paypal.email = "";
+                        this.form.paypal.transaction = "";
+                        this.form.paypal.amount = "";
+                        this.form.card.number = "";
+                        this.form.card.cvc = "";
+                        this.form.card.date = "";
+                        $nuxt.$emit("triggerBooking");
+                        $nuxt.$emit("success", "Your Payment Successfully Complete");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        this.submitLoading = false;
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
         },
     },
 

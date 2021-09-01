@@ -43,7 +43,7 @@
                                         </transition>
                                     </td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="status(user.id, true)">
+                                        <button type="button" class="btn btn-primary" @click="status(user.id, true)">
                                             <client-only>
                                                 <icon icon="check-circle"></icon>
                                             </client-only>
@@ -75,6 +75,7 @@ export default {
 
     data() {
         return {
+            click: true,
             users:{},
             empty: false,
         }
@@ -89,7 +90,7 @@ export default {
                     this.users = response.data.users;
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("customError", "Something Wrong! Please try Again")
                 }
             )
         },
@@ -112,19 +113,24 @@ export default {
                 confirmButtonText: info ? "Approve" : "Reject"
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("guide-request-status/"+id, {approve: info}).then(
-                        ()=>{
-                            if (info) {
-                                Swal.fire( "Approve!", "This user is now a Guide", "success");
-                            } else {
-                                Swal.fire("Reject", "This user still is a user", "success");
+                    if(this.click) {
+                        this.click = false;
+                        this.$axios.post("guide-request-status/"+id, {approve: info}).then(
+                            ()=>{
+                                if (info) {
+                                    Swal.fire( "Approve!", "This user is now a Guide", "success");
+                                } else {
+                                    Swal.fire("Reject", "This user still is a user", "success");
+                                }
+                                $nuxt.$emit("triggerguide");
+                                this.click = true;
+                            },
+                            (error)=>{
+                                $nuxt.$emit("customError", "Something Wrong! Please try Again");
+                                this.click = true;
                             }
-                            $nuxt.$emit("triggerguide");
-                        },
-                        (error)=>{
-                            $nuxt.$emit("error", "Something Wrong! Please try Again");
-                        }
-                    )
+                        )
+                    }
                 }
             })
         },

@@ -35,7 +35,7 @@
                                     <td class="align-middle">{{place.name}}</td>
                                     <td class="align-middle">{{place.created_at | date}}</td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editPlace(place)">
+                                        <button type="button" class="btn btn-primary" @click="editPlace(place)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
@@ -76,8 +76,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Edit Place</button>
-                        <button type="submit" class="btn btn-success" v-else>Add Place</button>
+                        <button type="submit" class="btn btn-primary" v-if="editMode">Edit Place</button>
+                        <button type="submit" class="btn btn-primary" v-else>Add Place</button>
                     </div>
                 </form>
             </div>
@@ -95,7 +95,8 @@ export default {
 
     data() {
         return {
-            places:{},
+            click: true,
+            places: {},
             editMode: false,
             empty: false,
             form: {
@@ -124,7 +125,7 @@ export default {
                     this.places = response.data.places
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error)
                 }
             )
         },
@@ -137,19 +138,24 @@ export default {
 
         // Create New Place
         addPlace(){
-            this.$axios.post("create-place", this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    this.form.image = "";
-                    $nuxt.$emit("triggerPlace");
-                    $nuxt.$emit("success", "Place Created Successfully");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("create-place", this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        this.form.image = "";
+                        $nuxt.$emit("triggerPlace");
+                        $nuxt.$emit("success", "Place Created Successfully");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
 
         // Edit Place
@@ -163,19 +169,24 @@ export default {
 
         // Update Place
         updatePlace(){
-            this.$axios.post("update-place/"+ this.form.id, this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    this.form.image = "";
-                    $nuxt.$emit("triggerPlace");
-                    $nuxt.$emit("success", "Place Updated Successfully");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("update-place/"+ this.form.id, this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        this.form.image = "";
+                        $nuxt.$emit("triggerPlace");
+                        $nuxt.$emit("success", "Place Updated Successfully");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
         
         // Delete Place
@@ -185,24 +196,29 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("delete-place/"+id).then(
-                        ()=>{
-                            Swal.fire(
-                            "Deleted!",
-                            "Place has been deleted.",
-                            "success"
-                            )
-                            $nuxt.$emit("triggerPlace");
-                        },
-                        (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                        }
-                    )
+                    if(this.click) {
+                        this.click = false;
+                        this.$axios.post("delete-place/"+id).then(
+                            ()=>{
+                                Swal.fire(
+                                "Deleted!",
+                                "Place has been deleted.",
+                                "success"
+                                )
+                                $nuxt.$emit("triggerPlace");
+                                this.click = true;
+                            },
+                            (error)=>{
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            }
+                        )
+                    }
                 }
             })
         },

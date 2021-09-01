@@ -168,7 +168,7 @@
                                                                         <div class="form-group">
                                                                             <input type="text" class="form-control mb-2" placeholder="Type your message" v-model="replayQuestion.message">
                                                                             <button class="btn btn-danger" type="button" @click="replayForm(question.id)">Close</button>
-                                                                            <button class="btn btn-success" type="submit">Submit</button>
+                                                                            <button class="btn btn-primary" type="submit">Submit</button>
                                                                         </div>
                                                                     </form>
                                                                 </transition>
@@ -206,7 +206,7 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-                                                    <pagination :data="questions" @pagination-change-page="getResults" class="justify-content-center mb-5 package-paginate"></pagination>
+                                                    <pagination :data="questions" @pagination-change-page="getResults" class="justify-content-center mb-5 f-pagination"></pagination>
                                                     <div class="p-review-input" v-if="authCheck">
                                                         <form @submit.prevent="createQuestion">
                                                             <h5>Ask Your Question</h5>
@@ -222,7 +222,7 @@
                                                         </form>
                                                     </div>
                                                     <div v-else>
-                                                        <h3 class="text-center">Please <nuxt-link to="/login" class="text-success">Login</nuxt-link> for ask a question</h3>
+                                                        <h3 class="text-center">Please <nuxt-link :to="{name: 'login'}" class="text-success">Login</nuxt-link> for ask a question</h3>
                                                     </div>
                                                 </div>
                                             </div>
@@ -327,7 +327,7 @@
                                                     </div>
                                                 </div>
                                                 <div v-else>
-                                                    <h3>Please <span><nuxt-link to="/login" class="text-success strong">Login</nuxt-link></span> or <span><nuxt-link to="/register" class="text-success strong">Register</nuxt-link></span> For Booking Your Ticket</h3>
+                                                    <h3>Please <span><nuxt-link :to="{name: 'login'}" class="text-success strong">Login</nuxt-link></span> or <span><nuxt-link :to="{name: 'register'}" class="text-success strong">Register</nuxt-link></span> For Booking Your Ticket</h3>
                                                 </div>
                                             </div>
                                             <div class="row my-form" key="2" v-else>
@@ -367,6 +367,7 @@
                                                     <div class="col-lg-12" v-if="form.payment == 'partial'" key="1">
                                                         <label for="amount">Partial Amount <small>(Minimum ${{pack.min_booking_amount * form.ticket | currency}})</small></label>
                                                         <input type="number" id="amount" placeholder="Set Your Partial Amount" v-model="form.price" :min="pack.min_booking_amount * form.ticket" :max="pack.price * form.ticket">
+                                                        <p class="strong" v-if="pack.discount !== null">Discount Applicable only for Full Payment</p>
                                                     </div>
                                                 </transition>
                                                 <div class="col-lg-12">
@@ -393,7 +394,7 @@
                                     <ul class="package-cards">
                                         <li class="package-card-sm" v-for="popular in popularPack" :key="popular.id">
                                             <div class="p-sm-img">
-                                                <nuxt-link :to="'../package/'+popular.slug">
+                                                <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">
                                                     <img :src="assetURL+JSON.parse(popular.images)[0]" :alt="popular.name">
                                                 </nuxt-link>
                                             </div>
@@ -406,7 +407,7 @@
                                                         {{popular.duration}}</strong>
                                                 </div>
                                                 <h3><i class="flaticon-arrival"></i>
-                                                    <nuxt-link :to="'../package/'+popular.slug">{{popular.address}}</nuxt-link>
+                                                    <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">{{popular.address}}</nuxt-link>
                                                 </h3>
                                                 <h5 v-if="popular.discount"><span><del>${{popular.price | currency}}</del> ${{popular.discount | currency}}</span>/ Per Person</h5>
                                                 <h5 v-else><span>${{popular.price | currency}}</span>/ Per Person</h5>
@@ -420,41 +421,37 @@
                             <div class="col-lg-12 col-md-6">
                                 <div class="p-sidebar-organizer mt-40">
                                     <h5 class="package-d-head">Organized By</h5>
-                                    <div class="organizer-card">
+                                    <div class="organizer-card align-items-center">
                                         <div class="organizer-img">
-                                            <img :src="assetURL+pack.user.image" alt="">
+                                            <nuxt-link :to="{name: 'package-user-slug', params: {slug: pack.user.slug}}" >
+                                                <img :src="assetURL+pack.user.image" alt="">
+                                            </nuxt-link>
                                         </div>
                                         <div class="organizer-info">
-                                            <h5>{{pack.user.name}}</h5>
+                                            <nuxt-link :to="{name: 'package-user-slug', params: {slug: pack.user.slug}}" >
+                                                <h5>{{pack.user.name}}</h5>
+                                            </nuxt-link>
                                             <p>Member since {{pack.user.created_at | year}}</p>
-                                            <ul class="organizer-rating">
-                                                <li><i class='bx bxs-star'></i></li>
-                                                <li><i class='bx bxs-star'></i></li>
-                                                <li><i class='bx bxs-star'></i></li>
-                                                <li><i class='bx bxs-star'></i></li>
-                                                <li><i class='bx bx-star' ></i></li>
-                                            </ul>
-                                            <h5>500 Reviews</h5>
                                         </div>
-                                    </div>
-                                    <div class="p-ask-btn">
-                                        <a href="#">ASK A QUESTION</a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-12 col-md-6">
-                                <div class="p-sidebar-banner mt-40">
-                                    <img src="assets/images/sidebar-banner.png" alt="" class="img-fluid">
-                                    <div class="sidebar-banner-overlay">
-                                        <div class="overlay-content">
-                                            <h3>Get 50% Off 
-                                                In Dubai Tour</h3>
-                                            <div class="sidebar-banner-btn">
-                                                <a href="#">Book Now</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="blog-categorie mt-40">
+                                    <h5 class="categorie-head">Categories</h5>
+                                    <ul>
+                                        <li v-for="category in categories" :key="category.id">
+                                            <nuxt-link :to="{name: 'package-category-slug', params: {slug: category.slug}}">
+                                                <client-only>
+                                                    <icon icon="angle-double-right"></icon>
+                                                </client-only>
+                                                <span class="ml-2">
+                                                    {{category.name}}
+                                                </span>
+                                            </nuxt-link>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -483,9 +480,11 @@ export default {
 
     data() {
         return {
+            click: true,
             pack: {},
             questions: {},
             popularPack: [],
+            categories: [],
             activeTab: "info",
             question: "",
             fullMessage: "",
@@ -527,9 +526,11 @@ export default {
     async asyncData(context){
         let response = await axios.get(context.store.getters.base_url + "package/" + context.params.slug);
         return {
+            click: true,
             pack: response.data.package,
             questions: response.data.questions,
             popularPack: response.data.popularPackage,
+            categories: response.data.categories,
             form: {
                 packageId: response.data.package == null ? "" : response.data.package.id,
                 name: "",
@@ -566,7 +567,7 @@ export default {
                     this.questions = response.data.questions;
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
+                    $nuxt.$emit("error", error);
                 }
             )
         },
@@ -589,16 +590,21 @@ export default {
         // Post New Question
         createQuestion(){
             if(this.authCheck){
-                this.$axios.post("create-question/", {question: this.question, id: this.pack.id}).then(
-                    (response)=>{
-                        this.question = "",
-                        $nuxt.$emit("triggerQuestion");
-                        $nuxt.$emit("success", "Question Posted Successfully");
-                    },
-                    (error)=>{
-                        $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                    }
-                )
+                if(this.click) {
+                    this.click = false;
+                    this.$axios.post("create-question/", {question: this.question, id: this.pack.id}).then(
+                        (response)=>{
+                            this.question = "",
+                            $nuxt.$emit("triggerQuestion");
+                            $nuxt.$emit("success", "Question Posted Successfully");
+                            this.click = true;
+                        },
+                        (error)=>{
+                            $nuxt.$emit("error", error);
+                            this.click = true;
+                        }
+                    )
+                }
             }
         },
 
@@ -611,17 +617,22 @@ export default {
         // Post New Question Replay
         createReplay(){
             if(this.authCheck){
-                this.$axios.post("create-replay/" + this.replayQuestion.questionId, this.replayQuestion).then(
-                    (response)=>{
-                        this.replayQuestion.questionId = "",
-                        this.replayQuestion.message = "",
-                        $nuxt.$emit("triggerQuestion");
-                        $nuxt.$emit("success", "Replay Posted Successfully");
-                    },
-                    (error)=>{
-                        $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                    }
-                )
+                if(this.click) {
+                    this.click = false;
+                    this.$axios.post("create-replay/" + this.replayQuestion.questionId, this.replayQuestion).then(
+                        (response)=>{
+                            this.replayQuestion.questionId = "",
+                            this.replayQuestion.message = "",
+                            $nuxt.$emit("triggerQuestion");
+                            $nuxt.$emit("success", "Replay Posted Successfully");
+                            this.click = true;
+                        },
+                        (error)=>{
+                            $nuxt.$emit("error", error);
+                            this.click = true;
+                        }
+                    )
+                }
             }
         },
 
@@ -633,24 +644,29 @@ export default {
                     text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
+                    confirmButtonColor: "#0B9A52",
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, delete it!"
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        this.$axios.post("delete-question/"+id).then(
-                            ()=>{
-                                Swal.fire(
-                                "Deleted!",
-                                "Question has been deleted.",
-                                "success"
-                                )
-                                $nuxt.$emit("triggerQuestion");
-                            },
-                            (error)=>{
-                                $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                            }
-                        )
+                        if(this.click) {
+                            this.click = false;
+                            this.$axios.post("delete-question/"+id).then(
+                                ()=>{
+                                    Swal.fire(
+                                    "Deleted!",
+                                    "Question has been deleted.",
+                                    "success"
+                                    )
+                                    $nuxt.$emit("triggerQuestion");
+                                    this.click = true;
+                                },
+                                (error)=>{
+                                    $nuxt.$emit("error", error);
+                                    this.click = true;
+                                }
+                            )
+                        }
                     }
                 })
             }
@@ -664,24 +680,29 @@ export default {
                     text: "You won't be able to revert this!",
                     icon: "warning",
                     showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
+                    confirmButtonColor: "#0B9A52",
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes, delete it!"
                     }).then((result) => {
                     if (result.isConfirmed) {
-                        this.$axios.post("delete-replay/"+id, {key: key}).then(
-                            ()=>{
-                                Swal.fire(
-                                "Deleted!",
-                                "Replay has been deleted.",
-                                "success"
-                                )
-                                $nuxt.$emit("triggerQuestion");
-                            },
-                            (error)=>{
-                                $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                            }
-                        )
+                        if(this.click) {
+                            this.click = false;
+                            this.$axios.post("delete-replay/"+id, {key: key}).then(
+                                ()=>{
+                                    Swal.fire(
+                                    "Deleted!",
+                                    "Replay has been deleted.",
+                                    "success"
+                                    )
+                                    $nuxt.$emit("triggerQuestion");
+                                    this.click = true;
+                                },
+                                (error)=>{
+                                    $nuxt.$emit("error", error);
+                                    this.click = true;
+                                }
+                            )
+                        }
                     }
                 })
             }
@@ -717,7 +738,7 @@ export default {
                     )
                 },
                 onError(err) {
-                    $nuxt.$emit("error", "Payment Failed. Please Try Again");
+                    $nuxt.$emit("customError", "Payment Failed. Please Try Again");
                 }
             }).render(this.$refs.paypal);
             }
@@ -725,33 +746,43 @@ export default {
 
         //Check Booking information
         checkBooking(){
-            this.$axios.post("check-booking/", this.form).then(
-                (response)=>{
-                    this.checking = true;
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("check-booking/", this.form).then(
+                    (response)=>{
+                        this.checking = true;
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
 
         //Submit Booking Form
         submitBooking(){
             this.submitLoading = true;
             this.submitDisable = true;
-            this.$axios.post("submit-booking/", this.form).then(
-                (response)=>{
-                    this.submitLoading = false;
-                    this.submitDisable = false;
-                    $nuxt.$emit("success", "Your Booking Successfully Submited");
-                    this.$router.push("/booking-confirm/" + response.data);
-                },
-                (error)=>{
-                    this.submitLoading = false;
-                    this.submitDisable = false;
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.message ? error.response.data.message : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("submit-booking/", this.form).then(
+                    (response)=>{
+                        this.submitLoading = false;
+                        this.submitDisable = false;
+                        $nuxt.$emit("success", "Your Booking Successfully Submited");
+                        this.$router.push("/booking-confirm/" + response.data);
+                        this.click = true;
+                    },
+                    (error)=>{
+                        this.submitLoading = false;
+                        this.submitDisable = false;
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
 
         //Set Paypal Payment Info

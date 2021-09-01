@@ -24,6 +24,7 @@ export default {
     },
     data() {
         return {
+            click: true,
             loading: false,
             credential: {
                 email: "",
@@ -35,19 +36,25 @@ export default {
     methods: {
         submit() {
             this.loading = true
-            this.$auth.loginWith("laravelJWT", {
-                data: {
-                    email: this.credential.email,
-                    password: this.credential.password,
-                },
-            }).then(
-                ()=>{
-                    this.loading = false
-                },
-                ()=>{
-                    this.loading = false
-                    $nuxt.$emit("error", "Email or Password Not Matched");
-                });
+            if(this.click) {
+                this.click = false;
+                this.$auth.loginWith("laravelJWT", {
+                    data: {
+                        email: this.credential.email,
+                        password: this.credential.password,
+                    },
+                }).then(
+                    ()=>{
+                        this.loading = false
+                        this.click = true;
+                    },
+                    ()=>{
+                        this.loading = false
+                        $nuxt.$emit("customError", "Email or Password Not Matched");
+                        this.click = true;
+                    }
+                );
+            }
         },
     },
 

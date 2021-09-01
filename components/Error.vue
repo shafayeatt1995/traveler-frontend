@@ -6,7 +6,7 @@
             <p>Oops! Error 404</p>
             <h1>Page Not Found</h1>
             <h5>We can't seem to find the page you're looking for.</h5>
-            <nuxt-link to="/">Go To Home</nuxt-link>
+            <nuxt-link :to="{name: 'index'}">Go To Home</nuxt-link>
         </div>
     </div>
     <!--Not found area end-->

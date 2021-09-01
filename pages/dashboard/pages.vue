@@ -33,7 +33,7 @@
                                     <td class="align-middle">{{page.name}}</td>
                                     <td class="align-middle">{{page.created_at | date}}</td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editPage(page)">
+                                        <button type="button" class="btn btn-primary" @click="editPage(page)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
@@ -68,15 +68,12 @@
                         </div>
                         <div class="form-group">
                             <label for="Page">Page Title</label>
-                            <client-only>
-                                <ckeditor value="Hello, World!"></ckeditor>
-                            </client-only>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Edit Page</button>
-                        <button type="submit" class="btn btn-success" v-else>Add Page</button>
+                        <button type="submit" class="btn btn-primary" v-if="editMode">Edit Page</button>
+                        <button type="submit" class="btn btn-primary" v-else>Add Page</button>
                     </div>
                 </form>
             </div>
@@ -94,6 +91,7 @@ export default {
 
     data() {
         return {
+            click: true,
             pages:{},
             editMode: false,
             empty: false,
@@ -121,7 +119,7 @@ export default {
                     this.pages = response.data.pages;
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("customError", "Something Wrong! Please try Again")
                 }
             )
         },
@@ -143,7 +141,7 @@ export default {
                     $nuxt.$emit("success", "Page Created Successfully");
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
+                    $nuxt.$emit("error", error);
                 }
             )
         },
@@ -167,7 +165,7 @@ export default {
                     $nuxt.$emit("success", "Page Updated Successfully");
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
+                    $nuxt.$emit("error", error);
                 }
             )
         },
@@ -179,7 +177,7 @@ export default {
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
+                confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
                 }).then((result) => {
@@ -194,7 +192,7 @@ export default {
                             $nuxt.$emit("triggerPage");
                         },
                         (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
+                            $nuxt.$emit("error", error);
                         }
                     )
                 }

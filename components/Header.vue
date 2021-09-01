@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-40">
+    <div>
         <!-- =============== Topbar area start =============== -->
         <div class="topbar-area">
             <div class="container">
@@ -11,17 +11,13 @@
                                     <client-only>
                                         <icon icon="phone-alt"></icon>
                                     </client-only>
-                                    <a href="tel:+17632275032" class="ms-1">+1 763-227-5032</a>
+                                    <a :href="'tel:'+ phone" class="ms-1">{{phone}}</a>
                                 </li>
                                 <li>
                                     <client-only>
-                                        <icon icon="envelope"></icon>
+                                        <icon icon="at"></icon>
                                     </client-only>
-                                    <a href="mailto:shafayetalanik@gmail.com" class="ms-1">
-                                        <span class="__cf_email__">
-                                            shafayetalanik@gmail.com
-                                        </span>
-                                    </a>
+                                    <a :href="'mailto:' + email" class="ms-1">{{email}}</a>
                                 </li>
                             </ul>
                         </div>
@@ -31,15 +27,15 @@
                         <div class="topbar-contact">
                             <ul class="justify-content-end" v-if="authCheck">
                                 <li>
-                                    <nuxt-link to="/dashboard">Dashboard</nuxt-link>
+                                    <nuxt-link :to="{name: 'dashboard'}">Dashboard</nuxt-link>
                                 </li>
                             </ul>
                             <ul class="justify-content-end" v-else>
                                 <li>
-                                    <nuxt-link to="/login">Login</nuxt-link>
+                                    <nuxt-link :to="{name: 'login'}">Login</nuxt-link>
                                 </li>
                                 <li>
-                                    <nuxt-link to="/register">Register</nuxt-link>
+                                    <nuxt-link :to="{name: 'register'}">Register</nuxt-link>
                                 </li>
                             </ul>
                         </div>
@@ -57,31 +53,30 @@
                         <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
                             <div class="navbar-wrap">
                                 <div class="logo d-flex justify-content-between">
-                                    <nuxt-link to="/" class="navbar-brand">
-                                        <img :src="assetURL + 'images/logo.png'" alt="logo" />
+                                    <nuxt-link :to="{name: 'index'}" class="navbar-brand">
+                                        <img :src="assetURL + logo" alt="logo" class="img-fluid"/>
                                     </nuxt-link>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
-                            <!-- Mobile Menu Start -->
                             <nav class="main-nav">
                                 <ul>
                                     <li>
-                                        <nuxt-link to="/">Home</nuxt-link>
+                                        <nuxt-link :to="{name: 'index'}">Home</nuxt-link>
                                     </li>
                                     <li>
-                                        <nuxt-link to="/guides">Guides</nuxt-link>
+                                        <nuxt-link :to="{name: 'guides'}">Guides</nuxt-link>
                                     </li>
                                     <li>
-                                        <a href="about.html">About us </a>
+                                        <nuxt-link :to="{name: 'destination'}">Destinations</nuxt-link>
                                     </li>
                                     <li>
-                                        <a href="destination.html">Destinations</a>
+                                        <nuxt-link :to="{name: 'posts'}">Posts</nuxt-link>
                                     </li>
                                     <li>
-                                        <a href="contact.html">Contact Us </a>
+                                        <nuxt-link :to="{name: 'packages'}">Packages</nuxt-link>
                                     </li>
                                 </ul>
                                 <div class="navbar-icons-2">
@@ -104,7 +99,7 @@
                                                     My Account</a>
                                                 </li>
                                                 <li class="account-el">
-                                                    <a href="#">
+                                                    <a @click.prevent="setting" class="pointer">
                                                         <client-only>
                                                             <icon icon="cogs"></icon>
                                                         </client-only>
@@ -157,7 +152,6 @@
                                     </ul>
                                 </div>
                             </nav>
-                            <!-- Mobile Menu End -->
                         </div>
                     </div>
                 </div>
@@ -179,16 +173,22 @@
             </div>
         </header>
         <!-- ===============  header area end =============== -->
+        <transition name="fade">
+            <span class="click-to-top pointer" @click="scrollTop" v-if="scroll > 200">
+                <client-only>
+                    <icon icon="arrow-up"></icon>
+                </client-only>
+            </span>
+        </transition>
     </div>
 </template>
 <script>
-import axios from "axios"
 export default {
     data() {
         return {
             account_dropdown: false,
             active_search: false,
-            progress: 0,
+            scroll: 0,
             search: "",
         };
     },
@@ -199,6 +199,13 @@ export default {
             this.account_dropdown = false,
             this.$router.push("/dashboard");
         },
+
+        // Setting
+        setting() {
+            this.account_dropdown = false,
+            this.$router.push("/dashboard/edit-profile");
+        },
+        
         // Logout
         logout() {
             this.account_dropdown = false,
@@ -207,7 +214,7 @@ export default {
 
         // For Tracking Scroll
         handleScroll() {
-            this.progress = window.scrollY;
+            this.scroll = window.scrollY;
         },
 
         // For Push Login & Register
@@ -219,6 +226,11 @@ export default {
             this.account_dropdown = false;
             this.$router.push("/register");
         },
+
+        // Scroll to top
+        scrollTop() {
+            window.scrollTo(0,0);
+        }
     },
 
     // For Tracking Scroll
@@ -227,6 +239,20 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener("scroll", this.handleScroll);
+    },
+
+    computed: {
+        logo(){
+            return this.$store.getters.headerLogo;
+        },
+
+        phone(){
+            return this.$store.getters.headerPhone;
+        },
+
+        email(){
+            return this.$store.getters.headerEmail;
+        },
     },
 };
 </script>

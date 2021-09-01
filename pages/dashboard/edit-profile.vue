@@ -85,6 +85,7 @@ export default {
     data() {
         return {
             form: {
+                click: true,
                 name: "",
                 password: "",
                 old_password: "",
@@ -114,7 +115,7 @@ export default {
                     this.form.socialProfile.whatsapp = JSON.parse(response.data.social_profile).whatsapp;
                 },
                 (error)=>{
-                    $nuxt.$emit("error", "Something Wrong! Please try Again")
+                    $nuxt.$emit("customError", "Something Wrong! Please try Again")
                 }
             )
         },
@@ -133,49 +134,66 @@ export default {
 
         //Update Profile
         updateProfile(){
-            this.$axios.$post("update-profile", this.form).then(
-                (response)=>{
-                    $nuxt.$emit("triggerProfile");
-                    $nuxt.$emit("success", "Profile Successfully Updated");
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                },
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.$post("update-profile", this.form).then(
+                    (response)=>{
+                        $nuxt.$emit("triggerProfile");
+                        $nuxt.$emit("success", "Profile Successfully Updated");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
         },
 
         //Update Password
         updatePassword(){
             if (this.form.password === this.form.password_confirmation) {
-                this.$axios.$post("update-password", this.form).then(
-                    (response)=>{
-                        this.form.password= "",
-                        this.form.old_password= "",
-                        this.form.password_confirmation= "",
-                        this.$swal.fire({
-                            title: "Password Update Successfully",
-                            text: "You want to logout for check your password",
-                            icon: "success",
-                            showCancelButton: true,
-                            confirmButtonColor: "#3085d6",
-                            cancelButtonColor: "#d33",
-                            confirmButtonText: "Yes, Logout"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                this.$auth.logout("laravelJWT").then(
-                                    ()=>{
-                                        this.$router.push("/login")
+                if(this.click) {
+                    this.click = false;
+                    this.$axios.$post("update-password", this.form).then(
+                        (response)=>{
+                            this.form.password= "",
+                            this.form.old_password= "",
+                            this.form.password_confirmation= "",
+                            this.click = true;
+                            this.$swal.fire({
+                                title: "Password Update Successfully",
+                                text: "You want to logout for check your password",
+                                icon: "success",
+                                showCancelButton: true,
+                                confirmButtonColor: "#3085d6",
+                                cancelButtonColor: "#d33",
+                                confirmButtonText: "Yes, Logout"
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    if(this.click) {
+                                        this.click = false;
+                                        this.$auth.logout("laravelJWT").then(
+                                            ()=>{
+                                                this.$router.push("/login")
+                                                this.click = true;
+                                            },
+                                            ()=>{
+                                                this.click = true;
+                                            }
+                                        )
                                     }
-                                )
-                            }
-                        })
-                    },
-                    (error)=>{
-                        $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                    },
-                )
+                                }
+                            })
+                        },
+                        (error)=>{
+                            $nuxt.$emit("error", error);
+                            this.click = true;
+                        },
+                    )
+                }
             } else {
-                $nuxt.$emit("error", "Confirm Password Not Match");
+                $nuxt.$emit("customError", "Confirm Password Not Match");
             }
         },
     },

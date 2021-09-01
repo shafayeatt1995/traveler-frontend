@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-else>
+    <div class="container mt-40">
         <!-- ===============  Guide area start =============== -->
         <div class="guide-wrapper">
             <div class="container">
@@ -8,9 +8,13 @@
                     <div class="col-lg-4 col-md-6 col-sm-6" v-for="guide in guides.data" :key="guide.id">
                         <div class="guide-card">
                             <div class="guide-thumb">
-                                <img :src="assetURL + guide.image" :alt="guide.name" class="img-fluid">
+                                <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}">
+                                    <img :src="assetURL + guide.image" :alt="guide.name" class="img-fluid">
+                                </nuxt-link>
                                 <div class="guide-info">
-                                    <strong>{{guide.name}}</strong>
+                                    <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}">
+                                        <strong>{{guide.name}}</strong>
+                                    </nuxt-link>
                                     <p>Tour Guide</p>
                                     <ul class="guide-links">
                                         <li>
@@ -77,6 +81,7 @@ export default {
     },
 
     methods: {
+        // Get Pagination Post
         getResults(page = 1) {
             this.$axios.get("guides?page=" + page).then(
                 (response) => {

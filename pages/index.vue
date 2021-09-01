@@ -2,43 +2,20 @@
     <div>
         <!-- ===============  Main banner area start =============== -->
         <div class="main-banner">
-            <div class="banner-slider owl-carousel">
-                <div class="slider-item slider-item-1">
-                    <div class="container">
-                        <div class="slider-content wow fadeInLeft animated" data-wow-delay="300ms" data-wow-duration="1500ms" >
-                            <h2>Amazing Tour In
-                                Hampshire </h2>
-                                <h5>7 Days, 8 Night Tour</h5>
+            <div class="banner-slider">
+                <client-only>
+                    <carousel :items="1" :autoplay="false" :nav="true" :dots="false" :loop="true">
+                        <div class="slider-item slider-item" :style="'background: linear-gradient(rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5) 100%), url(' + assetURL + JSON.parse(pack.images)[0] + ');'" v-for="pack in sliderPackage" :key="pack.id">
+                            <div class="slider-content">
+                                <h2>{{pack.name}}</h2>
+                                <h5>{{pack.duration}}</h5>
                                 <div class="banner-btn">
-                                    <a href="package.html" class="btn-common">Book Now</a>
+                                    <nuxt-link class="btn-common" :to="{name: 'package-slug', params:{slug: pack.slug}}">Book Now</nuxt-link>
                                 </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="slider-item slider-item-2">
-                    <div class="container">
-                        <div class="slider-content wow fadeInLeft animated" data-wow-delay="300ms" data-wow-duration="1500ms" >
-                            <h2>Amazing Tour In
-                                Indonesia </h2>
-                                <h5>7 Days, 8 Night Tour</h5>
-                                <div class="banner-btn">
-                                    <a href="package.html" class="btn-common">Book Now</a>
-                                </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="slider-item slider-item-3">
-                    <div class="container">
-                        <div class="slider-content wow fadeInLeft animated" data-wow-delay="300ms" data-wow-duration="1500ms" >
-                            <h2>Amazing Tour In
-                                madagascar </h2>
-                                <h5>7 Days, 8 Night Tour</h5>
-                                <div class="banner-btn">
-                                    <a href="package.html" class="btn-common">Book Now</a>
-                                </div>
-                        </div>
-                    </div>
-                </div>
+                    </carousel>
+                </client-only>
             </div>
         </div>
         <!-- ===============  Main banner area end =============== -->
@@ -56,38 +33,12 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-sm-6" v-for="pack in packages" :key="pack.id">
-                        <div class="package-card">
-                            <div class="package-thumb">
-                                <nuxt-link :to="'package/' + pack.slug">
-                                    <img :src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid h-250">
-                                </nuxt-link>
-                            </div>
-                            <div class="package-details">
-                                <div class="package-info">
-                                    <h5 v-if="pack.discount === null">${{pack.price | currency}}/Per Person</h5>
-                                    <h5 v-else><del>${{pack.price |currency}}</del> ${{pack.discount | currency}} /Per Person</h5>
-                                    <h5>
-                                        <client-only>
-                                            <icon icon="calendar-alt"></icon>
-                                        </client-only>
-                                        {{pack.duration}}
-                                    </h5>
-                                </div>
-                                <h4>
-                                    <nuxt-link :to="'package/' + pack.slug">{{pack.name}}</nuxt-link>
-                                </h4>
-                                <div class="package-address">
-                                    <strong>
-                                        <client-only>
-                                            <icon icon="map-marker-alt"></icon>
-                                        </client-only> 
-                                        <span class="mx-2">{{pack.address}}</span>
-                                    </strong>
-                                </div>
-                            </div>
-                        </div>
+                        <Package :pack="pack"/>
                     </div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <nuxt-link :to="{name: 'packages'}" class="btn-common">See All Packages</nuxt-link>
             </div>
         </div>
         <!-- ===============  Package  area end =============== -->
@@ -115,37 +66,10 @@
                     </div>
                     <div class="col-lg-9 col-md-9">
                         <div class="row" :class="key % 2 == 0 ? 'destinations-1' : 'destinations-2'">
-                            <client-only> <!-- important to add no-ssr-->
+                            <client-only> 
                                 <carousel :responsive="{0:{items:1}, 768:{items:2}, 992:{items:3}}" :autoplay="false" :nav="true" :dots="false" :margin="20">
-                                    <div class="package-card" v-for="pack in place.packages" :key="pack.id">
-                                        <div class="package-thumb">
-                                            <nuxt-link :to="'package' + pack.slug">
-                                                <img :src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid">
-                                            </nuxt-link>
-                                        </div>
-                                        <div class="package-details">
-                                            <div class="package-info">
-                                                <h5 v-if="pack.discount === null">${{pack.price | currency}}/Per Person</h5>
-                                                <h5 v-else><del>${{pack.price |currency}}</del> ${{pack.discount | currency}} /Per Person</h5>
-                                                <h5>
-                                                    <client-only>
-                                                        <icon icon="calendar-alt"></icon>
-                                                    </client-only>
-                                                    {{pack.duration}}
-                                                </h5>
-                                                <h4>
-                                                    <nuxt-link :to="'package/' + pack.slug" class="strong">{{pack.name}}</nuxt-link>
-                                                </h4>
-                                            </div>
-                                            <div class="package-address">
-                                                <strong>
-                                                    <client-only>
-                                                        <icon icon="map-marker-alt"></icon>
-                                                    </client-only> 
-                                                    <span class="mx-2">{{pack.address}}</span>
-                                                </strong>
-                                            </div>
-                                        </div>
+                                    <div  class="place-package" v-for="pack in place.packages" :key="pack.id">
+                                        <Package :pack="pack"/>
                                     </div>
                                 </carousel>
                             </client-only>
@@ -160,6 +84,9 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <nuxt-link :to="{name: 'destination'}" class="btn-common">See All Destination</nuxt-link>
             </div>
         </div>
         <!-- =============== Destinations area end =============== -->
@@ -229,62 +156,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 wow fadeInLeft animated"  data-wow-duration="1500ms" data-wow-delay="0ms" >
-                        <div class="blog-card">
-                            <div class="blog-img">
-                                <img src="assets/images/blog/b-1.png" alt="" class="img-fluid">
-                                <div class="blog-date"><i class="flaticon-calendar"></i> 1 April, 2021</div>
-                            </div>
-                            <div class="blog-details">
-                                <div class="blog-info">
-                                    <a class="blog-writer" href="#"><i class="flaticon-user"></i>Dina Jems</a>
-                                    <a class="blog-comment" href="#"><i class="flaticon-comment"></i><span>(3)</span>Comment</a>
-                                </div>
-                                <a href="blog-details.html" class="blog-title">Donec egestas orci viverra
-                                    fermentum risus.</a>
-                                <div class="blog-btn">
-                                    <a href="blog-details.html" class="btn-common-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row" v-if="posts.length > 0">
+                    <div class="col-lg-4 col-sm-6" v-for="post in posts" :key="post.id">
+                        <Post :post="post"/>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6  wow fadeInLeft animated"  data-wow-duration="1500ms" data-wow-delay="300ms">
-                        <div class="blog-card">
-                            <div class="blog-img">
-                                <img src="assets/images/blog/b-2.png" alt="" class="img-fluid">
-                                <div class="blog-date"><i class="flaticon-calendar"></i> 1 April, 2021</div>
-                            </div>
-                            <div class="blog-details">
-                                <div class="blog-info">
-                                    <a class="blog-writer" href="#"><i class="flaticon-user"></i>Dina Jems</a>
-                                    <a class="blog-comment" href="#"><i class="flaticon-comment"></i><span>(3)</span>Comment</a>
-                                </div>
-                                <a href="blog-details.html" class="blog-title">Praesent ut mattis ante the Nullam lobortis. </a>
-                                <div class="blog-btn">
-                                    <a href="blog-details.html" class="btn-common-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 wow fadeInLeft animated"  data-wow-duration="1500ms" data-wow-delay="600ms">
-                        <div class="blog-card">
-                            <div class="blog-img">
-                                <img src="assets/images/blog/b-3.png" alt="" class="img-fluid">
-                                <div class="blog-date"><i class="flaticon-calendar"></i> 1 April, 2021</div>
-                            </div>
-                            <div class="blog-details">
-                                <div class="blog-info">
-                                    <a class="blog-writer" href="#"><i class="flaticon-user"></i>Dina Jems</a>
-                                    <a class="blog-comment" href="#"><i class="flaticon-comment"></i><span>(3)</span>Comment</a>
-                                </div>
-                                <a href="blog-details.html" class="blog-title">Maecenas vehicula risus non neque tincidunt.</a>
-                                <div class="blog-btn">
-                                    <a href="blog-details.html" class="btn-common-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="row" v-else>
+                    <Empty message="No Blog Post Found"/>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <nuxt-link :to="{name: 'posts'}" class="btn-common">See All Posts</nuxt-link>
                 </div>
             </div>
         </div>
@@ -293,9 +174,7 @@
 </template>
 <script>
 import axios from "axios"
-import login from './login.vue';
 export default {
-    components: { login },
     head() {
         return {
             title: "Home - " + this.appName,
@@ -304,20 +183,24 @@ export default {
 
     data() {
         return {
-            packages: {},
-            locationPackages: {},
+            sliderPackage:[],
+            packages: [],
+            locationPackages: [],
             achievement: {},
             review: {},
+            posts: [],
         }
     },
 
     async asyncData(context) {
         let response = await axios.get(context.env.baseURL + "home");
         return {
+            sliderPackage: response.data.sliderPackage,
             packages: response.data.packages,
             locationPackages: response.data.locationPackages,
             achievement: response.data.achievement !== null ? JSON.parse(response.data.achievement.info) : null,
             review: response.data.review !== null ? JSON.parse(response.data.review.info) : null,
+            posts: response.data.posts,
         }
     },
 };

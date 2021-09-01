@@ -5,6 +5,8 @@ export const state = () => ({
     paypal_id: "",
     link: process.env.baseURL,
     asset_link: process.env.assetURL,
+    header: {},
+    footer: {},
 })
 
 export const getters = {
@@ -62,13 +64,65 @@ export const getters = {
     asset_url(state){
         return state.asset_link;
     },
+
+    //Header Logo
+    headerLogo(state){
+        return state.header.image;
+    },
+
+    //Header.phone
+    headerPhone(state){
+        return state.header.phone;
+    },
+
+    //Header Email
+    headerEmail(state){
+        return state.header.email;
+    },
+
+    //Footer Logo
+    footerLogo(state){
+        return state.footer.image;
+    },
+
+    //Footer Logo
+    footerMessage(state){
+        return state.footer.message;
+    },
+
+    //Footer Logo
+    footerSocial(state){
+        return state.footer.social;
+    },
+
+    //Footer Logo
+    footerPhone(state){
+        return state.footer.phone;
+    },
+
+    //Footer Logo
+    footerEmail(state){
+        return state.footer.email;
+    },
+
+    //Footer Logo
+    footerAddress(state){
+        return state.footer.address;
+    },
+
+    //Footer Logo
+    footerNewsletterMessage(state){
+        return state.footer.newsletterMessage;
+    },
 }
 
 export const mutations = {
     // Get Paypal Information
     getapp(state, response) {
-        state.app_name = response.appName;
-        state.paypal_id = "https://www.paypal.com/sdk/js?client-id=" + response.paypal;
+        state.app_name = response.data.appName;
+        state.paypal_id = "https://www.paypal.com/sdk/js?client-id=" + response.data.paypal;
+        state.header = response.data.header !== null ? JSON.parse(response.data.header.info) : {};
+        state.footer = response.data.footer !== null ? JSON.parse(response.data.footer.info) : {};
     },
 }
 
@@ -76,8 +130,8 @@ export const actions = {
     // Get Paypal Information
     async nuxtServerInit (context) {
         const response = await axios.get(context.state.link + "start")
-        context.commit("getapp", response.data);
-    }
+        context.commit("getapp", response);
+    },
 }
 
 

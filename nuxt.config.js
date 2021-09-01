@@ -45,7 +45,6 @@ export default {
     "./plugins/tooltip.js",
     {src: "./plugins/toaster.js", ssr: false},
     {src: "./plugins/owl.js", ssr: false},
-    {src: "./plugins/ckEditor.js", ssr: false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -71,7 +70,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
-    "vue-sweetalert2/nuxt"
+    "vue-sweetalert2/nuxt",
+    "vue2-editor/nuxt"
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

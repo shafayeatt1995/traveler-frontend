@@ -31,7 +31,7 @@
                                 <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
                                     <th class="align-middle text-center">{{pack.id}}</th>
                                     <td class="align-middle">
-                                        <nuxt-link :to="'../package/'+pack.slug">
+                                        <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
                                             <img :src="assetURL+JSON.parse(pack.images)[0]" class="img-fluid mw-200">
                                         </nuxt-link>
                                     </td>
@@ -63,7 +63,7 @@
                                         </tr>
                                     </td>
                                     <td class="align-middle">
-                                        <button type="button" class="btn btn-success" @click="editPackage(pack)">
+                                        <button type="button" class="btn btn-primary" @click="editPackage(pack)">
                                             <client-only>
                                                 <icon icon="edit"></icon>
                                             </client-only>
@@ -200,12 +200,12 @@
                             <input type="text" class="form-control my-2" v-model="time" placeholder="Type Your Tour Plan Time">
                             <textarea class="form-control my-2" v-model="description" placeholder="Type Your Tour Plan Description" rows="5"></textarea>
                         </div>
-                        <button type="button" class="btn btn-success" @click="addPlan">Add Plan</button>
+                        <button type="button" class="btn btn-primary" @click="addPlan">Add Plan</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success" v-if="editMode">Update Package</button>
-                        <button type="submit" class="btn btn-success" v-else>Add Package</button>
+                        <button type="submit" class="btn btn-primary" v-if="editMode">Update Package</button>
+                        <button type="submit" class="btn btn-primary" v-else>Add Package</button>
                     </div>
                 </form>
             </div>
@@ -229,6 +229,7 @@ export default {
 
     data() {
         return {
+            click: true,
             packages: {},
             categories: [],
             places: [],
@@ -308,7 +309,7 @@ export default {
                     this.places = response.data.places
                 },
                 (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again")
+                    $nuxt.$emit("error", error)
                 }
             )
         },
@@ -322,42 +323,47 @@ export default {
 
         // Create New Package
         addPackage(){
-            this.$axios.post("create-package", this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    this.form.images = [];
-                    this.form.category_id = "";
-                    this.form.place_id = "";
-                    this.form.address = "";
-                    this.form.duration = "";
-                    this.form.vehicle = "";
-                    this.form.group_size = "";
-                    this.form.ticket = "";
-                    this.form.price = "";
-                    this.form.discount = "";
-                    this.form.min_booking_amount = "";
-                    this.form.overview = "";
-                    this.form.start_date = "";
-                    this.form.return_date = "";
-                    this.form.included = [];
-                    this.form.excluded = [];
-                    this.form.tour_plan = [];
-                    this.form.delete_images = [];
-                    this.form.new_images = [];
-                    this.included = "";
-                    this.excluded = "";
-                    this.title = "";
-                    this.time = "";
-                    this.description = "";
-                    $nuxt.$emit('triggerPackages');
-                    $nuxt.$emit('success', 'Package Created Successfully');
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("create-package", this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        this.form.images = [];
+                        this.form.category_id = "";
+                        this.form.place_id = "";
+                        this.form.address = "";
+                        this.form.duration = "";
+                        this.form.vehicle = "";
+                        this.form.group_size = "";
+                        this.form.ticket = "";
+                        this.form.price = "";
+                        this.form.discount = "";
+                        this.form.min_booking_amount = "";
+                        this.form.overview = "";
+                        this.form.start_date = "";
+                        this.form.return_date = "";
+                        this.form.included = [];
+                        this.form.excluded = [];
+                        this.form.tour_plan = [];
+                        this.form.delete_images = [];
+                        this.form.new_images = [];
+                        this.included = "";
+                        this.excluded = "";
+                        this.title = "";
+                        this.time = "";
+                        this.description = "";
+                        $nuxt.$emit('triggerPackages');
+                        $nuxt.$emit('success', 'Package Created Successfully');
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
 
         // Edit Package
@@ -394,42 +400,47 @@ export default {
 
         // Update Package
         updatePackage(){
-            this.$axios.post("update-package/"+ this.form.id, this.form).then(
-                ()=>{
-                    $("#modal").modal("hide");
-                    this.form.id = "";
-                    this.form.name = "";
-                    this.form.images = [];
-                    this.form.category_id = "";
-                    this.form.place_id = "";
-                    this.form.address = "";
-                    this.form.duration = "";
-                    this.form.vehicle = "";
-                    this.form.group_size = "";
-                    this.form.ticket = "";
-                    this.form.price = "";
-                    this.form.discount = "";
-                    this.form.min_booking_amount = "";
-                    this.form.overview = "";
-                    this.form.start_date = "";
-                    this.form.return_date = "";
-                    this.form.included = [];
-                    this.form.excluded = [];
-                    this.form.tour_plan = [];
-                    this.form.delete_images = [];
-                    this.form.new_images = [];
-                    this.included = "";
-                    this.excluded = "";
-                    this.title = "";
-                    this.time = "";
-                    this.description = "";
-                    $nuxt.$emit('triggerPackages');
-                    $nuxt.$emit('success', 'Package Updated Successfully');
-                },
-                (error)=>{
-                    $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                }
-            )
+            if(this.click) {
+                this.click = false;
+                this.$axios.post("update-package/"+ this.form.id, this.form).then(
+                    ()=>{
+                        $("#modal").modal("hide");
+                        this.form.id = "";
+                        this.form.name = "";
+                        this.form.images = [];
+                        this.form.category_id = "";
+                        this.form.place_id = "";
+                        this.form.address = "";
+                        this.form.duration = "";
+                        this.form.vehicle = "";
+                        this.form.group_size = "";
+                        this.form.ticket = "";
+                        this.form.price = "";
+                        this.form.discount = "";
+                        this.form.min_booking_amount = "";
+                        this.form.overview = "";
+                        this.form.start_date = "";
+                        this.form.return_date = "";
+                        this.form.included = [];
+                        this.form.excluded = [];
+                        this.form.tour_plan = [];
+                        this.form.delete_images = [];
+                        this.form.new_images = [];
+                        this.included = "";
+                        this.excluded = "";
+                        this.title = "";
+                        this.time = "";
+                        this.description = "";
+                        $nuxt.$emit('triggerPackages');
+                        $nuxt.$emit('success', 'Package Updated Successfully');
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    }
+                )
+            }
         },
         
         // Delete Package
@@ -444,19 +455,24 @@ export default {
                 confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                 if (result.isConfirmed) {
-                    this.$axios.post("delete-package/"+id).then(
-                        ()=>{
-                            Swal.fire(
-                            'Deleted!',
-                            'Package has been deleted.',
-                            'success'
-                            )
-                            $nuxt.$emit('triggerPackages');
-                        },
-                        (error)=>{
-                            $nuxt.$emit("error", error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again");
-                        }
-                    )
+                    if(this.click) {
+                        this.click = false;
+                        this.$axios.post("delete-package/"+id).then(
+                            ()=>{
+                                Swal.fire(
+                                'Deleted!',
+                                'Package has been deleted.',
+                                'success'
+                                )
+                                $nuxt.$emit('triggerPackages');
+                                this.click = true;
+                            },
+                            (error)=>{
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            }
+                        )
+                    }
                 }
             })
         },
@@ -467,7 +483,7 @@ export default {
                 for (let file of Object.entries(event.target.files)) {
                     let reader = new FileReader();
                     reader.onloadend = () => {
-                        file[1].size < 2097153 ? this.form.images.length + this.form.new_images.length < 5 ? this.editMode ? this.form.new_images.push(reader.result) : this.form.images.push(reader.result) : $nuxt.$emit("error", "You Can Upload Maximum 5 Images") : $nuxt.$emit("error", "Maximum Image Size 2 MB");
+                        file[1].size < 2097153 ? this.form.images.length + this.form.new_images.length < 5 ? this.editMode ? this.form.new_images.push(reader.result) : this.form.images.push(reader.result) : $nuxt.$emit("customError", "You Can Upload Maximum 5 Images") : $nuxt.$emit("customError", "Maximum Image Size 2 MB");
                     };
                     file !== undefined ? reader.readAsDataURL(file[1]) : "";
                 }
