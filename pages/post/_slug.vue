@@ -19,7 +19,7 @@
                         </div>
                     </div>
                     <div class="blog-img-xl">
-                        <img :src="assetURL + post.image" :alt="post.title" class="img-fluid">
+                        <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load/>
                         <div class="blog-date">
                             <client-only>
                                 <icon icon="calendar-alt"></icon>
@@ -29,7 +29,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="blog-texts mt-30" v-html="post.post"></div>
+                    <div class="blog-texts mt-30 ql-editor" v-html="post.post"></div>
                     <div class="blog-bottom">
                         <div class="blog-social">
                             <ul>
@@ -65,7 +65,7 @@
                             <li v-for="comment in comments.data" :key="comment.id">
                                 <div class="commentor">
                                     <div class="commentotor-img text-center">
-                                        <img class="mh-100-px" :src="assetURL + comment.user.image" :alt="comment.user.name">
+                                        <img :data-src="assetURL + comment.user.image" class="mh-100-px" :alt="comment.user.name" v-lazy-load/>
                                     </div>
                                     <div class="commentor-id">
                                         <strong>{{comment.user.name}}
@@ -101,7 +101,7 @@
                                 <div class="replay mt-3" v-for="replay in comment.replays" :key="replay.id">
                                     <div class="commentor">
                                         <div class="commentotor-img text-center">
-                                            <img class="mh-100-px" :src="assetURL + replay.user.image" :alt="replay.user.name">
+                                            <img :data-src="assetURL + replay.user.image" class="mh-100-px"  :alt="replay.user.name" v-lazy-load/>
                                         </div>
                                         <div class="commentor-id">
                                             <strong>{{replay.user.name}}
@@ -182,7 +182,7 @@
                                     <li class="blog-card-sm" v-for="post in posts" :key="post.id">
                                         <div class="blog-img-sm">
                                             <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}">
-                                                <img :src="assetURL + post.image" :alt="post.title">
+                                                <img :data-src="assetURL + post.image" :alt="post.title" v-lazy-load/>
                                             </nuxt-link>
                                         </div>
                                         <div class="blog-details-sm">

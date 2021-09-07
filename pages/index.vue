@@ -5,7 +5,7 @@
             <div class="banner-slider">
                 <client-only>
                     <carousel :items="1" :autoplay="false" :nav="true" :dots="false" :loop="true">
-                        <div class="slider-item slider-item" :style="'background: linear-gradient(rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5) 100%), url(' + assetURL + JSON.parse(pack.images)[0] + ');'" v-for="pack in sliderPackage" :key="pack.id">
+                        <div class="slider-item" :style="'background: linear-gradient(rgba(0, 0, 0, 0.4) 100%, rgba(0, 0, 0, 0.4) 100%), url(' + assetURL + JSON.parse(pack.images)[0] + ');'" v-for="pack in sliderPackage" :key="pack.id">
                             <div class="slider-content">
                                 <h2>{{pack.name}}</h2>
                                 <h5>{{pack.duration}}</h5>
@@ -58,7 +58,7 @@
                 <div class="row" v-for="(place, key) in locationPackages" :key="place.id">
                     <div class="col-lg-3 col-md-3" v-if="key % 2 == 0">
                         <div class="package-slider-wrap">
-                            <img :src="assetURL + place.image" class="img-fluid">
+                            <img :data-src="assetURL + place.image" class="img-fluid" v-lazy-load/>
                             <div class="pakage-overlay">
                                 <strong>{{place.name}}</strong>
                             </div>
@@ -77,7 +77,7 @@
                     </div>
                     <div class="col-lg-3 col-md-3" v-if="key % 2 !== 0">
                         <div class="package-slider-wrap">
-                            <img :src="assetURL + place.image" class="img-fluid">
+                            <img :data-src="assetURL + place.image" class="img-fluid" v-lazy-load/>
                             <div class="pakage-overlay">
                                 <strong>{{place.name}}</strong>
                             </div>
@@ -105,7 +105,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-md-6 col-sm-6 mb-2" v-for="(achieve, key) in achievement.achievements" :key="key">
                         <div class="achievement-card mt-30">
-                            <img :src="assetURL + achieve.image" class="img-fluid mh-100-px mb-2">
+                            <img :data-src="assetURL + achieve.image" class="img-fluid mh-100-px mb-2" v-lazy-load/>
                             <h5>{{achieve.name}}</h5>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                         <carousel :responsive="{0:{items:1}, 768:{items:2}, 992:{items:3}}" :autoplay="false" :nav="false" :dots="true" :margin="20">
                             <div class="review-card" v-for="(review, key) in review.reviews" :key="key">
                                 <div class="reviewer-img">
-                                    <img :src="assetURL + review.image" :alt="review.name" class="img-fluid">
+                                    <img :data-src="assetURL + review.image" :alt="review.name" class="img-fluid" v-lazy-load/>
                                 </div>
                                 <div class="reviewer-info">
                                     <h3>{{review.name}}</h3>

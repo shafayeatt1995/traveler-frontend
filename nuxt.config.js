@@ -2,6 +2,10 @@ export default {
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 
+  generate: {
+    interval: 2400
+  },
+
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "-",
@@ -11,8 +15,6 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
-      { name: "format-detection", content: "telephone=no" }
     ],
 
     link: [
@@ -71,7 +73,8 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
     "vue-sweetalert2/nuxt",
-    "vue2-editor/nuxt"
+    "vue2-editor/nuxt",
+    "nuxt-lazy-load",
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

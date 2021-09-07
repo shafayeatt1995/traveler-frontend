@@ -14,7 +14,7 @@
             <div class="row" v-for="(destination, key) in destinations" :key="destination.id">
                 <div class="col-lg-3 col-md-3" v-if="key % 2 == 0">
                     <div class="package-slider-wrap">
-                        <img :src="assetURL + destination.image" class="img-fluid">
+                        <img :data-src="assetURL + destination.image" class="img-fluid" v-lazy-load/>
                         <div class="pakage-overlay">
                             <strong>{{destination.name}}</strong>
                         </div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3" v-if="key % 2 !== 0">
                     <div class="package-slider-wrap">
-                        <img :src="assetURL + destination.image" class="img-fluid">
+                        <img :data-src="assetURL + destination.image" class="img-fluid" v-lazy-load/>
                         <div class="pakage-overlay">
                             <strong>{{destination.name}}</strong>
                         </div>

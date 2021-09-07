@@ -1,7 +1,7 @@
 <template>
     <div class="blog-card">
         <div class="blog-img">
-            <img :src="assetURL + post.image" :alt="post.title" class="img-fluid">
+            <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load/>
             <div class="blog-date">
                 <client-only>
                     <icon icon="calendar-alt"></icon>
@@ -19,7 +19,10 @@
                         {{post.user.name}}
                     </span>
                 </nuxt-link>
-                <a class="blog-comment" href="#"><i class="flaticon-comment"></i><span>({{post.comments_count}}) </span> {{post.comments_count > 1 ? 'Comments' : 'Comment'}}</a>
+                <p class="blog-comment">
+                    <span>({{post.comments_count}}) </span>
+                    {{post.comments_count > 1 ? 'Comments' : 'Comment'}}
+                </p>
             </div>
             <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}" class="blog-title">{{post.title.substring(0, 75)}}{{post.title.length > 75 ? '...':''}}</nuxt-link>
             <div class="blog-btn">

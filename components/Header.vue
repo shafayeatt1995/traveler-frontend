@@ -54,7 +54,7 @@
                             <div class="navbar-wrap">
                                 <div class="logo d-flex justify-content-between">
                                     <nuxt-link :to="{name: 'index'}" class="navbar-brand">
-                                        <img :src="assetURL + logo" alt="logo" class="img-fluid"/>
+                                        <img :data-src="assetURL + logo" alt="logo" class="img-fluid" v-lazy-load/>
                                     </nuxt-link>
                                 </div>
                             </div>
@@ -77,6 +77,26 @@
                                     </li>
                                     <li>
                                         <nuxt-link :to="{name: 'packages'}">Packages</nuxt-link>
+                                    </li>
+                                    <li class="has-child-menu">
+                                        <a class="pointer">Pages 
+                                            <span class="menu-dropdown-icon">
+                                                <client-only>
+                                                    <icon icon="angle-down"></icon>
+                                                </client-only>
+                                            </span>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li>
+                                                <nuxt-link class="sub-item" :to="{name: 'about'}">About Us</nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link class="sub-item" :to="{name: 'contact'}">Contact Us</nuxt-link>
+                                            </li>
+                                            <li>
+                                                <nuxt-link class="sub-item" :to="{name: 'faq'}">FAQ</nuxt-link>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
                                 <div class="navbar-icons-2">
@@ -131,25 +151,6 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="sidebar-contact">
-                                    <ul>
-                                        <li class="sidebar-single-contact">
-                                            <i class="bx bxs-phone"></i>
-                                            <a href="tel:+17632275032">
-                                                +1 763-227-5032
-                                            </a>
-                                        </li>
-                                        <li class="sidebar-single-contact">
-                                            <i class="bx bxs-envelope"></i>
-                                            <a href="https://demo.egenslab.com/cdn-cgi/l/email-protection#d1b8bfb7be91b4a9b0bca1bdb4ffb2bebc">
-                                                <span class="__cf_email__" data-cfemail="630a0d050c23061b020e130f064d000c0e">
-                                                    [email&#160;protected]
-                                                </span
-                                                >
-                                            </a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </nav>
                         </div>

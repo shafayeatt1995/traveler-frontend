@@ -14,7 +14,7 @@
                             <div class="col-lg-6">
                                 <div class="user-info">
                                     <div class="dashboard-thumbnail my-2">
-                                        <img :src="form.image" class="img-fluid mw-100 mh-240">
+                                        <img :data-src="form.image" class="img-fluid mw-100 mh-240" v-lazy-load/>
                                         <label for="thumbnail" class="pointer"> Select Profile Image</label>
                                         <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
                                     </div>

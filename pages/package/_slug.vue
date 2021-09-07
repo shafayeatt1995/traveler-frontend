@@ -7,7 +7,7 @@
                         <div class="package-thumb">
                             <client-only> <!-- important to add no-ssr-->
                                 <carousel :items="1" :autoplay="false" :nav="false" :autoHeight="true">
-                                    <img :src="assetURL + image" v-for="(image, key) in JSON.parse(pack.images)" :key="key">
+                                    <img :data-src="assetURL + image" v-for="(image, key) in JSON.parse(pack.images)" :key="key" v-lazy-load/>
                                 </carousel>
                             </client-only>
                         </div>
@@ -34,7 +34,7 @@
                                 </client-only>
                                 <div class="info-texts">
                                     <strong>Duration</strong>
-                                    <p>{{pack.duration}}</p>
+                                    <p>{{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}</p>
                                 </div>
                             </div>
                             <div class="single-info">
@@ -78,7 +78,7 @@
                                     <div class="tab-pane" key="1" v-if="activeTab == 'info'">
                                         <div class="row">
                                             <div class="col-lg-12">
-                                                <div class="tab-content-1">
+                                                <div class="tab-content">
                                                     <div class="p-overview">
                                                         <h5>Overview</h5>
                                                         <p>{{pack.overview}}</p>
@@ -140,7 +140,7 @@
                                                             <li class="p-review-card" v-for="question in questions.data" :key="question.id">
                                                                 <div class="p-review-info">
                                                                     <div class="p-reviewr-img">
-                                                                        <img :src="assetURL + question.user.image" :alt="question.user.name">
+                                                                        <img :data-src="assetURL + question.user.image" :alt="question.user.name" v-lazy-load/>
                                                                     </div>
                                                                     <div class="p-reviewer-info">
                                                                         <strong>
@@ -176,7 +176,7 @@
                                                                     <li class="p-review-card" v-for="(replay, key) in JSON.parse(question.replay)" :key="key">
                                                                         <div class="p-review-info align-items-center">
                                                                             <div class="p-reviewr-img text-center">
-                                                                                <img :src="assetURL + question.user.image" :alt="question.user.name" v-if="question.user_id == replay.user_id">
+                                                                                <img :data-src="assetURL + question.user.image" :alt="question.user.name" v-if="question.user_id == replay.user_id" v-lazy-load/>
                                                                                 <client-only>
                                                                                     <icon icon="user-circle" v-if="question.user_id !== replay.user_id"></icon>
                                                                                 </client-only>
@@ -216,7 +216,7 @@
                                                                 </div>
                 
                                                                 <div class="col-lg-12">
-                                                                    <input type="submit" value="Submit Now">
+                                                                    <input type="submit" value="Submit Now" class="float-end"/>
                                                                 </div>
                                                             </div>
                                                         </form>
@@ -395,7 +395,7 @@
                                         <li class="package-card-sm" v-for="popular in popularPack" :key="popular.id">
                                             <div class="p-sm-img">
                                                 <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">
-                                                    <img :src="assetURL+JSON.parse(popular.images)[0]" :alt="popular.name">
+                                                    <img :data-src="assetURL + popular.thumbnail" :alt="popular.name" v-lazy-load/>
                                                 </nuxt-link>
                                             </div>
                                             <div class="package-info">
@@ -404,7 +404,8 @@
                                                         <client-only>
                                                             <icon icon="calendar"></icon>
                                                         </client-only>
-                                                        {{popular.duration}}</strong>
+                                                        {{popular.duration_day + (popular.duration_day > 1 ? ' Days' : ' Day')}} / {{popular.duration_night + (popular.duration_night > 1 ? ' Nights' : ' Night')}}
+                                                    </strong>
                                                 </div>
                                                 <h3><i class="flaticon-arrival"></i>
                                                     <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">{{popular.address}}</nuxt-link>
@@ -424,7 +425,7 @@
                                     <div class="organizer-card align-items-center">
                                         <div class="organizer-img">
                                             <nuxt-link :to="{name: 'package-user-slug', params: {slug: pack.user.slug}}" >
-                                                <img :src="assetURL+pack.user.image" alt="">
+                                                <img :data-src="assetURL+pack.user.image" :alt="pack.user.name" v-lazy-load/>
                                             </nuxt-link>
                                         </div>
                                         <div class="organizer-info">

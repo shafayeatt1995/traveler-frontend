@@ -10,6 +10,7 @@
                 <h4 v-if="booking.package.status">Tour Already Complete</h4>
                 <h4 v-else-if="booking.package.status == null">Tour Already Running</h4>
                 <h4 v-else>Your Booking is Confirmed<span v-if="booking.ticket * bookingAmount > booking.payments.reduce((total, payment) => total + payment.amount, 0)">. Please Pay Full Amount Within {{booking.package.start_date | normalDate}}</span></h4>
+                <h4>Booking Number #{{booking.id}}</h4>
                 <ul>
                     <li>
                         <p>Name</p>
@@ -46,7 +47,9 @@
                                 <tbody>
                                     <tr v-for="payment in booking.payments" :key="payment.id">
                                         <td class="text-center">
-                                            <nuxt-link :to="{name: 'package-slug', params: {slug: payment.package.slug}}"><img :src="assetURL + JSON.parse(payment.package.images)[0]" :alt="payment.package.name" class="img-fluid text-center mw-200"></nuxt-link>
+                                            <nuxt-link :to="{name: 'package-slug', params: {slug: payment.package.slug}}">
+                                                <img :data-src="assetURL + payment.package.thumbnail" :alt="payment.package.name" class="img-fluid text-center mw-200" v-lazy-load/>
+                                            </nuxt-link>
                                         </td>
                                         <td class="text-left align-middle"><nuxt-link :to="{name: 'package-slug', params: {slug: payment.package.slug}}" class="color-black">{{payment.package.name}}</nuxt-link></td>
                                         <td class="text-center align-middle">{{payment.payment_type == 'paypal' ? 'Paypal' : 'Card'}}</td>

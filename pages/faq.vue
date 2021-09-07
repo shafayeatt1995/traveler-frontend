@@ -1,0 +1,132 @@
+<template>
+<div class="container">
+    <h1 class="text-center my-4">FAQ</h1>
+    <div class="faq-wrapper">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="faq-wrap">
+                    <div class="faq-box" v-for="(topic, key) in topics" :key="key">
+                        <h2 class="strong" :class="key > 0 ? 'mt-5' : ''">
+                            {{topic.name}}
+                        </h2>
+                        <div class="faq-item my-3" v-for="(qna, index) in topic.qnas" :key="index">
+                            <div>
+                                <p class="faq-header">
+                                    <button type="button" :class="showQNA == key + '-' + index ? 'faq-active' : ''" @click="showQNA = showQNA == key + '-' + index ? '' : key + '-' + index">
+                                        {{qna.question}}
+                                        <client-only>
+                                            <icon icon="angle-down"></icon>
+                                        </client-only>
+                                    </button>
+                                </p>
+                                <transition name="long-slide" mode="out-in">
+                                    <div class="faq-body" v-show="showQNA == key + '-' + index">
+                                        <p class="p-3">{{qna.answer}}</p>
+                                    </div>
+                                </transition>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="contact-us-form">
+                    <h3>Ask A Question</h3>
+                    <form @submit.prevent="submitMessage">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" class="form-control" v-model="form.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="phone" id="phone" class="form-control" v-model="form.phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address <small>(Optional)</small></label>
+                            <input type="email" id="email" class="form-control" v-model="form.email">
+                        </div>
+                        <div class="form-group">
+                            <label for="question">Your Question</label>
+                            <textarea id="question" rows="4" class="form-control" v-model="form.message"></textarea>
+                        </div>
+                        <button type="submit" class="btn-second float-end">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+
+<script>
+import axios from "axios"
+export default {
+    head() {
+        return {
+            title: "FAQ - " + this.appName,
+            meta: [{
+                hid: "description",
+                name: "description",
+                content: this.meta !== null ? this.meta : "",
+            }],
+        };
+    },
+
+    data() {
+        return {
+            click: true,
+            showQNA: "",
+            topics: [],
+            meta: "",
+            form: {
+                name: "",
+                phone: "",
+                email: "",
+                subject: "Question",
+                message: "",
+            },
+        }
+    },
+
+    async asyncData(context) {
+        let response = await axios.get(context.env.baseURL + "faq");
+        let faq = JSON.parse(response.data.faq.page);
+        return {
+            click: true,
+            showQNA: "",
+            topics: faq,
+            meta: response.data.faq.meta,
+            form: {
+                name: "",
+                phone: "",
+                email: "",
+                subject: "Question",
+                message: "",
+            },
+        }
+    },
+
+    methods: {
+        // Submit Message 
+        submitMessage() {
+            if (this.click) {
+                this.click = false
+                this.$axios.post("submit-message", this.form).then(
+                    (response) => {
+                        this.form.name = "";
+                        this.form.phone = "";
+                        this.form.email = "";
+                        this.form.message = "";
+                        $nuxt.$emit("success", "Your Question Submitted Successfully");
+                        this.click = true;
+                    },
+                    (error) => {
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
+        },
+    },
+}
+</script>

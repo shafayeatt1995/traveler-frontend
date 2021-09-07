@@ -30,7 +30,7 @@
                                 <tr class="text-center" v-for="booking in bookings.data" :key="booking.id">
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'package-slug', params: {slug: booking.package.slug}}">
-                                            <img :src="assetURL + JSON.parse(booking.package.images)[0]" :alt="booking.package.name" class="img-fluid mw-200"/>
+                                            <img :data-src="assetURL + booking.package.thumbnail" :alt="booking.package.name" class="img-fluid mw-200" v-lazy-load/>
                                             <p>{{booking.package.name}}</p>
                                         </nuxt-link>
                                         <h5 class="mt-3">{{booking.package.status == true ? 'Tour Already Complete': booking.package.status == false ? 'Booking Available' : 'Tour Already Running'}}</h5>

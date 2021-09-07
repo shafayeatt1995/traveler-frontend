@@ -9,13 +9,13 @@
                         <div class="guide-card">
                             <div class="guide-thumb">
                                 <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}">
-                                    <img :src="assetURL + guide.image" :alt="guide.name" class="img-fluid">
+                                    <img :data-src="assetURL + guide.image" :alt="guide.name" class="img-fluid" v-lazy-load/>
                                 </nuxt-link>
                                 <div class="guide-info">
                                     <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}">
                                         <strong>{{guide.name}}</strong>
+                                        <p>Tour Guide</p>
                                     </nuxt-link>
-                                    <p>Tour Guide</p>
                                     <ul class="guide-links">
                                         <li>
                                             <a :href="JSON.parse(guide.social_profile).facebook" target="_blank">

@@ -5,6 +5,16 @@
                 <div class="dashboard-sidebar">
                     <ul>
                         <li>
+                            <h5 class="text-center">
+                                <nuxt-link :to="{name: 'dashboard'}" class="justify-content-center">
+                                    <client-only>
+                                        <icon icon="arrow-left"></icon>
+                                    </client-only>
+                                    <span class="mx-2">Back To Dashboard</span>
+                                </nuxt-link>
+                            </h5>
+                        </li>
+                        <li>
                             <a class="pointer strong" :class="active == 'header' ? 'active' : ''" @click.prevent="active = active == 'header' ? '' : 'header'">
                                 Header
                                 <client-only>
@@ -16,7 +26,7 @@
                                     <label for="header-logo" class="mt-2">Header Logo</label>
                                     <div class="text-center">
                                         <transition name="slide" mode="out-in">
-                                            <img :src="header.image" v-if="header.image" class="img-fluid mb-2 mh-100-px">
+                                            <img :src="header.image" v-if="header.image" class="img-fluid mb-2 mh-100-px"/>
                                         </transition>
                                     </div>
                                     <input type="file" accept="image/*" class="form-control" id="footer-logo" @change="image($event, 'header')">
@@ -70,7 +80,7 @@
                                     <div class="form-group">
                                         <div class="text-center">
                                             <transition name="slide" mode="out-in">
-                                                <img :src="achievementImage" v-if="achievementImage" class="img-fluid mb-2 mh-100-px">
+                                                <img :src="achievementImage" v-if="achievementImage" class="img-fluid mb-2 mh-100-px"/>
                                             </transition>
                                         </div>
                                         <input type="file" accept="image/*" class="form-control" @change="image($event, 'achievement')">
@@ -105,7 +115,7 @@
                                     <div class="form-group">
                                         <div class="text-center">
                                             <transition name="slide" mode="out-in">
-                                                <img :src="reviewImage" v-if="reviewImage" class="img-fluid mb-2 mh-100-px">
+                                                <img :src="reviewImage" v-if="reviewImage" class="img-fluid mb-2 mh-100-px"/>
                                             </transition>
                                         </div>
                                         <input type="file" accept="image/*" class="form-control" @change="image($event, 'review')">
@@ -137,7 +147,7 @@
                                     <label for="footer-logo" class="mt-2">Footer Logo</label>
                                     <div class="text-center">
                                         <transition name="slide" mode="out-in">
-                                            <img :src="footer.image" v-if="footer.image" class="img-fluid mb-2 mh-100-px">
+                                            <img :src="footer.image" v-if="footer.image" class="img-fluid mb-2 mh-100-px"/>
                                         </transition>
                                     </div>
                                     <input type="file" accept="image/*" class="form-control" id="footer-logo" @change="image($event, 'footer')">
@@ -262,7 +272,7 @@
                                             <div class="col-lg-3">
                                                 <div class="navbar-wrap">
                                                     <div class="logo d-flex justify-content-between">
-                                                        <img :src="header.oldImage" alt="logo" class="img-fluid"/>
+                                                        <img :data-src="header.oldImage" alt="logo" class="img-fluid" v-lazy-load/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -326,7 +336,7 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-sm-6" v-for="(achieve, key) in achievement.achievements" :key="key+100">
                                         <div class="achievement-card mt-30">
-                                            <img :src="assetURL + achieve.image" class="img-fluid mh-100-px">
+                                            <img :data-src="assetURL + achieve.image" class="img-fluid mh-100-px" v-lazy-load/>
                                             <h5>{{achieve.name}}</h5>
                                         </div>
                                         <div class="text-center mt-1">
@@ -335,7 +345,7 @@
                                     </div>
                                     <div class="col-lg-3 col-sm-6" v-for="(achieve, key) in achievement.newAchievements" :key="key">
                                         <div class="achievement-card mt-30">
-                                            <img :src="achieve.image" class="img-fluid mh-100-px">
+                                            <img :data-src="achieve.image" class="img-fluid mh-100-px" v-lazy-load/>
                                             <h5>{{achieve.name}}</h5>
                                         </div>
                                         <div class="text-center mt-1">
@@ -356,7 +366,7 @@
                                 <div class="col-lg-4 col-md-6" v-for="(reviewData, key) in review.reviews" :key="key+100">
                                     <div class="review-card">
                                         <div class="reviewer-img">
-                                            <img :src="assetURL + reviewData.image" :alt="reviewData.name" class="img-fluid">
+                                            <img :data-src="assetURL + reviewData.image" :alt="reviewData.name" class="img-fluid" v-lazy-load/>
                                         </div>
                                         <div class="reviewer-info">
                                             <h3>{{reviewData.name}}</h3>
@@ -371,7 +381,7 @@
                                 <div class="col-lg-4 col-md-6" v-for="(reviewData, key) in review.newReviews" :key="key">
                                     <div class="review-card">
                                         <div class="reviewer-img">
-                                            <img :src="reviewData.image" :alt="reviewData.name" class="img-fluid">
+                                            <img :data-src="reviewData.image" :alt="reviewData.name" class="img-fluid" v-lazy-load/>
                                         </div>
                                         <div class="reviewer-info">
                                             <h3>{{reviewData.name}}</h3>
@@ -391,7 +401,7 @@
                                     <div class="col-lg-4">
                                         <div class="footer-info">
                                             <div class="footer-logo text-center">
-                                                <img :src="footer.oldImage" class="img-fluid mh-100-px" />
+                                                <img :data-src="footer.oldImage" class="img-fluid mh-100-px" v-lazy-load/>
                                             </div>
                                             <p>{{footer.message}}</p>
                                             <div class="footer-social-icons">
@@ -472,7 +482,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="footer-links payment-links">
-                                            <h5 class="widget-title">Newsletter:</h5>
+                                            <h5 class="widget-title">Newsletter</h5>
                                             <p>{{footer.newsletterMessage}}</p>
                                             <form action="#" class="footer-subscriber-form">
                                                 <input type="email">

@@ -34,7 +34,7 @@
                                     <th class="align-middle text-center">{{post.id}}</th>
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}">
-                                            <img :src="assetURL + post.image" :alt="post.title" class="img-fluid mh-200 mw-200">
+                                            <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid mh-200 mw-200" v-lazy-load/>
                                         </nuxt-link>
                                     </td>
                                     <td class="align-middle"><nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}" class="color-black">{{post.title}}</nuxt-link></td>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="dashboard-thumbnail my-2">
-                            <img :src="form.image" class="img-fluid pointer">
+                            <img :data-src="form.image" class="img-fluid pointer" v-lazy-load/>
                             <label for="thumbnail" class="pointer"> Select an Image</label>
                             <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
                         </div>

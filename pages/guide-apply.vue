@@ -3,7 +3,7 @@
         <form @submit.prevent="submit" class="row" v-if="user">
             <transition name="fade" mode="out-in">
                 <div class="col-lg-12 text-center" v-if="success">
-                    <img :src="assetURL + 'images/contact.svg'" class="img-fluid h-350">
+                    <img :data-src="assetURL + 'images/contact.svg'" class="img-fluid h-350" v-lazy-load/>
                     <h1>Thank You For Your Application. We Will Contact You Soon.</h1>
                 </div>
                 <div class="offset-lg-2 col-lg-8" v-else>

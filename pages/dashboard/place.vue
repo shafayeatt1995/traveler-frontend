@@ -31,7 +31,9 @@
                             <tbody v-else>
                                 <tr class="text-center" v-for="place in places.data" :key="place.id">
                                     <th class="align-middle text-center">{{place.id}}</th>
-                                    <td class="align-middle"><img :src="assetURL + place.image" :alt="place.name" class="img-fluid mh-200"></td>
+                                    <td class="align-middle">
+                                        <img :data-src="assetURL + place.image" :alt="place.name" class="img-fluid mh-200" v-lazy-load/>
+                                    </td>
                                     <td class="align-middle">{{place.name}}</td>
                                     <td class="align-middle">{{place.created_at | date}}</td>
                                     <td class="align-middle">
@@ -65,7 +67,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="dashboard-thumbnail my-2">
-                            <img :src="form.image" class="img-fluid pointer">
+                            <img :data-src="form.image" class="img-fluid pointer" v-lazy-load/>
                             <label for="thumbnail" class="pointer"> Select an Image</label>
                             <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
                         </div>

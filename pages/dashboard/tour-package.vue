@@ -32,7 +32,7 @@
                                     <th class="align-middle text-center">{{pack.id}}</th>
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                                            <img :src="assetURL+JSON.parse(pack.images)[0]" class="img-fluid mw-200">
+                                            <img :data-src="assetURL + pack.thumbnail" class="img-fluid mw-200" v-lazy-load/>
                                         </nuxt-link>
                                     </td>
                                     <td class="align-middle border-none">
@@ -50,7 +50,7 @@
                                         </tr>
                                         <tr>
                                             <td>Duration</td>
-                                            <td>{{pack.duration}}</td>
+                                            <td>{{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}</td>
                                         </tr>
                                         <tr>
                                             <td>Group Size</td>
@@ -85,7 +85,7 @@
         </div>
         <!-- Modal Start -->
         <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <form class="modal-content" @submit.prevent="editMode ? updatePackage() : addPackage()">
                     <div class="modal-header">
                         <h5 class="modal-title" v-if="editMode">Edit Tour Package</h5>
@@ -94,10 +94,17 @@
                     <div class="modal-body">
                         <h2 class="text-center">Package Thumbnails</h2>
                         <div class="dashboard-thumbnail my-2">
-                                <img :src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'">
-                                <img :src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'">
-                            <label for="thumbnail" class="pointer"> Select Images</label>
-                            <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)" multiple>
+                            <img :data-src="form.thumbnail" class="img-fluid" v-lazy-load/>
+                            <label for="thumbnail" class="pointer"> Select Thumbnail</label>
+                            <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
+                        </div>
+                        <hr>
+                        <h2 class="text-center">Package Images</h2>
+                        <div class="dashboard-thumbnail my-2">
+                                <img :data-src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'" v-lazy-load/>
+                                <img :data-src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'" v-lazy-load/>
+                            <label for="images" class="pointer"> Select Images</label>
+                            <input type="file" accept="image/*" class="d-none" id="images" @change="images($event)" multiple>
                         </div>
                         <h2 class="text-center">Package Information</h2>
                         <div class="form-group">
@@ -122,9 +129,15 @@
                             <label for="location">Tour Location</label>
                             <input type="text" class="form-control" id="location" v-model="form.address" placeholder="Type Your Tour Location">
                         </div>
-                        <div class="form-group">
-                            <label for="duration">Tour Duration</label>
-                            <input type="text" class="form-control" id="duration" v-model="form.duration" placeholder="Type Your Tour Duration">
+                        <div class="row">
+                            <div class="form-group col-lg-6">
+                                <label for="duration-day">Tour Duration Day</label>
+                                <input type="number" class="form-control" id="duration-day" v-model="form.duration_day" placeholder="Tour Duration Day">
+                            </div>
+                            <div class="form-group col-lg-6">
+                                <label for="duration-night">Tour Duration Night</label>
+                                <input type="number" class="form-control" id="duration-night" v-model="form.duration_night" placeholder="Tour Duration Night">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="vehicle">Tour Vehicle</label>
@@ -242,7 +255,8 @@ export default {
                 category_id: "",
                 place_id: "",
                 address: "",
-                duration: "",
+                duration_day: "",
+                duration_night: "",
                 vehicle: "",
                 group_size: "",
                 ticket: "",
@@ -257,6 +271,7 @@ export default {
                 tour_plan: [],
                 delete_images: [],
                 new_images: [],
+                thumbnail: "",
             },
             included: "",
             excluded: "",
@@ -276,7 +291,8 @@ export default {
             this.form.category_id = "";
             this.form.place_id = "";
             this.form.address = "";
-            this.form.duration = "";
+            this.form.duration_day = "";
+            this.form.duration_night = "";
             this.form.vehicle = "";
             this.form.group_size = "";
             this.form.ticket = "";
@@ -291,6 +307,7 @@ export default {
             this.form.tour_plan = [];
             this.form.delete_images = [];
             this.form.new_images = [];
+            this.form.thumbnail = "";
             this.included = "";
             this.excluded = "";
             this.title = "";
@@ -334,7 +351,8 @@ export default {
                         this.form.category_id = "";
                         this.form.place_id = "";
                         this.form.address = "";
-                        this.form.duration = "";
+                        this.form.duration_day = "";
+                        this.form.duration_night = "";
                         this.form.vehicle = "";
                         this.form.group_size = "";
                         this.form.ticket = "";
@@ -349,6 +367,7 @@ export default {
                         this.form.tour_plan = [];
                         this.form.delete_images = [];
                         this.form.new_images = [];
+                        this.form.thumbnail = "";
                         this.included = "";
                         this.excluded = "";
                         this.title = "";
@@ -375,7 +394,8 @@ export default {
             this.form.category_id = pack.category_id;
             this.form.place_id = pack.place_id;
             this.form.address = pack.address;
-            this.form.duration = pack.duration;
+            this.form.duration_day = pack.duration_day;
+            this.form.duration_night = pack.duration_night;
             this.form.vehicle = pack.vehicle;
             this.form.group_size = pack.group_size;
             this.form.ticket = pack.ticket;
@@ -390,6 +410,7 @@ export default {
             this.form.tour_plan = JSON.parse(pack.tour_plan);
             this.form.delete_images = [];
             this.form.new_images = [];
+            this.form.thumbnail = this.assetURL + pack.thumbnail;
             this.included = "";
             this.excluded = "";
             this.title = "";
@@ -411,7 +432,8 @@ export default {
                         this.form.category_id = "";
                         this.form.place_id = "";
                         this.form.address = "";
-                        this.form.duration = "";
+                        this.form.duration_day = "";
+                        this.form.duration_night = "";
                         this.form.vehicle = "";
                         this.form.group_size = "";
                         this.form.ticket = "";
@@ -426,6 +448,7 @@ export default {
                         this.form.tour_plan = [];
                         this.form.delete_images = [];
                         this.form.new_images = [];
+                        this.form.thumbnail = "";
                         this.included = "";
                         this.excluded = "";
                         this.title = "";
@@ -478,7 +501,7 @@ export default {
         },
 
         // Add Package Image
-        image(event) {
+        images(event) {
             if (event.target.files.length > 0) {
                 for (let file of Object.entries(event.target.files)) {
                     let reader = new FileReader();
@@ -487,6 +510,16 @@ export default {
                     };
                     file !== undefined ? reader.readAsDataURL(file[1]) : "";
                 }
+            }
+        },
+        image(event) {
+            if (event.target.files.length > 0) {
+                let file = event.target.files[0];
+                let reader = new FileReader();
+                reader.onloadend = () => {
+                    this.form.thumbnail = reader.result;
+                };
+                reader.readAsDataURL(file);
             }
         },
 

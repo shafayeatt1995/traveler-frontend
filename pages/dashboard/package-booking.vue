@@ -32,7 +32,7 @@
                                     <td class="align-middle">{{pack.id}}</td>
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                                            <img :src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid mw-200"/>
+                                            <img :data-src="assetURL + pack.thumbnail" :alt="pack.name" class="img-fluid mw-200" v-lazy-load/>
                                         </nuxt-link>
                                     </td>
                                     <td class="align-middle dashboard-border">

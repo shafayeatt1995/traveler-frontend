@@ -7,7 +7,7 @@
                     <div class="col-lg-3">
                         <div class="footer-info">
                             <div class="footer-logo text-center">
-                                <img :src="assetURL + logo" alt="" class="img-fluid mh-100-px"/>
+                                <img :data-src="assetURL + logo" alt="" class="img-fluid mh-100-px" v-lazy-load/>
                             </div>
                             <p>{{message}}</p>
                             <div class="footer-social-icons">
@@ -106,7 +106,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="footer-links payment-links">
-                            <h5 class="widget-title">Newsletter:</h5>
+                            <h5 class="widget-title">Newsletter</h5>
                             <p>{{newsletterMessage}}</p>
                             <form action="#" class="footer-subscriber-form mt-3">
                                 <input type="email">

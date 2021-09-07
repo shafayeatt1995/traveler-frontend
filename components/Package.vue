@@ -2,7 +2,7 @@
     <div class="package-card">
         <div class="package-thumb">
             <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                <img :src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid">
+                <img :data-src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid" v-lazy-load/>
             </nuxt-link>
         </div>
         <div class="package-details">
@@ -13,7 +13,7 @@
                     <client-only>
                         <icon icon="calendar-alt"></icon>
                     </client-only>
-                    {{pack.duration}}
+                    {{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}
                 </h5>
             </div>
             <h4>

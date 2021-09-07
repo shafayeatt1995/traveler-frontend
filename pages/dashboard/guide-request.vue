@@ -30,7 +30,7 @@
                                 <tr class="text-center" v-for="user in users.data" :key="user.id">
                                     <th class="align-middle text-center">{{user.id}}</th>
                                     <td class="align-middle">
-                                        <img :src="assetURL+user.image" :alt="user.name">
+                                        <img :data-src="assetURL+user.image" :alt="user.name" v-lazy-load/>
                                         <p>{{user.name}}</p>
                                         <p>Account created {{user.created_at | date}}</p>
                                     </td>

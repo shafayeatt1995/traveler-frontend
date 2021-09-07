@@ -32,7 +32,9 @@
                             <tbody v-else>
                                 <tr class="text-center" v-for="user in users.data" :key="user.id">
                                     <td class="align-middle">{{user.id}}</td>
-                                    <th class="align-middle text-center"><img :src="assetURL+user.image" class="img-fluid mh-200 mw-200"></th>
+                                    <th class="align-middle text-center">
+                                        <img :data-src="assetURL+user.image" class="img-fluid mh-200 mw-200" v-lazy-load/>
+                                    </th>
                                     <td class="align-middle">{{user.name}}</td>
                                     <td class="align-middle">{{user.email}}</td>
                                     <td class="align-middle">{{user.role.name}}</td>
