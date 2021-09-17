@@ -32,7 +32,7 @@
                                     <th class="align-middle text-center">{{pack.id}}</th>
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                                            <img :data-src="assetURL + pack.thumbnail" class="img-fluid mw-200" v-lazy-load/>
+                                            <img :src="assetURL + pack.thumbnail" class="img-fluid mw-200"/>
                                         </nuxt-link>
                                     </td>
                                     <td class="align-middle border-none">
@@ -90,19 +90,20 @@
                     <div class="modal-header">
                         <h5 class="modal-title" v-if="editMode">Edit Tour Package</h5>
                         <h5 class="modal-title" v-else>Add New Tour Package</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h2 class="text-center">Package Thumbnails</h2>
                         <div class="dashboard-thumbnail my-2">
-                            <img :data-src="form.thumbnail" class="img-fluid" v-lazy-load/>
+                            <img :src="form.thumbnail" class="img-fluid" v-if="form.thumbnail"/>
                             <label for="thumbnail" class="pointer"> Select Thumbnail</label>
                             <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
                         </div>
                         <hr>
                         <h2 class="text-center">Package Images</h2>
                         <div class="dashboard-thumbnail my-2">
-                                <img :data-src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'" v-lazy-load/>
-                                <img :data-src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'" v-lazy-load/>
+                                <img :src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'"/>
+                                <img :src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'"/>
                             <label for="images" class="pointer"> Select Images</label>
                             <input type="file" accept="image/*" class="d-none" id="images" @change="images($event)" multiple>
                         </div>

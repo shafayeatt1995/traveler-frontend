@@ -582,15 +582,15 @@ a {
   background: #36e;
 }
 
-.destinations-1, .destinations-2 {
+.destinations-left, .destinations-right {
   margin-left: 0;
 }
 
-.destinations-1 .owl-stage-outer, .destinations-2 .owl-stage-outer {
+.destinations-left .owl-stage-outer, .destinations-right .owl-stage-outer {
   padding: 0;
 }
 
-.destinations-1 .package-card, .destinations-2 .package-card {
+.destinations-left .package-card, .destinations-right .package-card {
   margin: 20px 0 0 0;
   box-shadow: none;
   border: 1px solid #eee;
@@ -2044,10 +2044,10 @@ header > .header-area .nav-right {
 /* =============================
     7. Destinations area start
 ==============================*/
-.destinations-area .destinations-2 .owl-nav button {
+.destinations-area .destinations-right .owl-nav button {
   position: absolute;
 }
-.destinations-area .destinations-2 .owl-nav button span {
+.destinations-area .destinations-right .owl-nav button span {
   text-align: center;
   color: #fff;
   height: 33px;
@@ -2059,19 +2059,19 @@ header > .header-area .nav-right {
   margin: 0;
   display: inline-block;
 }
-.destinations-area .destinations-2 .owl-nav button.owl-prev {
+.destinations-area .destinations-right .owl-nav button.owl-prev {
   top: 18%;
   right: -15.9%;
 }
-.destinations-area .destinations-2 .owl-nav button.owl-next {
+.destinations-area .destinations-right .owl-nav button.owl-next {
   top: 18%;
   right: -25%;
 }
 
-.destinations-area .destinations-1 .owl-nav button {
+.destinations-area .destinations-left .owl-nav button {
   position: absolute;
 }
-.destinations-area .destinations-1 .owl-nav button span {
+.destinations-area .destinations-left .owl-nav button span {
   font-size: 28px;
   line-height: 23px;
   text-align: center;
@@ -2083,11 +2083,11 @@ header > .header-area .nav-right {
   margin: 0;
   display: inline-block;
 }
-.destinations-area .destinations-1 .owl-nav button.owl-prev {
+.destinations-area .destinations-left .owl-nav button.owl-prev {
   top: 18%;
   left: -27%;
 }
-.destinations-area .destinations-1 .owl-nav button.owl-next {
+.destinations-area .destinations-left .owl-nav button.owl-next {
   top: 18%;
   left: -17%;
 }
@@ -2926,37 +2926,37 @@ header > .header-area .nav-right {
   color: #36e;
 }
 
-.package-d-sidebar h5.package-d-head {
+.package-sidebar h5.package-d-head {
   font-weight: 700;
   font-size: 25px;
   color: #333333;
   margin-bottom: 30px;
 }
-.package-d-sidebar .p-sidebar-form {
+.package-sidebar .p-sidebar-form {
   padding: 30px 25px;
   background: #FFFFFF;
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
   border-radius: 10px;
   overflow: hidden;
 }
-.package-d-sidebar .p-sidebar-form input,
-.package-d-sidebar .p-sidebar-form textarea, .package-d-sidebar .p-sidebar-form select {
+.package-sidebar .p-sidebar-form input,
+.package-sidebar .p-sidebar-form textarea, .package-sidebar .p-sidebar-form select {
   margin-bottom: 20px;
   border: 1px solid #E1E1E1;
   box-sizing: border-box;
   border-radius: 3px;
   color: #333;
 }
-.package-d-sidebar .p-sidebar-form input::placeholder,
-.package-d-sidebar .p-sidebar-form textarea::placeholder, .package-d-sidebar .p-sidebar-form select::placeholder {
+.package-sidebar .p-sidebar-form input::placeholder,
+.package-sidebar .p-sidebar-form textarea::placeholder, .package-sidebar .p-sidebar-form select::placeholder {
   color: #A5A5A5;
   text-transform: capitalize;
 }
-.package-d-sidebar .p-sidebar-form input:focus,
-.package-d-sidebar .p-sidebar-form textarea:focus, .package-d-sidebar .p-sidebar-form select:focus {
+.package-sidebar .p-sidebar-form input:focus,
+.package-sidebar .p-sidebar-form textarea:focus, .package-sidebar .p-sidebar-form select:focus {
   box-shadow: none;
 }
-.package-d-sidebar .p-sidebar-form input[type=submit], .package-d-sidebar .p-sidebar-form button {
+.package-sidebar .p-sidebar-form input[type=submit], .package-sidebar .p-sidebar-form button {
   margin-top: 10px;
   width: 100%;
   display: block;
@@ -2973,24 +2973,24 @@ header > .header-area .nav-right {
   border: none;
   border-radius: 3px;
 }
-.package-d-sidebar .p-sidebar-form input[type=submit]:hover, .package-d-sidebar .p-sidebar-form button:hover {
+.package-sidebar .p-sidebar-form input[type=submit]:hover, .package-sidebar .p-sidebar-form button:hover {
   background: #333;
 }
-.package-d-sidebar .p-sidebar-cards {
+.package-sidebar .p-sidebar-cards {
   border-radius: 10px;
   padding: 30px 25px;
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
 }
-.package-d-sidebar .p-sidebar-organizer {
+.package-sidebar .p-sidebar-organizer {
   border-radius: 10px;
   padding: 30px 25px;
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
 }
-.package-d-sidebar .p-sidebar-organizer .p-ask-btn {
+.package-sidebar .p-sidebar-organizer .p-ask-btn {
   margin-top: 40px;
   text-align: center;
 }
-.package-d-sidebar .p-sidebar-organizer .p-ask-btn a, .checkbox-success-cta a, .checkbox-success-cta button, .payment-submit-btn {
+.package-sidebar .p-sidebar-organizer .p-ask-btn a, .checkbox-success-cta a, .checkbox-success-cta button, .payment-submit-btn {
   font-weight: 700;
   font-size: 18px;
   color: #FFFFFF;
@@ -3003,19 +3003,19 @@ header > .header-area .nav-right {
   border: none;
   margin: 0 5px;
 }
-.package-d-sidebar .p-sidebar-organizer .p-ask-btn a:hover, .checkbox-success-cta a:hover, .checkbox-success-cta button:hover, .payment-submit-btn:hover {
+.package-sidebar .p-sidebar-organizer .p-ask-btn a:hover, .checkbox-success-cta a:hover, .checkbox-success-cta button:hover, .payment-submit-btn:hover {
   background: #333;
 }
-.package-d-sidebar .p-sidebar-banner {
+.package-sidebar .p-sidebar-banner {
   position: relative;
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
   border-radius: 10px;
   overflow: hidden;
 }
-.package-d-sidebar .p-sidebar-banner img {
+.package-sidebar .p-sidebar-banner img {
   width: 100%;
 }
-.package-d-sidebar .p-sidebar-banner .sidebar-banner-overlay {
+.package-sidebar .p-sidebar-banner .sidebar-banner-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -3027,14 +3027,14 @@ header > .header-area .nav-right {
   align-items: center;
   padding: 25px;
 }
-.package-d-sidebar .p-sidebar-banner .sidebar-banner-overlay h3 {
+.package-sidebar .p-sidebar-banner .sidebar-banner-overlay h3 {
   font-size: 40px;
   line-height: 55px;
   color: #FFFFFF;
   font-weight: 700;
   margin-bottom: 50px;
 }
-.package-d-sidebar .p-sidebar-banner .sidebar-banner-overlay .sidebar-banner-btn a {
+.package-sidebar .p-sidebar-banner .sidebar-banner-overlay .sidebar-banner-btn a {
   padding: 14px 35px;
   background: #36e;
   border-radius: 3px;
@@ -3045,7 +3045,7 @@ header > .header-area .nav-right {
   display: inline-block;
   transition: all 0.3s;
 }
-.package-d-sidebar .p-sidebar-banner .sidebar-banner-overlay .sidebar-banner-btn a:hover {
+.package-sidebar .p-sidebar-banner .sidebar-banner-overlay .sidebar-banner-btn a:hover {
   background: #333;
 }
 
@@ -3578,19 +3578,19 @@ li.package-card-sm .package-info h5 span {
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
   border-radius: 10px;
 }
-.blog-categorie {
+.right-sidebar-categorie {
   padding: 30px 25px;
   background: #FFFFFF;
   box-shadow: 0px 0px 64px rgba(17, 17, 17, 0.1);
   border-radius: 10px;
 }
-.blog-categorie ul li {
+.right-sidebar-categorie ul li {
   margin-bottom: 27px;
 }
-.blog-categorie ul li:last-child {
+.right-sidebar-categorie ul li:last-child {
   margin-bottom: 0;
 }
-.blog-categorie ul li a {
+.right-sidebar-categorie ul li a {
   font-weight: 500;
   font-size: 18px;
   color: #A5A5A5;
@@ -3598,12 +3598,12 @@ li.package-card-sm .package-info h5 span {
   align-items: center;
   transition: all 0.3s;
 }
-.blog-categorie ul li a i {
+.right-sidebar-categorie ul li a i {
   color: #36e;
   font-size: 20px;
   margin-right: 7px;
 }
-.blog-categorie ul li a:hover {
+.right-sidebar-categorie ul li a:hover {
   transform: translateX(6px);
   color: #333333;
 }

@@ -1,6 +1,6 @@
 <template>
     <div v-if="posts !== null">
-        <Breadcrumb :message="'Blog post Of ' + category.name + ' Category'"/>
+        <Breadcrumb :message="'Blog Post Search Result For ' + keyword"/>
         <!-- ===============  Blog wrapper area start =============== -->
         <div class="blog-wrapper pt-60">
             <div class="container">
@@ -10,14 +10,10 @@
                             <div class="col-lg-6" v-for="post in posts.data" :key="post.id">
                                 <Post :post="post"/>
                             </div>
+                            <pagination :data="posts" @pagination-change-page="getResults" class="justify-content-center mt-3 f-pagination"></pagination>
                         </div>
                         <div class="row" v-else>
                             <Empty message="No Blog Post Found"/>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                            <pagination :data="posts" @pagination-change-page="getResults" class="justify-content-center mt-3 f-pagination"></pagination>
-                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
@@ -78,7 +74,7 @@ import axios from "axios"
 export default {
     head() {
         return {
-            title: (this.category == null ? "Not Found - " : this.category.name + " Posts - ") + this.appName,
+            title: this.search + " Search Posts - " + this.appName,
         };
     },
 
@@ -86,19 +82,16 @@ export default {
         return {
             search: "",
             posts: {},
-            category: {},
             categories: [],
             popular: [],
         }
     },
-    
 
     async asyncData(context) {
-        let response = await axios.get(context.env.baseURL + "category-blog/" + context.params.slug);
+        let response = await axios.get(context.env.baseURL + "search-blog/" + context.params.keyword);
         return {
-            search: "",
+            search: context.params.keyword,
             posts: response.data.posts,
-            category: response.data.category,
             categories: response.data.categories,
             popular: response.data.popular,
         }
@@ -107,11 +100,17 @@ export default {
     methods: {
         // Get Pagination Post
         getResults(page = 1) {
-            this.$axios.get("category-blog/" + this.$route.params.slug + "?page=" + page).then(
+            this.$axios.get("blog-posts?page=" + page).then(
                 (response) => {
                     this.posts = response.data.posts;
                 });
         },
+    },
+
+    computed: {
+        keyword(){
+            return this.$route.params.keyword;
+        }
     },
 }
 </script>

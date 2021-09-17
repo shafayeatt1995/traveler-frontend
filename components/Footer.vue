@@ -89,16 +89,16 @@
                                         <nuxt-link :to="{name: 'guide-apply'}">Want to be a Guide</nuxt-link>
                                     </li>
                                     <li>
-                                        <a href="contact.html">Contact us</a>
+                                        <nuxt-link :to="{name: 'contact'}">Contact us</nuxt-link>
                                     </li>
                                     <li>
-                                        <a href="about.html">About us</a>
+                                        <nuxt-link :to="{name: 'about'}">About us</nuxt-link>
+                                    </li>
+                                    <li>
+                                        <nuxt-link :to="{name: 'faq'}">FAQ</nuxt-link>
                                     </li>
                                     <li>
                                         <nuxt-link :to="{name: 'posts'}">Our Blogs</nuxt-link>
-                                    </li>
-                                    <li>
-                                        <a href="#">terms and conditions</a>
                                     </li>
                                 </ul>
                             </div>
@@ -108,7 +108,7 @@
                         <div class="footer-links payment-links">
                             <h5 class="widget-title">Newsletter</h5>
                             <p>{{newsletterMessage}}</p>
-                            <form action="#" class="footer-subscriber-form mt-3">
+                            <form action="#" class="footer-subscriber-form d-flex mt-3">
                                 <input type="email">
                                 <input type="submit" value="Subscribe">
                             </form>

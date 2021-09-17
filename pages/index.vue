@@ -8,7 +8,7 @@
                         <div class="slider-item" :style="'background: linear-gradient(rgba(0, 0, 0, 0.4) 100%, rgba(0, 0, 0, 0.4) 100%), url(' + assetURL + JSON.parse(pack.images)[0] + ');'" v-for="pack in sliderPackage" :key="pack.id">
                             <div class="slider-content">
                                 <h2>{{pack.name}}</h2>
-                                <h5>{{pack.duration}}</h5>
+                                <h5>{{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}</h5>
                                 <div class="banner-btn">
                                     <nuxt-link class="btn-common" :to="{name: 'package-slug', params:{slug: pack.slug}}">Book Now</nuxt-link>
                                 </div>
@@ -24,7 +24,7 @@
         <div class="package-area pt-120">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12">
                         <div class="section-head pb-45">
                             <h5>Choose Our Package</h5>
                             <h2>Select Our best Package For Your Travel</h2>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6" v-for="pack in packages" :key="pack.id">
+                    <div class="col-lg-4 col-md-6" v-for="pack in packages" :key="pack.id">
                         <Package :pack="pack"/>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
         <div class="destinations-area pt-105">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12">
                         <div class="section-head pb-40">
                             <h5>Choose Our Package</h5>
                             <h2>Select Our best Package For Your Travel</h2>
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="row" v-for="(place, key) in locationPackages" :key="place.id">
-                    <div class="col-lg-3 col-md-3" v-if="key % 2 == 0">
+                    <div class="col-lg-3" v-if="key % 2 == 0">
                         <div class="package-slider-wrap">
                             <img :data-src="assetURL + place.image" class="img-fluid" v-lazy-load/>
                             <div class="pakage-overlay">
@@ -64,8 +64,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-9 col-md-9">
-                        <div class="row" :class="key % 2 == 0 ? 'destinations-1' : 'destinations-2'">
+                    <div class="col-lg-9">
+                        <div class="row" :class="key % 2 == 0 ? 'destinations-left' : 'destinations-right'">
                             <client-only> 
                                 <carousel :responsive="{0:{items:1}, 768:{items:2}, 992:{items:3}}" :autoplay="false" :nav="true" :dots="false" :margin="20">
                                     <div  class="place-package" v-for="pack in place.packages" :key="pack.id">
@@ -75,7 +75,7 @@
                             </client-only>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-3" v-if="key % 2 !== 0">
+                    <div class="col-lg-3" v-if="key % 2 !== 0">
                         <div class="package-slider-wrap">
                             <img :data-src="assetURL + place.image" class="img-fluid" v-lazy-load/>
                             <div class="pakage-overlay">
@@ -149,15 +149,15 @@
         <div class="blog-area pt-120">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-lg-12">
                         <div class="section-head pb-30">
-                            <h5>Latest Blog</h5>
+                            <h5>Our Latest Blog</h5>
                             <h2>Stay Updated And new post our Blog</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row" v-if="posts.length > 0">
-                    <div class="col-lg-4 col-sm-6" v-for="post in posts" :key="post.id">
+                    <div class="col-lg-6" v-for="post in posts" :key="post.id">
                         <Post :post="post"/>
                     </div>
                 </div>

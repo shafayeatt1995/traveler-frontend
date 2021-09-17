@@ -175,6 +175,7 @@ export default {
                                         this.click = false;
                                         this.$auth.logout("laravelJWT").then(
                                             ()=>{
+                                                this.$store.dispatch('triggerWishlist');
                                                 this.$router.push("/login")
                                                 this.click = true;
                                             },

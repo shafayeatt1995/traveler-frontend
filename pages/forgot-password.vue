@@ -1,21 +1,13 @@
 <template>
     <div class="login-form">
         <form @submit.prevent="submit" class="container" v-if="!authCheck">
-            <div class="col-lg-4 offset-lg-4 input-form">
-                <h1 class="text-center my-4">Login</h1>
+            <div class="col-lg-6 offset-lg-3 input-form">
+                <h1 class="text-center my-4">Forgot Password</h1>
                 <input type="email" id="email" placeholder="Type Your Email" v-model="credential.email" />
-                <input type="password" id="password" placeholder="Type Your Password" v-model="credential.password"/>
-                <div class="d-flex login-checkbox justify-content-between align-items-center">
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input" id="remember" name="remember" v-model="remember">
-                        <label class="form-check-label pointer" for="remember">Remember Me</label>
-                    </div>
-                    <nuxt-link :to="{name: 'forgot-password'}">Forget Password?</nuxt-link>
-                </div>
                 <button type="submit" class="strong">
                     <transition name="fade" mode="out-in">
                         <Loading v-if="loading"/>
-                        <span v-else>Login</span>
+                        <span v-else>Reset Password</span>
                     </transition>
                 </button>
             </div>
@@ -26,7 +18,7 @@
 export default {
     head() {
         return {
-            title: "Login - " + this.appName,
+            title: "Forgot Password - " + this.appName,
         };
     },
     data() {
@@ -35,14 +27,11 @@ export default {
             loading: false,
             credential: {
                 email: "",
-                password: "",
             },
-            remember: false,
         };
     },
 
     methods: {
-        // Submit Login
         submit() {
             this.loading = true
             if(this.click) {
@@ -65,6 +54,9 @@ export default {
                 );
             }
         },
+
+        // Get Remember Password Info
+        rememberInfo(){},
     },
 
     created() {

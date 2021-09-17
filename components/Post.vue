@@ -1,7 +1,9 @@
 <template>
     <div class="blog-card">
         <div class="blog-img">
-            <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load/>
+            <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}">
+                <img :data-src="assetURL + post.thumbnail" :alt="post.title" class="img-fluid" v-lazy-load/>
+            </nuxt-link>
             <div class="blog-date">
                 <client-only>
                     <icon icon="calendar-alt"></icon>

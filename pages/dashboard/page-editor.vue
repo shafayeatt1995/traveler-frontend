@@ -220,7 +220,7 @@
                                                             </client-only>
                                                         </button>
                                                     </p>
-                                                    <transition name="long-slide">
+                                                    <transition name="slide">
                                                         <div class="faq-body" v-if="showQNA == key + '-' + index">
                                                             <p class="p-3">{{qna.answer}}</p>
                                                         </div>
@@ -235,11 +235,11 @@
                                     <form>
                                         <div class="ask-inputs">
                                             <h5>Ask Any Question</h5>
-                                            <input type="text" placeholder="Your Full Name">
-                                            <input type="email" placeholder="Your Email">
-                                            <input type="text" placeholder="Phone">
-                                            <textarea cols="30" rows="7" placeholder="Message"></textarea>
-                                            <input type="submit" value="Ask Question">
+                                            <input class="form-control" type="text" placeholder="Your Full Name">
+                                            <input class="form-control" type="email" placeholder="Your Email">
+                                            <input class="form-control" type="text" placeholder="Phone">
+                                            <textarea class="form-control" cols="30" rows="7" placeholder="Message"></textarea>
+                                            <button class="btn-common translatex-100" type="submit">Ask Question</button>
                                         </div>
                                     </form>
                                 </div>
@@ -308,6 +308,11 @@ export default {
                     
                     this.contact.message = response.data.contact.page;
                     this.contact.meta = response.data.contact.meta;
+                    
+                    this.faq.topics = JSON.parse(response.data.faq.page);
+                    this.faq.meta = response.data.faq.meta;
+
+
                 },
                 (error) => {
                     $nuxt.$emit("error", error);
@@ -415,7 +420,7 @@ export default {
 
         // Editor Custom Image Setup
         handleImageAdded(file, Editor, cursorLocation) {
-            if (this.client_id == null) {
+            if (this.imgur == null) {
                 $nuxt.$emit("customError", "Image Upload Disable By Admin");
             } else {
                 $nuxt.$emit("info", "Image Uploading");
@@ -424,7 +429,7 @@ export default {
                 axios({
                         url: "https://api.imgur.com/3/image",
                         method: "POST",
-                        headers: { "Authorization": "Client-ID " + this.client_id },
+                        headers: { "Authorization": "Client-ID " + this.imgur },
                         data: formData
                     })
                     .then((result) => {

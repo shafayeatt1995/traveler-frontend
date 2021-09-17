@@ -2,7 +2,7 @@
     <div class="login-form">
         <form @submit.prevent="submit" class="container" v-if="!authCheck">
             <div class="col-lg-4 offset-lg-4 input-form">
-                <h1 class="text-center mb-4">Register</h1>
+                <h1 class="text-center my-4">Register</h1>
                 <input type="text" id="name" placeholder="Type Your Name" v-model="credential.name" />
                 <input type="email" id="email" placeholder="Type Your Email" v-model="credential.email" />
                 <input type="password" id="password" placeholder="Enter Your Password" v-model="credential.password"/>
@@ -24,6 +24,7 @@ export default {
             title: "Register - " + this.appName,
         };
     },
+    
     data() {
         return {
             click: true,

@@ -15,6 +15,9 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: 'description', name: 'description', content: 'Traveler Tourism Site' },
+      { hid: 'keywords', name: 'keywords', content: 'Tour, Travel, Trip, tourism, journey' },
+      { hid: 'author', name: 'author', content: 'AmiAnik' },
     ],
 
     link: [
@@ -55,7 +58,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     "@nuxtjs/fontawesome",
-    "@nuxtjs/dotenv"
+    "@nuxtjs/dotenv",
+    '@nuxtjs/composition-api/module'
   ],
 
   fontawesome: {

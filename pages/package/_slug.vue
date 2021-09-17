@@ -4,13 +4,11 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="package-details">
-                        <div class="package-thumb">
-                            <client-only> <!-- important to add no-ssr-->
-                                <carousel :items="1" :autoplay="false" :nav="false" :autoHeight="true">
-                                    <img :data-src="assetURL + image" v-for="(image, key) in JSON.parse(pack.images)" :key="key" v-lazy-load/>
-                                </carousel>
-                            </client-only>
-                        </div>
+                        <client-only> <!-- important to add no-ssr-->
+                            <carousel :items="1" :autoplay="false" :nav="false">
+                                <img :data-src="assetURL + image" v-for="(image, key) in JSON.parse(pack.images)" :key="key" v-lazy-load/>
+                            </carousel>
+                        </client-only>
                         <div class="package-header">
                             <div class="package-title">
                                 <h3>{{pack.name}}</h3>
@@ -66,11 +64,12 @@
                                     Information</button>
                                 </li>
                                 <li class="nav-item">
-                                  <button class="nav-link" :class="activeTab == 'plan' ? 'active': ''" type="button" @click="activeTab = 'plan'">
-                                    <client-only>
-                                        <icon icon="clipboard"></icon>
-                                    </client-only>
-                                    Travel Plan</button>
+                                    <button class="nav-link" :class="activeTab == 'plan' ? 'active': ''" type="button" @click="activeTab = 'plan'">
+                                        <client-only>
+                                            <icon icon="clipboard"></icon>
+                                        </client-only>
+                                        Travel Plan
+                                    </button>
                                 </li>
                             </ul>
                             <div class="p-tab-content">
@@ -167,8 +166,10 @@
                                                                     <form v-if="replayQuestion.questionId == question.id" @submit.prevent="createReplay">
                                                                         <div class="form-group">
                                                                             <input type="text" class="form-control mb-2" placeholder="Type your message" v-model="replayQuestion.message">
-                                                                            <button class="btn btn-danger" type="button" @click="replayForm(question.id)">Close</button>
-                                                                            <button class="btn btn-primary" type="submit">Submit</button>
+                                                                            <div class="d-block text-end">
+                                                                                <button class="btn btn-danger" type="button" @click="replayForm(question.id)">Close</button>
+                                                                                <button class="btn btn-primary" type="submit">Submit</button>
+                                                                            </div>
                                                                         </div>
                                                                     </form>
                                                                 </transition>
@@ -198,6 +199,7 @@
                                                                         </div>
                                                                     </li>
                                                                 </ul>
+                                                                <hr>
                                                             </li>
                                                         </ul>
                                                         <ul class="mb-5" v-else>
@@ -212,7 +214,7 @@
                                                             <h5>Ask Your Question</h5>
                                                             <div class="row my-form">
                                                                 <div class="col-lg-12">
-                                                                    <textarea  cols="30" rows="4" placeholder="Type Your Question" v-model="question"></textarea>
+                                                                    <textarea class="form-control" cols="30" rows="4" placeholder="Type Your Question" v-model="question"></textarea>
                                                                 </div>
                 
                                                                 <div class="col-lg-12">
@@ -233,7 +235,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12">
                                                     <div class="p-timeline-overview">
-                                                        <h5>Overview</h5>
+                                                        <h5 class="strong mb-3">Overview</h5>
                                                         <p>{{pack.overview}}</p>
                                                     </div>
                                                     <ul class="p-timeline">
@@ -260,27 +262,23 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div class="package-d-sidebar">
+                    <div class="package-sidebar">
                         <div class="row">
-                            <div class="col-lg-12 col-md-6">
-                                <div class="p-sidebar-form text-center" v-if="pack.status">
-                                    <h3 class="strong">Tour Already Complete</h3>
-                                </div>
-                                <div class="p-sidebar-form text-center" v-else-if="pack.status == null">
-                                    <h3 class="strong">Tour Already Running</h3>
-                                </div>
-                                <div class="p-sidebar-form" v-else-if="pack.ticket >  bookingsCount">
-                                    <form @submit.prevent="checking ? !submitLoading ? submitBooking(): '' : checkBooking()">
+                            <div class="col-lg-12">
+                                <div class="p-sidebar-form">
+                                    <h3 class="strong text-center" v-if="pack.status">Tour Already Complete</h3>
+                                    <h3 class="strong text-center" v-else-if="pack.status == null">Tour Already Running</h3>
+                                    <form @submit.prevent="checking ? !submitLoading ? submitBooking(): '' : checkBooking()" v-else-if="pack.ticket > bookingsCount">
                                         <h5 class="package-d-head text-center">Book Your Ticket <span class="small d-block fw-normal">{{pack.ticket -  bookingsCount}} {{pack.ticket -  bookingsCount > 1 ? 'Tickets' : 'Ticket'}} Available</span></h5>
                                         <transition-group :name="checking ? 'slideLeft' : 'slideRight'" mode="out-in">
                                             <div class="my-form" v-if="checking" key="1">
                                                 <div class="row" v-if="authCheck">
                                                     <div class="col-lg-12">
                                                         <label>Select A Payment Option</label>
-                                                        <select v-model="form.paymentType" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" @change.once="paypalIntegration()">
+                                                        <select v-model="form.paymentType" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" @change.once="paypalStatus ? paypalIntegration():''">
                                                             <option value="">Select A Payment Option</option>
-                                                            <option value="paypal">PayPal</option>
-                                                            <option value="stripe">Card Payment</option>
+                                                            <option value="paypal" v-if="paypalStatus">PayPal</option>
+                                                            <option value="stripe" v-if="stripeStatus">Card Payment</option>
                                                         </select>
                                                     </div>
                                                     <transition-group name="slide" mode="out-in">
@@ -381,48 +379,32 @@
                                             </div>
                                         </transition-group>
                                     </form>
-                                </div>
-                                <div class="p-sidebar-form" v-else>
-                                    <h3 class="strong">Booking Not Available. All Ticket are sold.</h3>
+                                    <h3 class="strong" v-else>Booking Not Available. All Ticket are sold.</h3>
+                                    <div class="wishlist">
+                                        <button type="button" class="btn-common" @click="wishlists.some(wishlist => wishlist.package_id == pack.id) ? removeWishlist(pack.id) : addWishlist(pack.id)">
+                                            <client-only>
+                                                <icon :icon="wishlists.some(wishlist => wishlist.package_id == pack.id) ? 'heart' : ['far', 'heart']"></icon>
+                                            </client-only>
+                                            Add to wishlist
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-6">
+                            <div class="col-lg-12">
                                 <div class="p-sidebar-cards mt-40">
                                     <h5 class="package-d-head">Popular Packages</h5>
-                                    
                                     <ul class="package-cards">
-                                        <li class="package-card-sm" v-for="popular in popularPack" :key="popular.id">
-                                            <div class="p-sm-img">
-                                                <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">
-                                                    <img :data-src="assetURL + popular.thumbnail" :alt="popular.name" v-lazy-load/>
-                                                </nuxt-link>
-                                            </div>
-                                            <div class="package-info">
-                                                <div class="package-date-sm">
-                                                    <strong>
-                                                        <client-only>
-                                                            <icon icon="calendar"></icon>
-                                                        </client-only>
-                                                        {{popular.duration_day + (popular.duration_day > 1 ? ' Days' : ' Day')}} / {{popular.duration_night + (popular.duration_night > 1 ? ' Nights' : ' Night')}}
-                                                    </strong>
-                                                </div>
-                                                <h3><i class="flaticon-arrival"></i>
-                                                    <nuxt-link :to="{name: 'package-slug', params: {slug: popular.slug}}">{{popular.address}}</nuxt-link>
-                                                </h3>
-                                                <h5 v-if="popular.discount"><span><del>${{popular.price | currency}}</del> ${{popular.discount | currency}}</span>/ Per Person</h5>
-                                                <h5 v-else><span>${{popular.price | currency}}</span>/ Per Person</h5>
-                                            </div>
-                                        </li>
+                                        <Sidebar-package :pack="pack" v-for="pack in popularPack" :key="pack.id"></Sidebar-package>
                                     </ul>
                                     
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-6">
+                            <div class="col-lg-12">
                                 <div class="p-sidebar-organizer mt-40">
                                     <h5 class="package-d-head">Organized By</h5>
-                                    <div class="organizer-card align-items-center">
+                                    <div class="organizer-card d-flex align-items-center">
                                         <div class="organizer-img">
                                             <nuxt-link :to="{name: 'package-user-slug', params: {slug: pack.user.slug}}" >
                                                 <img :data-src="assetURL+pack.user.image" :alt="pack.user.name" v-lazy-load/>
@@ -438,8 +420,8 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12 col-md-6">
-                                <div class="blog-categorie mt-40">
+                            <div class="col-lg-12">
+                                <div class="right-sidebar-categorie mt-40">
                                     <h5 class="categorie-head">Categories</h5>
                                     <ul>
                                         <li v-for="category in categories" :key="category.id">
@@ -792,13 +774,68 @@ export default {
             this.form.paypal.transaction = order.id;
             this.form.paypal.amount = order.purchase_units[0].amount.value;
             this.form.paymentMessage = true;
-        }
+        },
+
+        // Increment View
+        incrementView() {
+            if (process.client) {
+                let find = window.localStorage.getItem(btoa('package' + this.pack.id));
+                if (!find) {
+                    localStorage.setItem(btoa('package' + this.pack.id), Math.random());
+                    this.$axios.post("increment-package/" + this.pack.id);
+                }
+            }
+        },
+
+        //Add Wishlist
+        addWishlist(id){
+            if (this.authCheck) {
+                if(this.click) {
+                    this.click = false
+                    this.$axios.post("create-wishlist/" + id).then(
+                        (response)=>{
+                            this.$store.dispatch('triggerWishlist');
+                            $nuxt.$emit("success", "Package Successfully Add to Wishlist");
+                            this.click = true;
+                        },
+                        (error)=>{
+                            $nuxt.$emit("error", error);
+                            this.click = true;
+                        },
+                    )
+                }
+            } else {
+                $nuxt.$emit("customError", "Login For Add To Wishlist");
+            }
+        },
+
+        //Remove Wishlist
+        removeWishlist(id){
+            if(this.click) {
+                this.click = false
+                this.$axios.post("remove-wishlist/" + id).then(
+                    ()=>{
+                        this.$store.dispatch('triggerWishlist');
+                        $nuxt.$emit("success", "Package Successfully Remove From Wishlist");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
+        },
     },
 
     computed: {
         // Count total ticket
          bookingsCount(){
             return this.pack.bookings.length > 0 ? this.pack.bookings.reduce((total, booking) => total + booking.ticket, 0) : 0
+        },
+
+        wishlists() {
+            return this.$store.getters.wishlists;
         }
     },
 
@@ -806,9 +843,12 @@ export default {
         this.$nuxt.$on("triggerQuestion", () => {
             this.getQuestions();
         });
+
         this.$nuxt.$on("triggerPaypal", (order) => {
             this.setPayment(order);
         });
+        
+        setTimeout(() => { this.incrementView(); }, 10000);
     },
 }
 </script>

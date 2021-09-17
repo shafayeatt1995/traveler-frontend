@@ -1,7 +1,9 @@
 <template>
     <div class="container">
         <div class="about-us">
-            <h1 class="text-center my-4">About Us</h1>
+            <div class="text-center">
+                <h1 class="strong my-5 title">About Us</h1>
+            </div>
             <div class="ql-editor" v-html="message"></div>
             <h1 class="text-center mt-5">{{title}}</h1>
             <p class="text-center">{{subTitle}}</p>

@@ -2,7 +2,7 @@
     <div class="package-card">
         <div class="package-thumb">
             <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                <img :data-src="assetURL + JSON.parse(pack.images)[0]" :alt="pack.name" class="img-fluid" v-lazy-load/>
+                <img :data-src="assetURL + pack.thumbnail" :alt="pack.name" class="img-fluid" v-lazy-load/>
             </nuxt-link>
         </div>
         <div class="package-details">

@@ -1,6 +1,8 @@
 <template>
 <div class="container">
-    <h1 class="text-center my-4">FAQ</h1>
+    <div class="text-center">
+        <h1 class="strong my-5 title faq">Frequently Asked Question</h1>
+    </div>
     <div class="faq-wrapper">
         <div class="row">
             <div class="col-lg-7">
@@ -19,7 +21,7 @@
                                         </client-only>
                                     </button>
                                 </p>
-                                <transition name="long-slide" mode="out-in">
+                                <transition :name="displayWidth <= 768 ? 'long-slide' : 'slide'" mode="out-in">
                                     <div class="faq-body" v-show="showQNA == key + '-' + index">
                                         <p class="p-3">{{qna.answer}}</p>
                                     </div>
@@ -31,8 +33,8 @@
             </div>
             <div class="col-lg-5">
                 <div class="contact-us-form">
-                    <h3>Ask A Question</h3>
-                    <form @submit.prevent="submitMessage">
+                    <form class="ask-form" @submit.prevent="submitMessage">
+                        <h3 class="strong">Ask A Question</h3>
                         <div class="form-group">
                             <label for="name">Name</label>
                             <input type="text" id="name" class="form-control" v-model="form.name">
@@ -49,7 +51,7 @@
                             <label for="question">Your Question</label>
                             <textarea id="question" rows="4" class="form-control" v-model="form.message"></textarea>
                         </div>
-                        <button type="submit" class="btn-second float-end">Send Message</button>
+                        <button type="submit" class="btn-second float-end">Ask Question</button>
                     </form>
                 </div>
             </div>

@@ -12,7 +12,7 @@
             </div>
 
             <div class="row" v-for="(destination, key) in destinations" :key="destination.id">
-                <div class="col-lg-3 col-md-3" v-if="key % 2 == 0">
+                <div class="col-lg-3" v-if="key % 2 == 0">
                     <div class="package-slider-wrap">
                         <img :data-src="assetURL + destination.image" class="img-fluid" v-lazy-load/>
                         <div class="pakage-overlay">
@@ -20,8 +20,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-9 col-md-9">
-                    <div class="row" :class="key % 2 == 0 ? 'destinations-1' : 'destinations-2'" v-if="destination.packages.length > 0">
+                <div class="col-lg-9">
+                    <div class="row" :class="key % 2 == 0 ? 'destinations-left' : 'destinations-right'" v-if="destination.packages.length > 0">
                         <client-only> <!-- important to add no-ssr-->
                             <carousel :responsive="{0:{items:1}, 768:{items:2}, 992:{items:3}}" :autoplay="false" :nav="true" :dots="false" :margin="20">
                                 <div class="place-package" v-for="pack in destination.packages" :key="pack.id">
@@ -34,7 +34,7 @@
                         <h3 class="strong">There Are No Tour Packages To {{destination.name}}</h3>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-3" v-if="key % 2 !== 0">
+                <div class="col-lg-3" v-if="key % 2 !== 0">
                     <div class="package-slider-wrap">
                         <img :data-src="assetURL + destination.image" class="img-fluid" v-lazy-load/>
                         <div class="pakage-overlay">

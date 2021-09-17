@@ -1,33 +1,64 @@
 <template>
     <div v-if="posts !== null">
-        <!-- ===============  breadcrumb area start =============== -->
-        <div class="breadcrumb-area" :style="'background: linear-gradient(rgba(0, 0, 0, 0.5) 100%, rgba(0, 0, 0, 0.5) 100%), url(' + assetURL + 'images/breadcrumb.jpg)'">
+        <Breadcrumb message="All Blog Posts"/>
+        <!-- ===============  Blog wrapper area start =============== -->
+        <div class="blog-wrapper pt-60">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="breadcrumb-wrap">
-                            <h2>All Posts</h2>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6" v-for="post in posts.data" :key="post.id">
+                                <Post :post="post"/>
+                            </div>
+                            <pagination :data="posts" @pagination-change-page="getResults" class="justify-content-center mt-3 f-pagination"></pagination>
+                            <Empty message="No Blog Post Found" v-if="posts.data.length < 1"/>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <!-- ===============  breadcrumb area end =============== -->
-        
-        <!-- ===============  Blog wrapper area start =============== -->
-        <div class="blog-wrapper pt-90">
-            <div class="container">
-                <div class="row" v-if="posts.data.length > 0">
-                    <div class="col-lg-4 col-md-6 col-sm-6" v-for="post in posts.data" :key="post.id">
-                        <Post :post="post"/>
-                    </div>
-                </div>
-                <div class="row" v-else>
-                    <Empty message="No Blog Post Found"/>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                    <pagination :data="posts" @pagination-change-page="getResults" class="justify-content-center mt-3 f-pagination"></pagination>
+                    <div class="col-lg-4">
+                        <div class="blog-sidebar pt-30">
+                            <div class="sidebar-searchbox">
+                                <div class="input-group search-box">
+                                    <input type="text" class="form-control" placeholder="Search Blog Post..." v-model="search">
+                                    <button type="button" v-if="search == ''">
+                                        <client-only>
+                                            <icon icon="paper-plane"></icon>
+                                        </client-only>
+                                    </button>
+                                    <nuxt-link :to="{name: 'search-post-keyword', params: {keyword: search}}" v-else>
+                                        <client-only>
+                                            <icon icon="paper-plane"></icon>
+                                        </client-only>
+                                    </nuxt-link>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="right-sidebar-categorie mt-40">
+                                        <h5 class="categorie-head">Categories</h5>
+                                        <ul>
+                                            <li v-for="(category, key) in categories" :key="key">
+                                                <nuxt-link :to="{name: 'post-category-slug', params: {slug: category.slug}}">
+                                                    <client-only>
+                                                        <icon icon="angle-double-right"></icon>
+                                                    </client-only>
+                                                    <span class="ml-2">
+                                                        {{category.name}}
+                                                    </span>
+                                                </nuxt-link>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="blog-popular mt-40">
+                                        <h5 class="categorie-head">Popular Post</h5>
+                                        <ul>
+                                            <Sidebar-post :post="post" v-for="post in popular" :key="post.id"></Sidebar-post>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -47,7 +78,10 @@ export default {
 
     data() {
         return {
+            search: "",
             posts: {},
+            categories: [],
+            popular: [],
         }
     },
     
@@ -56,6 +90,8 @@ export default {
         let response = await axios.get(context.env.baseURL + "blog-posts");
         return {
             posts: response.data.posts,
+            categories: response.data.categories,
+            popular: response.data.popular,
         }
     },
 

@@ -22,5 +22,5 @@ Vue.filter("year", value => {
 
 // Currency Format
 Vue.filter("currency", value => {
-    return isNaN(value) ? value : parseFloat(value).toFixed(2);;
+    return isNaN(value) ? value : parseFloat(value).toFixed(2).replace(/\.00$/, "");
 });

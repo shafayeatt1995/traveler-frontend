@@ -34,7 +34,7 @@
                                     <th class="align-middle text-center">{{post.id}}</th>
                                     <td class="align-middle">
                                         <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}">
-                                            <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid mh-200 mw-200" v-lazy-load/>
+                                            <img :data-src="assetURL + post.thumbnail" :alt="post.title" class="img-fluid mh-200 mw-200" v-lazy-load/>
                                         </nuxt-link>
                                     </td>
                                     <td class="align-middle"><nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}" class="color-black">{{post.title}}</nuxt-link></td>
@@ -70,6 +70,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" v-if="editMode">Edit Post</h5>
                         <h5 class="modal-title" v-else>Add New Post</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="dashboard-thumbnail my-2">
@@ -135,7 +136,6 @@ export default {
                 status: true,
             },
             editorConfig:{},
-            client_id: ""
         }
     },
 
@@ -159,7 +159,6 @@ export default {
                     this.empty = response.data.posts.data.length > 0 ? false : true;
                     this.posts = response.data.posts;
                     this.categories = response.data.categories;
-                    this.client_id = response.data.client_id;
                 },
                 (error)=>{
                     $nuxt.$emit("error", error);
@@ -283,16 +282,14 @@ export default {
 
         // Editor Custom Image Setup
         handleImageAdded(file, Editor, cursorLocation) {
-            if (this.client_id == null) {
-                $nuxt.$emit("customError", "Image Upload Disable By Admin");
-            } else {
+            if (this.imgurStatus) {
                 $nuxt.$emit("info", "Image Uploading");
                 var formData = new FormData();
                 formData.append("image", file)
                 axios({
                     url: "https://api.imgur.com/3/image",
                     method: "POST",
-                    headers:{"Authorization": "Client-ID " + this.client_id},
+                    headers:{"Authorization": "Client-ID " + this.imgur},
                     data: formData
                 })
                 .then((result) => {
@@ -303,6 +300,8 @@ export default {
                 (error)=>{
                     $nuxt.$emit("customError", "Image Upload Failed");
                 })
+            } else {
+                $nuxt.$emit("customError", "Image Upload Disable By Admin");
             }
         },
     },

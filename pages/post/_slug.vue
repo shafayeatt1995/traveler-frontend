@@ -1,25 +1,25 @@
 <template>
-    <!-- ===============  Blog wrapper area start =============== -->
-    <Error v-if="post == null"/>
-    <div class="blog-details-wrapper pt-40" v-else>
-        <div class="container">
-           <div class="row">
+<!-- ===============  Blog wrapper area start =============== -->
+<Error v-if="post == null" />
+<div class="blog-details-wrapper pt-40" v-else>
+    <div class="container">
+        <div class="row">
             <div class="col-lg-8">
                 <div class="blog-details">
-                    <div class="blog-title-xl">
-                        <h3>{{post.title}}</h3>
+                    <div class="blog-title-xl mb-2">
+                        <h3 class="strong">{{post.title}}</h3>
                         <div class="blog-info-xl">
-                            <nuxt-link class="blog-writer" :to="{name: 'post-user-slug', params: {slug: post.user.slug}}">
+                            <nuxt-link class="blog-writer strong" :to="{name: 'post-user-slug', params: {slug: post.user.slug}}">
                                 <client-only>
-                                    <icon :icon="['far', 'user']"></icon>
+                                    <icon :icon="['far', 'user']" class="mr-2"></icon>
                                 </client-only>
                                 {{post.user.name}}
                             </nuxt-link>
-                            <nuxt-link :to="{name: 'post-category-slug', params: {slug: post.category.slug}}" class="blog-category">{{post.category.name}}</nuxt-link>
+                            <nuxt-link :to="{name: 'post-category-slug', params: {slug: post.category.slug}}" class="blog-category strong">{{post.category.name}}</nuxt-link>
                         </div>
                     </div>
                     <div class="blog-img-xl">
-                        <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load/>
+                        <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load />
                         <div class="blog-date">
                             <client-only>
                                 <icon icon="calendar-alt"></icon>
@@ -31,7 +31,8 @@
                     </div>
                     <div class="blog-texts mt-30 ql-editor" v-html="post.post"></div>
                     <div class="blog-bottom">
-                        <div class="blog-social">
+                        <hr>
+                        <div class="blog-social text-center">
                             <ul>
                                 <li>
                                     <a @click.prevent="socialLink('facebook')" class="pointer">
@@ -57,6 +58,7 @@
                                 </li>
                             </ul>
                         </div>
+                        <hr>
                     </div>
 
                     <div class="blog-comments">
@@ -65,7 +67,7 @@
                             <li v-for="comment in comments.data" :key="comment.id">
                                 <div class="commentor">
                                     <div class="commentotor-img text-center">
-                                        <img :data-src="assetURL + comment.user.image" class="mh-100-px" :alt="comment.user.name" v-lazy-load/>
+                                        <img :data-src="assetURL + comment.user.image" class="mh-100-px" :alt="comment.user.name" v-lazy-load />
                                     </div>
                                     <div class="commentor-id">
                                         <strong>{{comment.user.name}}
@@ -76,7 +78,7 @@
                                             </span>
                                         </strong>
                                         <p>{{comment.created_at | date}}</p>
-                                        <p class="comment">
+                                        <p class="comment text-justify">
                                             {{bigComment == comment.id ? comment.message : comment.message.substring(0, 200)}}
                                             <span class="strong pointer" @click="bigComment = bigComment == comment.id ? '' : comment.id">{{comment.message.length > 200 ? bigComment == comment.id ? '...Less More' : '...See More' : ''}}</span></p>
                                         <span class="reply-icon pointer" @click="replayForm(comment.id)">
@@ -90,9 +92,9 @@
                                                 <div class="form-group">
                                                     <input type="text" class="form-control mb-2" placeholder="Type your message" v-model="replay.message">
                                                 </div>
-                                                <div class="float-end">
-                                                    <button class="btn-common-sm" type="button" @click="replayForm(comment.id)">Close</button>
-                                                    <button class="btn-common-sm" type="submit">Submit</button>
+                                                <div class="d-block text-end">
+                                                    <button class="btn btn-danger" type="button" @click="replayForm(comment.id)">Close</button>
+                                                    <button class="btn btn-primary" type="submit">Submit</button>
                                                 </div>
                                             </form>
                                         </transition>
@@ -101,7 +103,7 @@
                                 <div class="replay mt-3" v-for="replay in comment.replays" :key="replay.id">
                                     <div class="commentor">
                                         <div class="commentotor-img text-center">
-                                            <img :data-src="assetURL + replay.user.image" class="mh-100-px"  :alt="replay.user.name" v-lazy-load/>
+                                            <img :data-src="assetURL + replay.user.image" class="mh-100-px" :alt="replay.user.name" v-lazy-load />
                                         </div>
                                         <div class="commentor-id">
                                             <strong>{{replay.user.name}}
@@ -112,13 +114,14 @@
                                                 </span>
                                             </strong>
                                             <p>{{replay.created_at | date}}</p>
-                                            <p class="comment">
+                                            <p class="comment text-justify">
                                                 {{bigReplay == replay.id ? replay.message : replay.message.substring(0, 200)}}
-                                            <span class="strong pointer" @click="bigReplay = bigReplay == replay.id ? '' : replay.id">{{replay.message.length > 200 ? bigReplay == replay.id ? '...Less More' : '...See More' : ''}}</span>
+                                                <span class="strong pointer" @click="bigReplay = bigReplay == replay.id ? '' : replay.id">{{replay.message.length > 200 ? bigReplay == replay.id ? '...Less More' : '...See More' : ''}}</span>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                             </li>
                             <pagination :data="comments" @pagination-change-page="getResults" class="justify-content-center mt-3 f-pagination"></pagination>
                         </ul>
@@ -132,7 +135,7 @@
                             <h5>Post Your Comment</h5>
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <textarea cols="30" rows="7" placeholder="Write Message" v-model="comment.message"></textarea>
+                                    <textarea class="form-control" cols="30" rows="7" placeholder="Write Message" v-model="comment.message"></textarea>
                                 </div>
                                 <div class="col-lg-12">
                                     <input type="submit" value="Submit Comment" class="float-end">
@@ -144,22 +147,26 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="blog-sidebar">
+                <div class="blog-sidebar pt-30">
                     <div class="sidebar-searchbox">
                         <div class="input-group search-box">
-                            <input type="text" class="form-control" placeholder="Search Tour..."
-                                aria-label="Recipient's username" aria-describedby="button-addon2">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <input type="text" class="form-control" placeholder="Search Blog Post..." v-model="search">
+                            <button type="button" v-if="search == ''">
                                 <client-only>
                                     <icon icon="paper-plane"></icon>
                                 </client-only>
                             </button>
+                            <nuxt-link :to="{name: 'search-post-keyword', params: {keyword: search}}" v-else>
+                                <client-only>
+                                    <icon icon="paper-plane"></icon>
+                                </client-only>
+                            </nuxt-link>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-12 col-md-6">
-                            <div class="blog-categorie mt-40">
+                        <div class="col-lg-12">
+                            <div class="right-sidebar-categorie mt-40">
                                 <h5 class="categorie-head">Categories</h5>
                                 <ul>
                                     <li v-for="(category, key) in categories" :key="key">
@@ -175,46 +182,23 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-6">
+                        <div class="col-lg-12">
                             <div class="blog-popular mt-40">
                                 <h5 class="categorie-head">Popular Post</h5>
                                 <ul>
-                                    <li class="blog-card-sm" v-for="post in posts" :key="post.id">
-                                        <div class="blog-img-sm">
-                                            <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}">
-                                                <img :data-src="assetURL + post.image" :alt="post.title" v-lazy-load/>
-                                            </nuxt-link>
-                                        </div>
-                                        <div class="blog-details-sm">
-                                            <nuxt-link :to="{name: 'post-slug', params: {slug: post.slug}}" class="blog-title-sm">{{post.title.substring(0, 35)}}{{post.title.length > 35 ? '...':''}}</nuxt-link>
-                                            <div class="blog-info">
-                                                <nuxt-link class="blog-writer" :to="{name: 'post-user-slug', params: {slug: post.user.slug}}">
-                                                    <client-only>
-                                                        <icon :icon="['far', 'user']"></icon>
-                                                    </client-only>
-                                                    {{post.user.name}}
-                                                </nuxt-link>
-                                                <a class="blog-date">
-                                                    <client-only>
-                                                        <icon icon="calendar-alt"></icon>
-                                                    </client-only>
-                                                    {{post.created_at | normalDate}}
-                                                </a>
-                                                
-                                            </div>
-                                        </div>
-                                    </li>
+                                    <Sidebar-post :post="post" v-for="post in posts" :key="post.id"></Sidebar-post>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-           </div>
         </div>
     </div>
-     <!-- ===============  Blog wrapper area end =============== -->
+</div>
+<!-- ===============  Blog wrapper area end =============== -->
 </template>
+
 <script>
 import axios from "axios"
 export default {
@@ -227,6 +211,7 @@ export default {
     data() {
         return {
             click: true,
+            search: "",
             post: {},
             posts: [],
             categories: [],
@@ -249,6 +234,7 @@ export default {
         let response = await axios.get(context.env.baseURL + "blog/" + context.params.slug);
         return {
             click: true,
+            search: "",
             post: response.data.post,
             comments: response.data.comments,
             posts: response.data.posts,
@@ -269,12 +255,12 @@ export default {
 
     methods: {
         // Get Post Information
-        getComments(){
+        getComments() {
             this.$axios.get("blog/" + this.$route.params.slug).then(
-                (response)=>{
+                (response) => {
                     this.comments = response.data.comments;
                 },
-                (error)=>{
+                (error) => {
                     $nuxt.$emit("error", error);
                 },
             )
@@ -287,30 +273,30 @@ export default {
         },
 
         // Social Media Share Link
-        socialLink(social){
+        socialLink(social) {
             if (social == "facebook") {
                 window.open("https://www.facebook.com/share.php?u=" + window.location.origin + this.$route.path, "_blank");
-            } else if(social == "twitter") {
+            } else if (social == "twitter") {
                 window.open("http://twitter.com/share?url=" + window.location.origin + this.$route.path, "_blank");
-            } else if(social == "pinterest") {
+            } else if (social == "pinterest") {
                 window.open("http://pinterest.com/pin/create/button/?url=" + window.location.origin + this.$route.path, "_blank");
-            } else if(social == "linkedin") {
+            } else if (social == "linkedin") {
                 window.open("http://www.linkedin.com/shareArticle?url=" + window.location.origin + this.$route.path, "_blank");
             }
         },
 
         // Submit Comment
-        submiitComment(){
-            if(this.click) {
+        submiitComment() {
+            if (this.click) {
                 this.click = false;
                 this.$axios.post("create-comment", this.comment).then(
-                    (response)=>{
+                    (response) => {
                         this.comment.message = "";
                         $nuxt.$emit("success", "Comment Post Successfully");
                         $nuxt.$emit("triggercomment");
                         this.click = true;
                     },
-                    (error)=>{
+                    (error) => {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     },
@@ -319,7 +305,7 @@ export default {
         },
 
         //Delete Comment
-        deleteComment(id){
+        deleteComment(id) {
             this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -328,21 +314,21 @@ export default {
                 confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                    if(this.click) {
+                    if (this.click) {
                         this.click = false;
-                        this.$axios.post("delete-comment/"+id).then(
-                            ()=>{
+                        this.$axios.post("delete-comment/" + id).then(
+                            () => {
                                 Swal.fire(
-                                "Deleted!",
-                                "Comment has been deleted.",
-                                "success"
+                                    "Deleted!",
+                                    "Comment has been deleted.",
+                                    "success"
                                 )
                                 $nuxt.$emit("triggercomment");
                                 this.click = true;
                             },
-                            (error)=>{
+                            (error) => {
                                 $nuxt.$emit("error", error);
                                 this.click = true;
                             }
@@ -353,24 +339,24 @@ export default {
         },
 
         // Replay Form
-        replayForm(id){
+        replayForm(id) {
             this.replay.message = "";
             this.replay.comment_id = this.replay.comment_id == id ? "" : id;
         },
 
         // Submit Replay
-        submitReplay(){
-            if(this.click) {
+        submitReplay() {
+            if (this.click) {
                 this.click = false;
                 this.$axios.post("create-comment-replay", this.replay).then(
-                    (response)=>{
+                    (response) => {
                         this.replay.comment_id = "";
                         this.replay.message = "";
                         $nuxt.$emit("success", "Replay Post Successfully");
                         $nuxt.$emit("triggercomment");
                         this.click = true;
                     },
-                    (error)=>{
+                    (error) => {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     },
@@ -379,7 +365,7 @@ export default {
         },
 
         //Delete Replay
-        deleteReplay(id){
+        deleteReplay(id) {
             this.$swal.fire({
                 title: "Are you sure?",
                 text: "You won't be able to revert this!",
@@ -388,21 +374,21 @@ export default {
                 confirmButtonColor: "#0B9A52",
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Yes, delete it!"
-                }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                    if(this.click) {
+                    if (this.click) {
                         this.click = false;
-                        this.$axios.post("delete-comment-replay/"+id).then(
-                            ()=>{
+                        this.$axios.post("delete-comment-replay/" + id).then(
+                            () => {
                                 Swal.fire(
-                                "Deleted!",
-                                "Replay has been deleted.",
-                                "success"
+                                    "Deleted!",
+                                    "Replay has been deleted.",
+                                    "success"
                                 )
                                 $nuxt.$emit("triggercomment");
                                 this.click = true;
                             },
-                            (error)=>{
+                            (error) => {
                                 $nuxt.$emit("error", error);
                                 this.click = true;
                             }
@@ -411,12 +397,24 @@ export default {
                 }
             })
         },
+
+        incrementView() {
+            if (process.client) {
+                let find = window.localStorage.getItem(btoa('blog' + this.post.id));
+                if (!find) {
+                    localStorage.setItem(btoa('blog' + this.post.id), Math.random());
+                    this.$axios.post("increment-blog/" + this.post.id);
+                }
+            }
+        },
     },
 
     created() {
         this.$nuxt.$on("triggercomment", () => {
             this.getComments();
         });
+
+        setTimeout(() => { this.incrementView(); }, 10000);
     },
 }
 </script>

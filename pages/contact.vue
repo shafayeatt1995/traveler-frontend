@@ -1,7 +1,9 @@
 <template>
     <div class="contact-us">
         <div class="container">
-            <h1 class="text-center my-4">Contact Us</h1>
+            <div class="text-center">
+                <h1 class="strong my-5 title">Contact Us</h1>
+            </div>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="ql-editor" v-html="message"></div>
