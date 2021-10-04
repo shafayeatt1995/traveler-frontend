@@ -50,6 +50,7 @@ export default {
     "./plugins/tooltip.js",
     {src: "./plugins/toaster.js", ssr: false},
     {src: "./plugins/owl.js", ssr: false},
+    {src: "./plugins/chart.js", ssr: false},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

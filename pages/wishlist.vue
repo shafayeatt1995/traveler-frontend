@@ -51,9 +51,9 @@
 <div class="container" v-else>
     <div class="text-center mt-5">
         <h3>Please <span>
-                <nuxt-link :to="{name: 'login'}" class="text-success strong">Login</nuxt-link>
+                <nuxt-link :to="{name: 'login'}" class="text-primary strong">Login</nuxt-link>
             </span> or <span>
-                <nuxt-link :to="{name: 'register'}" class="text-success strong">Register</nuxt-link>
+                <nuxt-link :to="{name: 'register'}" class="text-primary strong">Register</nuxt-link>
             </span> For Booking Your Ticket</h3>
     </div>
 </div>

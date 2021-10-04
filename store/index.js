@@ -46,6 +46,11 @@ export const getters = {
         return state.auth.loggedIn ? state.auth.user.role_id == 1 || state.auth.user.role_id == 3 ? true : false : false;
     },
 
+    // Auth User
+    auth_user(state) {
+        return state.auth.loggedIn ? state.auth.user : false;
+    },
+
     //User id Check
     user_id(state) {
         return state.auth.loggedIn ? state.auth.user.id : '';

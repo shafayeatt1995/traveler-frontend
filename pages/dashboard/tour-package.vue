@@ -1,233 +1,241 @@
 <template>
-    <div class="container dashboard-container mt-5" v-if="adminOrGuide">
-        <div class="row">
-            <div class="col-lg-3">
-                <Sidebar />
-            </div>
-            <div class="col-lg-9">
-                <div class="dashboard-content">
-                    <div class="dashboard-content-header">
-                        <button type="button" class="btn add-btn" @click="newModal">Add New Package</button>
-                        <h3 class="strong">Tour Package</h3>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>ID</th>
-                                    <th>Image</th>
-                                    <th>Info</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody v-if="empty">
-                                <tr>
-                                    <th colspan="4">
-                                        <Empty message="No Package Found"/>
-                                    </th>
-                                </tr>
-                            </tbody>
-                            <tbody v-else>
-                                <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
-                                    <th class="align-middle text-center">{{pack.id}}</th>
-                                    <td class="align-middle">
-                                        <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
-                                            <img :src="assetURL + pack.thumbnail" class="img-fluid mw-200"/>
-                                        </nuxt-link>
-                                    </td>
-                                    <td class="align-middle border-none">
-                                        <tr>
-                                            <td>Name</td>
-                                            <td>{{pack.name}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Category</td>
-                                            <td>{{pack.category.name}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Location</td>
-                                            <td>{{pack.address}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Duration</td>
-                                            <td>{{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Group Size</td>
-                                            <td>{{pack.group_size}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>price</td>
-                                            <td v-if="pack.discount === null">${{pack.price}}</td>
-                                            <td v-else><del>${{pack.price}}</del> ${{pack.discount}}</td>
-                                        </tr>
-                                    </td>
-                                    <td class="align-middle">
-                                        <button type="button" class="btn btn-primary" @click="editPackage(pack)">
-                                            <client-only>
-                                                <icon icon="edit"></icon>
-                                            </client-only>
-                                        </button>
-                                        <button type="button" class="btn btn-danger" @click="deletePackage(pack.id)">
-                                            <client-only>
-                                                <icon icon="trash-alt"></icon>
-                                            </client-only>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <pagination :data="packages" @pagination-change-page="getResults" class="justify-content-center mt-3 paginate"></pagination>
+<div class="container dashboard-container mt-5" v-if="adminOrGuide">
+    <div class="row">
+        <div class="col-lg-3">
+            <Sidebar />
+        </div>
+        <div class="col-lg-9">
+            <div class="dashboard-content">
+                <div class="dashboard-content-header">
+                    <button type="button" class="btn add-btn" @click="newModal">Add New Package</button>
+                    <h3 class="strong">Tour Package</h3>
                 </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="text-center">
+                                <th>ID</th>
+                                <th>Image</th>
+                                <th>Info</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody v-if="empty">
+                            <tr>
+                                <th colspan="4">
+                                    <Empty message="No Package Found" />
+                                </th>
+                            </tr>
+                        </tbody>
+                        <tbody v-else>
+                            <tr class="text-center" v-for="pack in packages.data" :key="pack.id">
+                                <th class="align-middle text-center">{{pack.id}}</th>
+                                <td class="align-middle">
+                                    <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
+                                        <img :src="assetURL + pack.thumbnail" class="img-fluid mw-200" />
+                                    </nuxt-link>
+                                </td>
+                                <td class="align-middle border-none">
+                            <tr>
+                                <td>Name</td>
+                                <td>{{pack.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Category</td>
+                                <td>{{pack.category.name}}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>{{pack.address}}</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>{{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}</td>
+                            </tr>
+                            <tr>
+                                <td>Group Size</td>
+                                <td>{{pack.group_size}}</td>
+                            </tr>
+                            <tr>
+                                <td>price</td>
+                                <td v-if="pack.discount === null">${{pack.price}}</td>
+                                <td v-else><del>${{pack.price}}</del> ${{pack.discount}}</td>
+                            </tr>
+                            </td>
+                            <td class="align-middle">
+                                <button type="button" class="btn btn-primary" @click="editPackage(pack)">
+                                    <client-only>
+                                        <icon icon="edit"></icon>
+                                    </client-only>
+                                </button>
+                                <button type="button" class="btn btn-danger" @click="deletePackage(pack.id)">
+                                    <client-only>
+                                        <icon icon="trash-alt"></icon>
+                                    </client-only>
+                                </button>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pagination :data="packages" @pagination-change-page="getResults" class="justify-content-center mt-3 paginate"></pagination>
             </div>
         </div>
-        <!-- Modal Start -->
-        <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <form class="modal-content" @submit.prevent="editMode ? updatePackage() : addPackage()">
-                    <div class="modal-header">
-                        <h5 class="modal-title" v-if="editMode">Edit Tour Package</h5>
-                        <h5 class="modal-title" v-else>Add New Tour Package</h5>
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h2 class="text-center">Package Thumbnails</h2>
-                        <div class="dashboard-thumbnail my-2">
-                            <img :src="form.thumbnail" class="img-fluid" v-if="form.thumbnail"/>
-                            <label for="thumbnail" class="pointer"> Select Thumbnail</label>
-                            <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
-                        </div>
-                        <hr>
-                        <h2 class="text-center">Package Images</h2>
-                        <div class="dashboard-thumbnail my-2">
-                                <img :src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'"/>
-                                <img :src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'"/>
-                            <label for="images" class="pointer"> Select Images</label>
-                            <input type="file" accept="image/*" class="d-none" id="images" @change="images($event)" multiple>
-                        </div>
-                        <h2 class="text-center">Package Information</h2>
-                        <div class="form-group">
-                            <label for="name">Package Name</label>
-                            <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Type Your Package Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="category">Select A Category</label>
-                            <select class="form-control" id="category" v-model="form.category_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Category">
-                                <option value="">Select A Category</option>
-                                <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="place">Select A Place</label>
-                            <select class="form-control" id="place" v-model="form.place_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Place">
-                                <option value="">Select A Place</option>
-                                <option v-for="place in places" :key="place.id" :value="place.id">{{place.name}}</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">Tour Location</label>
-                            <input type="text" class="form-control" id="location" v-model="form.address" placeholder="Type Your Tour Location">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-lg-6">
-                                <label for="duration-day">Tour Duration Day</label>
-                                <input type="number" class="form-control" id="duration-day" v-model="form.duration_day" placeholder="Tour Duration Day">
-                            </div>
-                            <div class="form-group col-lg-6">
-                                <label for="duration-night">Tour Duration Night</label>
-                                <input type="number" class="form-control" id="duration-night" v-model="form.duration_night" placeholder="Tour Duration Night">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="vehicle">Tour Vehicle</label>
-                            <input type="text" class="form-control" id="vehicle" v-model="form.vehicle" placeholder="Type Your Tour Vehicle">
-                        </div>
-                        <div class="form-group">
-                            <label for="group-size">Group Size</label>
-                            <input type="text" class="form-control" id="group-size" v-model="form.group_size" placeholder="Type Your Group Size">
-                        </div>
-                        <div class="form-group">
-                            <label for="ticket-quantity">Ticket Quantity</label>
-                            <input type="number" class="form-control" id="ticket-quantity" v-model="form.ticket" placeholder="Set Available Ticket">
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Tour Package Price</label>
-                            <input type="number" class="form-control" id="price" v-model="form.price" placeholder="Set Your Package Price">
-                        </div>
-                        <div class="form-group">
-                            <label for="discount">Tour Package Discount Price <small>(Optional)</small></label>
-                            <input type="number" class="form-control" id="discount" v-model="form.discount" placeholder="Set Your Package Discount Price">
-                        </div>
-                        <div class="form-group">
-                            <label for="min-booking">Partial Booking Minimum ammount</label>
-                            <input type="number" class="form-control" id="min-booking" v-model="form.min_booking_amount" placeholder="Set Your Partial Booking Minimum Amount">
-                        </div>
-                        <div class="form-group">
-                            <label for="overview">Tour Package Overview</label>
-                            <textarea class="form-control" id="overview" v-model="form.overview" placeholder="Type Your Tour Package Overview" rows="5"></textarea>
-                        </div>
-                        <div class="form-group row justify-content-around">
-                            <label>Tour Start Date</label>
-                            <date-picker v-model="form.start_date" value-type="YYYY-MM-DD, hh:mm a" type="datetime" format="YYYY-MM-DD, hh:mm a" class="col-lg-6" placeholder="Select Start Date"></date-picker>
-                            <date-picker v-model="form.return_date" value-type="YYYY-MM-DD, hh:mm a"  type="datetime" format="YYYY-MM-DD, hh:mm a" class="col-lg-6" placeholder="Select End Date"></date-picker>
-                        </div>
-                        <div class="form-group">
-                            <label for="included">Tour Package Included Item</label>
-                            <ul class="table-list-allow">
-                                <li v-for="(data, key) in form.included" :key="key">
-                                    <span class="pointer" @click="removeInclude(key)" v-tooltip.top-center="'Click to Remove Include Option'"><icon icon="check"></icon> {{data}}</span>
-                                    </li>
-                            </ul>
-                            <div class="input-group">
-                                <input type="text" class="form-control input-group" placeholder="Type What is Included in This Package" id="included" v-model="included">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button" id="button-addon2" @click="addInclude">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="excluded">Tour Package Excluded Item</label>
-                            <ul class="table-list-disallow">
-                                <li v-for="(data, key) in form.excluded" :key="key">
-                                    <span class="pointer" @click="removeExcluded(key)" v-tooltip.top-center="'Click to Remove Excluded Option'"><icon icon="times"></icon> {{data}}</span>
-                                </li>
-                            </ul>
-                            <div class="input-group">
-                                <input type="text" class="form-control input-group" placeholder="Type What is Excluded in This Package" aria-label="Recipient's username" id="excluded" aria-describedby="button-addon2" v-model="excluded">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-success" type="button" id="button-addon2" @click="addExcluded">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                        <h2 class="text-center">Tour Plan</h2>
-                        <ul class="table-list-disallow">
-                                <li v-for="(data, key) in form.tour_plan" :key="key" class="pointer my-3" @click="removeTourPlan(key)" v-tooltip.top-center="'Click to Remove Tour Plan'">
-                                    <h3>({{key+1}}) {{data.title}}</h3>
-                                    <h4>{{data.time}}</h4>
-                                    <p>{{data.description}}</p>
-                                </li>
-                            </ul>
-                        <div class="form-group">
-                            <input type="text" class="form-control my-2" v-model="title" placeholder="Type Your Tour Plan Title">
-                            <input type="text" class="form-control my-2" v-model="time" placeholder="Type Your Tour Plan Time">
-                            <textarea class="form-control my-2" v-model="description" placeholder="Type Your Tour Plan Description" rows="5"></textarea>
-                        </div>
-                        <button type="button" class="btn btn-primary" @click="addPlan">Add Plan</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary" v-if="editMode">Update Package</button>
-                        <button type="submit" class="btn btn-primary" v-else>Add Package</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- Modal End -->
     </div>
+    <!-- Modal Start -->
+    <div class="modal fade" id="modal" data-backdrop="static" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form class="modal-content" @submit.prevent="editMode ? updatePackage() : addPackage()">
+                <div class="modal-header">
+                    <h5 class="modal-title" v-if="editMode">Edit Tour Package</h5>
+                    <h5 class="modal-title" v-else>Add New Tour Package</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h2 class="text-center">Package Thumbnails</h2>
+                    <div class="dashboard-thumbnail my-2">
+                        <img :src="form.thumbnail" class="img-fluid" v-if="form.thumbnail" />
+                        <label for="thumbnail" class="pointer"> Select Thumbnail</label>
+                        <input type="file" accept="image/*" class="d-none" id="thumbnail" @change="image($event)">
+                    </div>
+                    <hr>
+                    <h2 class="text-center">Package Images</h2>
+                    <div class="dashboard-thumbnail my-2">
+                        <img :src="editMode ? assetURL+image : image" class="img-fluid pointer" v-for="(image, key) in form.images" :key="key" @click="removeImage(image, key)" v-tooltip.top-center="'Click to Remove Image'" />
+                        <img :src="image" class="img-fluid pointer" v-for="(image, key) in form.new_images" :key="key" @click="removeImage(image = null, key)" v-tooltip.top-center="'Click to Remove Image'" />
+                        <label for="images" class="pointer"> Select Images</label>
+                        <input type="file" accept="image/*" class="d-none" id="images" @change="images($event)" multiple>
+                    </div>
+                    <h2 class="text-center">Package Information</h2>
+                    <div class="form-group">
+                        <label for="name">Package Name</label>
+                        <input type="text" class="form-control" id="name" v-model="form.name" placeholder="Type Your Package Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Select A Category</label>
+                        <select class="form-control" id="category" v-model="form.category_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Category">
+                            <option value="">Select A Category</option>
+                            <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="place">Select A Place</label>
+                        <select class="form-control" id="place" v-model="form.place_id" :style="'background-image: url(' + assetURL +'images/dropdown.svg);'" placeholder="Select A Place">
+                            <option value="">Select A Place</option>
+                            <option v-for="place in places" :key="place.id" :value="place.id">{{place.name}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Tour Location</label>
+                        <input type="text" class="form-control" id="location" v-model="form.address" placeholder="Type Your Tour Location">
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label for="duration-day">Tour Duration Day</label>
+                            <input type="number" class="form-control" id="duration-day" v-model="form.duration_day" placeholder="Tour Duration Day">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label for="duration-night">Tour Duration Night</label>
+                            <input type="number" class="form-control" id="duration-night" v-model="form.duration_night" placeholder="Tour Duration Night">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicle">Tour Vehicle</label>
+                        <input type="text" class="form-control" id="vehicle" v-model="form.vehicle" placeholder="Type Your Tour Vehicle">
+                    </div>
+                    <div class="form-group">
+                        <label for="group-size">Group Size</label>
+                        <input type="text" class="form-control" id="group-size" v-model="form.group_size" placeholder="Type Your Group Size">
+                    </div>
+                    <div class="form-group">
+                        <label for="ticket-quantity">Ticket Quantity</label>
+                        <input type="number" class="form-control" id="ticket-quantity" v-model="form.ticket" placeholder="Set Available Ticket">
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Tour Package Price</label>
+                        <input type="number" class="form-control" id="price" v-model="form.price" placeholder="Set Your Package Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="discount">Tour Package Discount Price <small>(Optional)</small></label>
+                        <input type="number" class="form-control" id="discount" v-model="form.discount" placeholder="Set Your Package Discount Price">
+                    </div>
+                    <div class="form-group">
+                        <label for="min-booking">Partial Booking Minimum ammount</label>
+                        <input type="number" class="form-control" id="min-booking" v-model="form.min_booking_amount" placeholder="Set Your Partial Booking Minimum Amount">
+                    </div>
+                    <div class="form-group">
+                        <label for="overview">Tour Package Overview</label>
+                        <client-only>
+                            <VueEditor id="editor" useCustomImageHandler @image-added="handleImageAdded" v-model="form.overview" />
+                        </client-only>
+                    </div>
+                    <div class="form-group row justify-content-around">
+                        <label>Tour Start Date</label>
+                        <date-picker v-model="form.start_date" value-type="YYYY-MM-DD, hh:mm a" type="datetime" format="YYYY-MM-DD, hh:mm a" class="col-lg-6" placeholder="Select Start Date"></date-picker>
+                        <date-picker v-model="form.return_date" value-type="YYYY-MM-DD, hh:mm a" type="datetime" format="YYYY-MM-DD, hh:mm a" class="col-lg-6" placeholder="Select End Date"></date-picker>
+                    </div>
+                    <div class="form-group">
+                        <label for="included">Tour Package Included Item</label>
+                        <ul class="table-list-allow">
+                            <li v-for="(data, key) in form.included" :key="key">
+                                <span class="pointer" @click="removeInclude(key)" v-tooltip.top-center="'Click to Remove Include Option'">
+                                    <icon icon="check"></icon> {{data}}
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-group" placeholder="Type What is Included in This Package" id="included" v-model="included">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="addInclude">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="excluded">Tour Package Excluded Item</label>
+                        <ul class="table-list-disallow">
+                            <li v-for="(data, key) in form.excluded" :key="key">
+                                <span class="pointer" @click="removeExcluded(key)" v-tooltip.top-center="'Click to Remove Excluded Option'">
+                                    <icon icon="times"></icon> {{data}}
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="input-group">
+                            <input type="text" class="form-control input-group" placeholder="Type What is Excluded in This Package" aria-label="Recipient's username" id="excluded" aria-describedby="button-addon2" v-model="excluded">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="addExcluded">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="text-center">Tour Plan</h2>
+                    <ul class="table-list-disallow">
+                        <li v-for="(data, key) in form.tour_plan" :key="key" class="pointer my-3" @click="removeTourPlan(key)" v-tooltip.top-center="'Click to Remove Tour Plan'">
+                            <h3>({{key+1}}) {{data.title}}</h3>
+                            <h4>{{data.time}}</h4>
+                            <p>{{data.description}}</p>
+                        </li>
+                    </ul>
+                    <div class="form-group">
+                        <input type="text" class="form-control my-2" v-model="title" placeholder="Type Your Tour Plan Title">
+                        <input type="text" class="form-control my-2" v-model="time" placeholder="Type Your Tour Plan Time">
+                        <textarea class="form-control my-2" v-model="description" placeholder="Type Your Tour Plan Description" rows="5"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-primary" @click="addPlan">Add Plan</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" v-if="editMode">Update Package</button>
+                    <button type="submit" class="btn btn-primary" v-else>Add Package</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal End -->
+</div>
 </template>
+
 <script>
+import axios from "axios"
 import moment from "moment";
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
@@ -284,7 +292,7 @@ export default {
 
     methods: {
         // Open New Modal
-        newModal(){
+        newModal() {
             this.editMode = false;
             this.form.id = "";
             this.form.name = "";
@@ -318,15 +326,15 @@ export default {
         },
 
         //Get All Package
-        getPackage(){
+        getPackage() {
             this.$axios.get('package').then(
-                (response)=>{
+                (response) => {
                     this.empty = response.data.packages.data.length > 0 ? false : true;
                     this.packages = response.data.packages
                     this.categories = response.data.categories
                     this.places = response.data.places
                 },
-                (error)=>{
+                (error) => {
                     $nuxt.$emit("error", error)
                 }
             )
@@ -340,11 +348,11 @@ export default {
         },
 
         // Create New Package
-        addPackage(){
-            if(this.click) {
+        addPackage() {
+            if (this.click) {
                 this.click = false;
                 this.$axios.post("create-package", this.form).then(
-                    ()=>{
+                    () => {
                         $("#modal").modal("hide");
                         this.form.id = "";
                         this.form.name = "";
@@ -378,7 +386,7 @@ export default {
                         $nuxt.$emit('success', 'Package Created Successfully');
                         this.click = true;
                     },
-                    (error)=>{
+                    (error) => {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     }
@@ -387,7 +395,7 @@ export default {
         },
 
         // Edit Package
-        editPackage(pack){
+        editPackage(pack) {
             this.editMode = true;
             this.form.id = pack.id;
             this.form.name = pack.name;
@@ -421,11 +429,11 @@ export default {
         },
 
         // Update Package
-        updatePackage(){
-            if(this.click) {
+        updatePackage() {
+            if (this.click) {
                 this.click = false;
-                this.$axios.post("update-package/"+ this.form.id, this.form).then(
-                    ()=>{
+                this.$axios.post("update-package/" + this.form.id, this.form).then(
+                    () => {
                         $("#modal").modal("hide");
                         this.form.id = "";
                         this.form.name = "";
@@ -459,16 +467,16 @@ export default {
                         $nuxt.$emit('success', 'Package Updated Successfully');
                         this.click = true;
                     },
-                    (error)=>{
+                    (error) => {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     }
                 )
             }
         },
-        
+
         // Delete Package
-        deletePackage(id){
+        deletePackage(id) {
             this.$swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -477,21 +485,21 @@ export default {
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
-                    if(this.click) {
+                    if (this.click) {
                         this.click = false;
-                        this.$axios.post("delete-package/"+id).then(
-                            ()=>{
+                        this.$axios.post("delete-package/" + id).then(
+                            () => {
                                 Swal.fire(
-                                'Deleted!',
-                                'Package has been deleted.',
-                                'success'
+                                    'Deleted!',
+                                    'Package has been deleted.',
+                                    'success'
                                 )
                                 $nuxt.$emit('triggerPackages');
                                 this.click = true;
                             },
-                            (error)=>{
+                            (error) => {
                                 $nuxt.$emit("error", error);
                                 this.click = true;
                             }
@@ -531,30 +539,30 @@ export default {
         },
 
         // Add Tour Package Incluide Item
-        addInclude(){
+        addInclude() {
             this.form.included.push(this.included);
             this.included = "";
         },
 
         // Remove Tour Package Incluide Item
-        removeInclude(key){
+        removeInclude(key) {
             this.form.included.splice(key, 1);
         },
 
         // Add Tour Package Excluded Item
-        addExcluded(){
+        addExcluded() {
             this.form.excluded.push(this.excluded);
             this.excluded = "";
         },
 
         // Remove Tour Package Excluded Item
-        removeExcluded(key){
+        removeExcluded(key) {
             this.form.excluded.splice(key, 1);
         },
 
         // Add Tour Plan
-        addPlan(){
-            let tour_plan =  {
+        addPlan() {
+            let tour_plan = {
                 title: this.title,
                 time: this.time,
                 description: this.description,
@@ -566,8 +574,33 @@ export default {
         },
 
         // Remove Tour Plan
-        removeTourPlan(key){
+        removeTourPlan(key) {
             this.form.tour_plan.splice(key, 1);
+        },
+
+        // Editor Custom Image Setup
+        handleImageAdded(file, Editor, cursorLocation) {
+            if (this.imgurStatus) {
+                $nuxt.$emit("info", "Image Uploading");
+                var formData = new FormData();
+                formData.append("image", file)
+                axios({
+                        url: "https://api.imgur.com/3/image",
+                        method: "POST",
+                        headers: { "Authorization": "Client-ID " + this.imgur },
+                        data: formData
+                    })
+                    .then((result) => {
+                            let url = result.data.data.link
+                            Editor.insertEmbed(cursorLocation, "image", url);
+                            $nuxt.$emit("success", "Image Successfully Uploaded");
+                        },
+                        (error) => {
+                            $nuxt.$emit("customError", "Image Upload Failed");
+                        })
+            } else {
+                $nuxt.$emit("customError", "Image Upload Disable By Admin");
+            }
         },
     },
 

@@ -33,30 +33,21 @@ export default {
 
     methods: {
         submit() {
-            this.loading = true
             if(this.click) {
-                this.click = false;
-                this.$auth.loginWith("laravelJWT", {
-                    data: {
-                        email: this.credential.email,
-                        password: this.credential.password,
-                    },
-                }).then(
-                    ()=>{
-                        this.loading = false
+                this.click = false
+                this.$axios.post("forget-password", this.credential).then(
+                    (response)=>{
+                        this.credential.email = "";
+                        $nuxt.$emit("success", "Reset Password Link Send Your Email");
                         this.click = true;
                     },
-                    ()=>{
-                        this.loading = false
-                        $nuxt.$emit("customError", "Email or Password Not Matched");
+                    (error)=>{
+                        $nuxt.$emit("error", error);
                         this.click = true;
-                    }
-                );
+                    },
+                )
             }
         },
-
-        // Get Remember Password Info
-        rememberInfo(){},
     },
 
     created() {

@@ -1,6 +1,14 @@
 <template>
 <div>
     <!-- =============== Topbar area start =============== -->
+    <div class="active-account" v-if="authCheck">
+        <div class="container" v-if="authUser.email_verified_at == null">
+            <nuxt-link :to="{ name: 'active-account' }" class="text-center strong d-block color-black py-2">Click To Active Your Aaccount</nuxt-link>
+        </div>
+    </div>
+    <!-- =============== Topbar area end =============== -->
+
+    <!-- =============== Topbar area start =============== -->
     <div class="topbar-area">
         <div class="container">
             <div class="row">
@@ -8,11 +16,11 @@
                     <div class="topbar-contact-left">
                         <ul>
                             <li>
-                                <a :href="'tel:'+ phone" class="ms-1">
+                                <a :href="'tel:' + phone" class="ms-1">
                                     <client-only>
                                         <icon icon="phone-alt"></icon>
                                     </client-only>
-                                    {{phone}}
+                                    {{ phone }}
                                 </a>
                             </li>
                             <li>
@@ -20,7 +28,7 @@
                                     <client-only>
                                         <icon icon="at"></icon>
                                     </client-only>
-                                    {{email}}
+                                    {{ email }}
                                 </a>
                             </li>
                         </ul>
@@ -31,7 +39,7 @@
                     <div class="topbar-contact-right">
                         <ul class="justify-content-end" v-if="authCheck">
                             <li>
-                                <nuxt-link :to="{name: 'wishlist'}">
+                                <nuxt-link :to="{ name: 'wishlist' }">
                                     <client-only>
                                         <icon icon="heart"></icon>
                                     </client-only>
@@ -39,7 +47,7 @@
                                 </nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link :to="{name: 'dashboard'}">
+                                <nuxt-link :to="{ name: 'dashboard' }">
                                     <client-only>
                                         <icon icon="tachometer-alt"></icon>
                                     </client-only>
@@ -49,10 +57,10 @@
                         </ul>
                         <ul class="justify-content-end" v-else>
                             <li>
-                                <nuxt-link :to="{name: 'login'}">Login</nuxt-link>
+                                <nuxt-link :to="{ name: 'login' }">Login</nuxt-link>
                             </li>
                             <li>
-                                <nuxt-link :to="{name: 'register'}">Register</nuxt-link>
+                                <nuxt-link :to="{ name: 'register' }">Register</nuxt-link>
                             </li>
                         </ul>
                     </div>
@@ -69,8 +77,13 @@
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="navbar-wrap">
-                            <div class="logo d-flex justify-content-between align-items-center">
-                                <nuxt-link :to="{name: 'index'}" class="navbar-brand">
+                            <div class="
+                                        logo
+                                        d-flex
+                                        justify-content-between
+                                        align-items-center
+                                    ">
+                                <nuxt-link :to="{ name: 'index' }" class="navbar-brand">
                                     <img :data-src="assetURL + logo" alt="logo" class="img-fluid" v-lazy-load />
                                 </nuxt-link>
                                 <div class="mobile-menu pointer" @click="mobileMenu = !mobileMenu">
@@ -89,23 +102,29 @@
                             </span>
                             <ul>
                                 <li>
-                                    <nuxt-link :to="{name: 'index'}">Home</nuxt-link>
+                                    <nuxt-link :to="{ name: 'index' }">Home</nuxt-link>
                                 </li>
                                 <li>
-                                    <nuxt-link :to="{name: 'guides'}">Guides</nuxt-link>
+                                    <nuxt-link :to="{ name: 'guides' }">Guides</nuxt-link>
                                 </li>
                                 <li>
-                                    <nuxt-link :to="{name: 'destination'}">Destinations</nuxt-link>
+                                    <nuxt-link :to="{ name: 'destination' }">Destinations</nuxt-link>
                                 </li>
                                 <li>
-                                    <nuxt-link :to="{name: 'posts'}">Blog</nuxt-link>
+                                    <nuxt-link :to="{ name: 'posts' }">Blog</nuxt-link>
                                 </li>
                                 <li>
-                                    <nuxt-link :to="{name: 'packages'}">Packages</nuxt-link>
+                                    <nuxt-link :to="{ name: 'packages' }">Packages</nuxt-link>
                                 </li>
                                 <li class="has-child-menu">
-                                    <a class="pointer" @click="mobileSubMenu = !mobileSubMenu">Pages
-                                        <span class="menu-dropdown-icon" :class="mobileSubMenu ? 'active' : ''">
+                                    <a class="pointer" @click="
+                                                mobileSubMenu = !mobileSubMenu
+                                            ">Pages
+                                        <span class="menu-dropdown-icon" :class="
+                                                    mobileSubMenu
+                                                        ? 'active'
+                                                        : ''
+                                                ">
                                             <client-only>
                                                 <icon icon="angle-down"></icon>
                                             </client-only>
@@ -114,13 +133,15 @@
                                     <transition name="slide" mode="out-in">
                                         <ul class="sub-menu" v-if="mobileSubMenu">
                                             <li>
-                                                <nuxt-link class="sub-item" :to="{name: 'about'}">About Us</nuxt-link>
+                                                <nuxt-link class="sub-item" :to="{ name: 'about' }">About Us</nuxt-link>
                                             </li>
                                             <li>
-                                                <nuxt-link class="sub-item" :to="{name: 'contact'}">Contact Us</nuxt-link>
+                                                <nuxt-link class="sub-item" :to="{
+                                                            name: 'contact',
+                                                        }">Contact Us</nuxt-link>
                                             </li>
                                             <li>
-                                                <nuxt-link class="sub-item" :to="{name: 'faq'}">FAQ</nuxt-link>
+                                                <nuxt-link class="sub-item" :to="{ name: 'faq' }">FAQ</nuxt-link>
                                             </li>
                                         </ul>
                                     </transition>
@@ -131,7 +152,7 @@
                             </ul>
                             <div class="navbar-icons">
                                 <div class="text-center mobile-bottom-menu">
-                                    <nuxt-link :to="{name: 'index'}">
+                                    <nuxt-link :to="{ name: 'index' }">
                                         <client-only>
                                             <icon icon="home"></icon>
                                         </client-only>
@@ -139,11 +160,14 @@
                                 </div>
                                 <div class="searchbar-open pointer">
                                     <client-only>
-                                        <icon icon="search" @click="active_search = !active_search"></icon>
+                                        <icon icon="search" @click="
+                                                    active_search =
+                                                        !active_search
+                                                "></icon>
                                     </client-only>
                                 </div>
                                 <div class="text-center mobile-bottom-menu">
-                                    <nuxt-link :to="{name: 'wishlist'}">
+                                    <nuxt-link :to="{ name: 'wishlist' }">
                                         <client-only>
                                             <icon :icon="['far', 'heart']"></icon>
                                         </client-only>
@@ -151,20 +175,34 @@
                                 </div>
                                 <div class="user-dropdown-icon pointer">
                                     <client-only>
-                                        <icon :icon="['far', 'user']" @click="account_dropdown = !account_dropdown"></icon>
+                                        <icon :icon="['far', 'user']" @click="
+                                                    account_dropdown =
+                                                        !account_dropdown
+                                                "></icon>
                                     </client-only>
-                                    <div class="account-dropdown" :class="account_dropdown ? 'activeCard' : ''">
+                                    <div class="account-dropdown" :class="
+                                                account_dropdown
+                                                    ? 'activeCard'
+                                                    : ''
+                                            ">
                                         <ul v-if="authCheck">
                                             <li class="account-el">
-                                                <nuxt-link :to="{name: 'dashboard'}">
+                                                <nuxt-link :to="{
+                                                            name: 'dashboard',
+                                                        }">
                                                     <client-only>
-                                                        <icon :icon="['far','user-circle',]"></icon>
+                                                        <icon :icon="[
+                                                                    'far',
+                                                                    'user-circle',
+                                                                ]"></icon>
                                                     </client-only>
                                                     My Account
                                                 </nuxt-link>
                                             </li>
                                             <li class="account-el">
-                                                <nuxt-link :to="{name: 'dashboard-tour-booking'}">
+                                                <nuxt-link :to="{
+                                                            name: 'dashboard-tour-booking',
+                                                        }">
                                                     <client-only>
                                                         <icon icon="running"></icon>
                                                     </client-only>
@@ -172,7 +210,9 @@
                                                 </nuxt-link>
                                             </li>
                                             <li class="account-el">
-                                                <nuxt-link :to="{name: 'dashboard-edit-profile'}">
+                                                <nuxt-link :to="{
+                                                            name: 'dashboard-edit-profile',
+                                                        }">
                                                     <client-only>
                                                         <icon icon="cogs"></icon>
                                                     </client-only>
@@ -190,17 +230,25 @@
                                         </ul>
                                         <ul v-else>
                                             <li class="account-el">
-                                                <nuxt-link :to="{name: 'login'}">
+                                                <nuxt-link :to="{ name: 'login' }">
                                                     <client-only>
-                                                        <icon :icon="[ 'far', 'user-circle', ]"></icon>
+                                                        <icon :icon="[
+                                                                    'far',
+                                                                    'user-circle',
+                                                                ]"></icon>
                                                     </client-only>
                                                     login
                                                 </nuxt-link>
                                             </li>
                                             <li class="account-el">
-                                                <nuxt-link :to="{name: 'register'}">
+                                                <nuxt-link :to="{
+                                                            name: 'register',
+                                                        }">
                                                     <client-only>
-                                                        <icon :icon="[ 'far', 'user-circle', ]"></icon>
+                                                        <icon :icon="[
+                                                                    'far',
+                                                                    'user-circle',
+                                                                ]"></icon>
                                                     </client-only>
                                                     Register
                                                 </nuxt-link>
@@ -221,14 +269,16 @@
                 </div>
                 <input type="text" placeholder="Search Package......" v-model="search" />
                 <div class="searchbar-icon">
-
                     <button type="button" v-if="search == ''">
                         <client-only>
                             <icon icon="search"></icon>
                         </client-only>
                     </button>
 
-                    <nuxt-link :to="{name: 'search-package-keyword', params: {keyword: search}}" v-else>
+                    <nuxt-link :to="{
+                                name: 'search-package-keyword',
+                                params: { keyword: search },
+                            }" v-else>
                         <client-only>
                             <icon icon="search"></icon>
                         </client-only>
@@ -264,12 +314,10 @@ export default {
     methods: {
         // Logout
         logout() {
-            this.account_dropdown = false,
-                this.$auth.logout("laravelJWT").then(
-                    ()=>{
-                        this.$store.dispatch('triggerWishlist');
-                    }
-                );
+            (this.account_dropdown = false),
+            this.$auth.logout("laravelJWT").then(() => {
+                this.$store.dispatch("triggerWishlist");
+            });
         },
 
         // For Tracking Scroll
@@ -306,7 +354,11 @@ export default {
 
         wishlists() {
             return this.$store.getters.wishlists;
-        }
+        },
+
+        authUser() {
+            return this.$store.getters.auth_user;
+        },
     },
 
     watch: {
@@ -317,7 +369,7 @@ export default {
             this.search = "";
             this.mobileMenu = false;
             this.mobileSubMenu = false;
-        }
+        },
     },
 };
 </script>

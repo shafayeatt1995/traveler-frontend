@@ -811,7 +811,6 @@ export default {
 
         //Add Footer Contact Number
         addNumber(number) {
-            console.log('Click hocci');
             this.footer.phone.push(number);
             this.contactNumber = "";
         },

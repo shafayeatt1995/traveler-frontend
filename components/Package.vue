@@ -8,12 +8,12 @@
         <div class="package-details">
             <div class="package-info">
                 <h5 v-if="pack.discount === null">${{pack.price | currency}}/Per Person</h5>
-                <h5 v-else><del>${{pack.price |currency}}</del> ${{pack.discount | currency}} /Per Person</h5>
+                <h5 v-else><del>${{pack.price |currency}}</del> ${{pack.discount | currency}}/Per Person</h5>
                 <h5>
                     <client-only>
                         <icon icon="calendar-alt"></icon>
                     </client-only>
-                    {{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}} / {{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}
+                    {{pack.duration_day + (pack.duration_day > 1 ? ' Days' : ' Day')}}/{{pack.duration_night + (pack.duration_night > 1 ? ' Nights' : ' Night')}}
                 </h5>
             </div>
             <h4>

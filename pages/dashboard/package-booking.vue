@@ -124,7 +124,7 @@
                                     <tr class="text-center">
                                         <th>Sl</th>
                                         <th>Name</th>
-                                        <th>email</th>
+                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Ticket</th>
                                         <th>Payment</th>

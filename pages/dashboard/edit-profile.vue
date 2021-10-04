@@ -84,8 +84,8 @@ export default {
 
     data() {
         return {
+            click: true,
             form: {
-                click: true,
                 name: "",
                 password: "",
                 old_password: "",

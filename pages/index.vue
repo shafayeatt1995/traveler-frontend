@@ -157,7 +157,7 @@
                     </div>
                 </div>
                 <div class="row" v-if="posts.length > 0">
-                    <div class="col-lg-6" v-for="post in posts" :key="post.id">
+                    <div class="col-lg-4 col-md-6" v-for="post in posts" :key="post.id">
                         <Post :post="post"/>
                     </div>
                 </div>

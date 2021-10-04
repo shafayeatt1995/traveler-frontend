@@ -284,110 +284,182 @@ export default {
 
         // Update Paypal Payment Information
         updateApp() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-app", this.appSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update App Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-app", this.appSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
 
         // Update Paypal Payment Information
         updatePaypal() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-paypal", this.paypalSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update Paypal Payment Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-paypal", this.paypalSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
 
         // Update Stripe Payment Information
         updateStripe() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-stripe", this.stripeSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update Stripe Payment Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-stripe", this.stripeSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
 
         // Update Imgur Information
         updateImgur() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-imgur", this.imgurSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update Imgur Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-imgur", this.imgurSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
 
         // Update Database Information
         updateDatabase() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-database", this.databaseSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update Database Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-database", this.databaseSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
 
         // Update Mail Information
         updateMail() {
-            if (this.click) {
-                this.click = false
-                this.$axios.post("update-mail", this.mailSetting).then(
-                    (response) => {
-                        $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
-                        $nuxt.$emit("triggergetsetting");
-                        this.click = true;
-                    },
-                    (error) => {
-                        $nuxt.$emit("error", error);
-                        this.click = true;
-                    },
-                )
-            }
+            this.$swal.fire({
+                title: "Are you sure?",
+                text: "You Want to Update Database Info.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#0B9A52",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Update it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (this.click) {
+                        this.click = false
+                        this.$axios.post("update-mail", this.mailSetting).then(
+                            (response) => {
+                                $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
+                                $nuxt.$emit("triggergetsetting");
+                                this.click = true;
+                            },
+                            (error) => {
+                                $nuxt.$emit("error", error);
+                                this.click = true;
+                            },
+                        )
+                    }
+                }
+            })
         },
     },
 
