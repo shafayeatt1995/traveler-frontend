@@ -193,6 +193,7 @@ export default {
     head() {
         return {
             title: "Booking Confirm - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
             script: [{
                 src: this.paypal,
             }],

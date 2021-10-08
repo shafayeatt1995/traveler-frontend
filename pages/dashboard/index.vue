@@ -1077,6 +1077,7 @@ export default {
     head() {
         return {
             title: "Dashboard - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

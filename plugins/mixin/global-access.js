@@ -23,6 +23,7 @@ const User = {
                     imgurStatus: "imgur_status",
                     breadcrumbImage: "breadcrumb_image",
                     displayWidth: "getWidth",
+                    favicon: "title_icon",
                 })
             }
         });

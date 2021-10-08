@@ -99,6 +99,7 @@ export default {
     head() {
         return {
             title: "Message & Question - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

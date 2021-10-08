@@ -1,9 +1,10 @@
 <template>
 <div class="container">
-    <div class="text-center">
-        <h1 class="strong my-5 title faq">Frequently Asked Question</h1>
-    </div>
-    <div class="faq-wrapper">
+    <Error v-if="empty" />
+    <div class="faq-wrapper" v-else>
+        <div class="text-center">
+            <h1 class="strong my-5 title faq">Frequently Asked Question</h1>
+        </div>
         <div class="row">
             <div class="col-lg-7">
                 <div class="faq-wrap">
@@ -66,6 +67,7 @@ export default {
     head() {
         return {
             title: "FAQ - " + this.appName,
+            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
             meta: [{
                 hid: "description",
                 name: "description",
@@ -77,6 +79,7 @@ export default {
     data() {
         return {
             click: true,
+            empty: false,
             showQNA: "",
             topics: [],
             meta: "",
@@ -92,19 +95,37 @@ export default {
 
     async asyncData(context) {
         let response = await axios.get(context.env.baseURL + "faq");
-        let faq = JSON.parse(response.data.faq.page);
-        return {
-            click: true,
-            showQNA: "",
-            topics: faq,
-            meta: response.data.faq.meta,
-            form: {
-                name: "",
-                phone: "",
-                email: "",
-                subject: "Question",
-                message: "",
-            },
+        if (response.data.faq !== null) {
+            let faq = JSON.parse(response.data.faq.page);
+            return {
+                click: true,
+                empty: false,
+                showQNA: "",
+                topics: faq,
+                meta: response.data.faq.meta,
+                form: {
+                    name: "",
+                    phone: "",
+                    email: "",
+                    subject: "Question",
+                    message: "",
+                },
+            }
+        } else {
+            return {
+                click: true,
+                empty: true,
+                showQNA: "",
+                topics: [],
+                meta: "",
+                form: {
+                    name: "",
+                    phone: "",
+                    email: "",
+                    subject: "Question",
+                    message: "",
+                },
+            }
         }
     },
 

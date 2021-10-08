@@ -78,6 +78,7 @@ export default {
     head() {
         return {
             title: "All Packages - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

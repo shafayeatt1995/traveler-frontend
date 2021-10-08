@@ -32,7 +32,7 @@ export default {
 
         //Trigger Error Toast Message
         this.$nuxt.$on("error", error => {
-            Toast.fire({ icon: "error", title: error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : "Something Wrong! Please try Again" });
+            Toast.fire({ icon: "error", title: error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : error.response.data.message ? error.response.data.message : "Something Wrong! Please try Again" });
         });
 
         //Trigger Error Toast Message

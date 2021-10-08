@@ -69,7 +69,7 @@
                             <client-only> 
                                 <carousel :responsive="{0:{items:1}, 768:{items:2}, 992:{items:3}}" :autoplay="false" :nav="true" :dots="false" :margin="20">
                                     <div  class="place-package" v-for="pack in place.packages" :key="pack.id">
-                                        <Package :pack="pack"/>
+                                        <Package :pack="pack" customClass="flex-column"/>
                                     </div>
                                 </carousel>
                             </client-only>
@@ -178,6 +178,7 @@ export default {
     head() {
         return {
             title: "Home - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

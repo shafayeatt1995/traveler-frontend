@@ -24,6 +24,7 @@ export default {
     head() {
         return {
             title: "Reset Password - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

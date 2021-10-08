@@ -6,7 +6,7 @@
             </div>
             <div class="col-lg-9">
                 <div class="dashboard-content">
-                    <div class="dashboard-content-header">
+                    <div class="dashboard-content-header bb-2">
                         <h3 class="strong">Edit Profile</h3>
                     </div>
                     <div class="dashboard-content-body b-2">
@@ -79,6 +79,7 @@ export default {
     head() {
         return {
             title: "Edit Profile - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

@@ -13,6 +13,7 @@ export const state = () => ({
     breadcrumb: "",
     allWishlists: [],
     width: 0,
+    titleIcon: "",
 })
 
 export const getters = {
@@ -160,6 +161,11 @@ export const getters = {
     getWidth(state){
         return state.width;
     },
+
+    //Breadcrumb Image
+    title_icon(state){
+        return state.titleIcon;
+    },
 }
 
 export const mutations = {
@@ -174,6 +180,7 @@ export const mutations = {
         state.paypalStatus= response.data.paypalStatus;
         state.stripeStatus= response.data.stripeStatus;
         state.imgurStatus= response.data.imgurStatus;
+        state.titleIcon= response.data.titleIcon;
     },
 
     //Set Wishlist

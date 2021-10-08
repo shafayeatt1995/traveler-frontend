@@ -19,6 +19,7 @@ export default {
     head() {
         return {
             title: "Forgot Password - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
     data() {

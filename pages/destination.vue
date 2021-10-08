@@ -54,6 +54,7 @@ export default {
     head() {
         return {
             title: "Destination Packages - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
     data() {

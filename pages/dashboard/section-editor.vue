@@ -179,7 +179,7 @@
                                     <p class="pointer" v-for="(number, key) in footer.phone" :key="key" v-tooltip.top-start="'Click to remove Number'" @click="removeNumber(key)">{{number}}</p>
                                     <label for="contact-number" class="mt-2">Contact Number</label>
                                     <div class="input-group mb-3">
-                                        <input type="number" class="form-control" placeholder="Contact Number" id="contact-number" v-model="contactNumber">
+                                        <input type="text" class="form-control" placeholder="Contact Number" id="contact-number" v-model="contactNumber">
                                         <div class="input-group-append">
                                             <button class="btn btn-base-color" type="button" @click="contactNumber.length > 0 ? addNumber(contactNumber) : ''">Add</button>
                                         </div>
@@ -570,6 +570,7 @@ export default {
     head() {
         return {
             title: "Section Editor - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

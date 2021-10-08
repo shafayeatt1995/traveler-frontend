@@ -19,7 +19,7 @@
                     <nuxt-link :to="{name: 'dashboard-place'}" class="strong">Place</nuxt-link>
                 </li>
                 <li v-if="adminOrGuide">
-                    <nuxt-link :to="{name: 'dashboard-tour-package'}" class="strong">Tour Package</nuxt-link>
+                    <nuxt-link :to="{name: 'dashboard-package-manager'}" class="strong">Package Manager</nuxt-link>
                 </li>
                 <li v-if="adminOrGuide">
                     <nuxt-link :to="{name: 'dashboard-package-booking'}" class="strong">Package Booking</nuxt-link>
@@ -74,7 +74,7 @@
                 <nuxt-link :to="{name: 'dashboard-place'}" class="strong">Place</nuxt-link>
             </li>
             <li v-if="adminOrGuide">
-                <nuxt-link :to="{name: 'dashboard-tour-package'}" class="strong">Tour Package</nuxt-link>
+                <nuxt-link :to="{name: 'dashboard-package-manager'}" class="strong">Package Manager</nuxt-link>
             </li>
             <li v-if="adminOrGuide">
                 <nuxt-link :to="{name: 'dashboard-package-booking'}" class="strong">Package Booking</nuxt-link>
@@ -105,6 +105,9 @@
             </li>
             <li v-if="admin">
                 <nuxt-link :to="{name: 'dashboard-user'}" class="strong">User List</nuxt-link>
+            </li>
+            <li v-if="admin">
+                <nuxt-link :to="{name: 'dashboard-subscribe'}" class="strong">Subscriber List</nuxt-link>
             </li>
             <li v-if="authCheck">
                 <nuxt-link :to="{name: 'dashboard-edit-profile'}" class="strong">Edit Profile</nuxt-link>

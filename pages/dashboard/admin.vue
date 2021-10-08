@@ -111,6 +111,7 @@ export default {
     head() {
         return {
             title: "User - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

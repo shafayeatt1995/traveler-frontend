@@ -228,7 +228,7 @@
                                                     </form>
                                                 </div>
                                                 <div v-else>
-                                                    <h3 class="text-center">Please <nuxt-link :to="{name: 'login'}" class="text-success">Login</nuxt-link> for ask a question</h3>
+                                                    <h3 class="text-center">Please <nuxt-link :to="{name: 'login'}" class="text-primary">Login</nuxt-link> for ask a question</h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -464,6 +464,7 @@ export default {
     head() {
         return {
             title: (this.pack == null ? "Not Found" : this.pack.name) + " - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
             script: [{
                 src: this.paypal,
             }],
@@ -814,7 +815,7 @@ export default {
                     )
                 }
             } else {
-                $nuxt.$emit("customError", "Login For Add To Wishlist");
+                $nuxt.$emit("customError", "Please Login For Add To Wishlist");
             }
         },
 

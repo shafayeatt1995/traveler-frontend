@@ -8,7 +8,7 @@
                 <div class="col-lg-4 col-md-6 col-sm-6" v-for="guide in guides.data" :key="guide.id">
                     <div class="guide-card">
                         <div class="guide-thumb">
-                            <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}">
+                            <nuxt-link :to="{name: 'package-user-slug', params: {slug: guide.slug}}" class="d-block">
                                 <img :data-src="assetURL + guide.image" :alt="guide.name" class="img-fluid" v-lazy-load />
                             </nuxt-link>
                             <div class="guide-info">
@@ -65,6 +65,7 @@ export default {
     head() {
         return {
             title: "Tour Guides - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

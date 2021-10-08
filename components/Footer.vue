@@ -7,7 +7,7 @@
                     <div class="col-lg-3">
                         <div class="footer-info">
                             <div class="footer-logo text-center">
-                                <img :data-src="assetURL + logo" alt="" class="img-fluid mh-100-px" v-lazy-load/>
+                                <img :src="assetURL + logo" alt="logo" class="img-fluid mh-100-px"/>
                             </div>
                             <p>{{message}}</p>
                             <div class="footer-social-icons">
@@ -108,8 +108,8 @@
                         <div class="footer-links payment-links">
                             <h5 class="widget-title">Newsletter</h5>
                             <p>{{newsletterMessage}}</p>
-                            <form action="#" class="footer-subscriber-form d-flex mt-3">
-                                <input type="email">
+                            <form class="footer-subscriber-form d-flex mt-3" @submit.prevent="Subscribe">
+                                <input type="email" v-model="form.email">
                                 <input type="submit" value="Subscribe">
                             </form>
                         </div>
@@ -135,6 +135,35 @@
 
 <script>
 export default {
+    data() {
+        return {
+            click: true,
+            form: {
+                email: "",
+            }
+        }
+    },
+
+    methods: {
+        // Add Subscriber
+        Subscribe(){
+            if(this.click) {
+                this.click = false
+                this.$axios.post("create-subscriber", this.form).then(
+                    (response)=>{
+                        this.form.email = "";
+                        $nuxt.$emit("success", "Thank You For Subscribe");
+                        this.click = true;
+                    },
+                    (error)=>{
+                        $nuxt.$emit("error", error);
+                        this.click = true;
+                    },
+                )
+            }
+        },
+    },
+
     computed: {
         logo(){
             return this.$store.getters.footerLogo;

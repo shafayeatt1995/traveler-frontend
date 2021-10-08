@@ -8,7 +8,7 @@
             <div class="dashboard-content">
                 <div class="dashboard-content-header">
                     <button type="button" class="btn add-btn" @click="newModal">Add New Package</button>
-                    <h3 class="strong">Tour Package</h3>
+                    <h3 class="strong">Package Manager</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -245,7 +245,8 @@ export default {
 
     head() {
         return {
-            title: "Tour Package - Dashboard",
+            title: "Package Manager - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

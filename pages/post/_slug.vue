@@ -81,7 +81,8 @@
                                         <p class="comment text-justify">
                                             {{bigComment == comment.id ? comment.message : comment.message.substring(0, 200)}}
                                             <span class="strong pointer" @click="bigComment = bigComment == comment.id ? '' : comment.id">{{comment.message.length > 200 ? bigComment == comment.id ? '...Less More' : '...See More' : ''}}</span></p>
-                                        <span class="reply-icon pointer" @click="replayForm(comment.id)">
+
+                                        <span class="reply-icon pointer" @click="replayForm(comment.id)" v-if="authCheck">
                                             <client-only>
                                                 <icon icon="reply"></icon>
                                             </client-only>
@@ -130,7 +131,7 @@
                         </ul>
                     </div>
                     <div class="blog-reply">
-                        <h2 v-if="!authCheck" class="text-center">Please <nuxt-link :to="{name: 'login'}" class="text-success">Login</nuxt-link> or <nuxt-link :to="{name: 'register'}" class="text-success">Register</nuxt-link> for post Your Comment</h2>
+                        <h2 v-if="!authCheck" class="text-center">Please <nuxt-link :to="{name: 'login'}" class="text-primary">Login</nuxt-link> or <nuxt-link :to="{name: 'register'}" class="text-primary">Register</nuxt-link> for post Your Comment</h2>
                         <form @submit.prevent="submiitComment" v-else>
                             <h5>Post Your Comment</h5>
                             <div class="row">
@@ -205,6 +206,7 @@ export default {
     head() {
         return {
             title: (this.post == null ? "Not Found" : this.post.title) + " - " + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

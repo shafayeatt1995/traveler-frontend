@@ -79,6 +79,7 @@ export default {
     head() {
         return {
             title: (this.category == null ? "Not Found - " : this.category.name + " Packages - ") + this.appName,
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

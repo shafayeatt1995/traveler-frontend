@@ -1,12 +1,10 @@
 export default {
-  // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 
   generate: {
     interval: 2400
   },
 
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "-",
     htmlAttrs: {
@@ -21,7 +19,7 @@ export default {
     ],
 
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico", hid: 'icon', },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/bootstrap.min.css", },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/style.css" },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/responsive.css" },
@@ -34,7 +32,6 @@ export default {
     ]
   },
 
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
 
   pageTransition: {
@@ -42,21 +39,18 @@ export default {
     mode: "out-in"
   },
 
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     "./plugins/mixin/global-access.js",
     "./plugins/pagination.js",
     "./plugins/filter.js",
     "./plugins/tooltip.js",
-    {src: "./plugins/toaster.js", ssr: false},
-    {src: "./plugins/owl.js", ssr: false},
-    {src: "./plugins/chart.js", ssr: false},
+    { src: "./plugins/toaster.js", ssr: false },
+    { src: "./plugins/owl.js", ssr: false },
+    { src: "./plugins/chart.js", ssr: false },
   ],
 
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     "@nuxtjs/fontawesome",
     "@nuxtjs/dotenv",
@@ -72,17 +66,19 @@ export default {
     }
   },
 
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
     "vue-sweetalert2/nuxt",
     "vue2-editor/nuxt",
-    "nuxt-lazy-load",
+    ["nuxt-lazy-load", {
+      defaultImage: process.env.assetURL + "images/preloader.svg",
+      loadingClass: 'isLoading',
+      loadedClass: 'isLoaded',
+  
+    }]
   ],
 
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     proxy: true,
   },
@@ -131,6 +127,5 @@ export default {
     }
   },
 
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
 }

@@ -1,12 +1,12 @@
 <template>
     <div class="package-card">
         <div class="package-thumb">
-            <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}">
+            <nuxt-link :to="{name: 'package-slug', params: {slug: pack.slug}}" class="d-block">
                 <img :data-src="assetURL + pack.thumbnail" :alt="pack.name" class="img-fluid" v-lazy-load/>
             </nuxt-link>
         </div>
         <div class="package-details">
-            <div class="package-info">
+            <div class="package-info" :class="customClass">
                 <h5 v-if="pack.discount === null">${{pack.price | currency}}/Per Person</h5>
                 <h5 v-else><del>${{pack.price |currency}}</del> ${{pack.discount | currency}}/Per Person</h5>
                 <h5>
@@ -34,6 +34,7 @@
 export default {
     props: {
         pack: {},
-    }
+        customClass: "",
+    },
 }
 </script>

@@ -117,6 +117,7 @@ export default {
     head() {
         return {
             title: "Blog - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 

@@ -258,6 +258,7 @@ export default {
     head() {
         return {
             title: "Page Editor - Dashboard",
+            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -300,17 +301,23 @@ export default {
         getEditPage() {
             this.$axios.get("edit-page").then(
                 (response) => {
-                    this.about.message = JSON.parse(response.data.about.page).message;
-                    this.about.title = JSON.parse(response.data.about.page).title;
-                    this.about.subTitle = JSON.parse(response.data.about.page).subTitle;
-                    this.about.meta = response.data.about.meta;
-                    this.about.oldMembers = JSON.parse(response.data.about.page).members;
+                    if (response.data.about !== null) {
+                        this.about.message = JSON.parse(response.data.about.page).message;
+                        this.about.title = JSON.parse(response.data.about.page).title;
+                        this.about.subTitle = JSON.parse(response.data.about.page).subTitle;
+                        this.about.meta = response.data.about.meta;
+                        this.about.oldMembers = JSON.parse(response.data.about.page).members;
+                    }
                     
-                    this.contact.message = response.data.contact.page;
-                    this.contact.meta = response.data.contact.meta;
+                    if (response.data.contact !== null) {
+                        this.contact.message = response.data.contact.page;
+                        this.contact.meta = response.data.contact.meta;
+                    }
                     
-                    this.faq.topics = JSON.parse(response.data.faq.page);
-                    this.faq.meta = response.data.faq.meta;
+                    if (response.data.faq !== null) {
+                        this.faq.topics = JSON.parse(response.data.faq.page);
+                        this.faq.meta = response.data.faq.meta;
+                    }
 
 
                 },
