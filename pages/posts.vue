@@ -68,12 +68,12 @@
     <Error v-else/>
 </template>
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: "All Posts - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

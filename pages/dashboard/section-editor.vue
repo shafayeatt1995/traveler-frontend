@@ -570,7 +570,7 @@ export default {
     head() {
         return {
             title: "Section Editor - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -750,7 +750,7 @@ export default {
 
         // Remove Existing Achievement
         removeAchievement(key, image, status) {
-            if (status == 'old') {
+            if (status == "old") {
                 this.achievement.oldAchievementImages.push(image);
                 this.achievement.achievements.splice(key, 1);
             } else {
@@ -786,7 +786,7 @@ export default {
 
         // Remove Existing Review
         removeReview(key, image, status) {
-            if (status == 'old') {
+            if (status == "old") {
                 this.review.oldReviewImages.push(image);
                 this.review.reviews.splice(key, 1);
             } else {
@@ -876,15 +876,15 @@ export default {
                 let file = event.target.files[0];
                 let reader = new FileReader();
                 reader.onloadend = () => {
-                    if (status == 'header') {
+                    if (status == "header") {
                         this.header.image = reader.result;
-                    } else if (status == 'achievement') {
+                    } else if (status == "achievement") {
                         this.achievementImage = reader.result;
-                    } else if (status == 'review') {
+                    } else if (status == "review") {
                         this.reviewImage = reader.result;
-                    } else if (status == 'footer') {
+                    } else if (status == "footer") {
                         this.footer.image = reader.result;
-                    } else if (status == 'breadcrumb') {
+                    } else if (status == "breadcrumb") {
                         this.breadcrumb.newImage = reader.result;
                     }
                 };

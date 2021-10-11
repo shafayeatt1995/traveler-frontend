@@ -439,7 +439,7 @@ export default {
                         data: formData
                     })
                     .then((result) => {
-                            let url = result.data.data.link
+                            let url = result.data.data.link;
                             Editor.insertEmbed(cursorLocation, "image", url);
                             $nuxt.$emit("success", "Image Successfully Uploaded");
                         },

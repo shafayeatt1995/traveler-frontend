@@ -60,12 +60,12 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: "Wishlist - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -79,10 +79,10 @@ export default {
         // Remove Wishlist
         removeWishlist(id) {
             if (this.click) {
-                this.click = false
+                this.click = false;
                 this.$axios.post("remove-wishlist/" + id).then(
                     () => {
-                        this.$store.dispatch('triggerWishlist');
+                        this.$store.dispatch("triggerWishlist");
                         $nuxt.$emit("success", "Package Successfully Remove From Wishlist");
                         this.click = true;
                     },
@@ -102,7 +102,7 @@ export default {
     },
 
     created() {
-        this.$store.dispatch('triggerWishlist');
+        this.$store.dispatch("triggerWishlist");
     },
 }
 </script>

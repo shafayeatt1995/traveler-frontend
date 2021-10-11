@@ -115,12 +115,12 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: "Blog - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -289,7 +289,7 @@ export default {
             if (this.imgurStatus) {
                 $nuxt.$emit("info", "Image Uploading");
                 var formData = new FormData();
-                formData.append("image", file)
+                formData.append("image", file);
                 axios({
                         url: "https://api.imgur.com/3/image",
                         method: "POST",
@@ -303,7 +303,7 @@ export default {
                         },
                         (error) => {
                             $nuxt.$emit("customError", "Image Upload Failed");
-                        })
+                        });
             } else {
                 $nuxt.$emit("customError", "Image Upload Disable By Admin");
             }

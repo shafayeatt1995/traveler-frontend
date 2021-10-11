@@ -196,7 +196,7 @@ export default {
     head() {
         return {
             title: "Booking Confirm - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }],
             script: [{
                 src: this.paypal,
             }],
@@ -239,10 +239,10 @@ export default {
                     this.booking = response.data.booking;
                     this.form.packageId = response.data.booking.package.id;
                     this.form.bookingId = response.data.booking.id;
-                    this.loading = false
+                    this.loading = false;
                 },
                 (error) => {
-                    this.loading = false
+                    this.loading = false;
                 }
             )
         },
@@ -299,7 +299,7 @@ export default {
 
         //Submit Payment
         paymentSubmit() {
-            this.submitLoading = true
+            this.submitLoading = true;
             if (this.click) {
                 this.click = false;
                 this.$axios.post("partial-payment", this.form).then(

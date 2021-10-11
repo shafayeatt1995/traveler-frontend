@@ -71,14 +71,12 @@
     <Empty message="No Package Found" v-else/>
 </template>
 <script>
-import axios from "axios"
-import SidebarPackage from '../components/Sidebar-package.vue';
+import axios from "axios";
 export default {
-    components: { SidebarPackage },
     head() {
         return {
             title: "All Packages - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

@@ -24,7 +24,7 @@ export default {
     head() {
         return {
             title: "Reset Password - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -80,7 +80,7 @@ export default {
 
     created() {
         if (!this.authCheck) {
-            this.resetLink()
+            this.resetLink();
         } else {
             this.$router.push("/dashboard");
         }

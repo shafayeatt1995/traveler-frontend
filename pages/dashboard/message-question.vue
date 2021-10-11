@@ -99,7 +99,7 @@ export default {
     head() {
         return {
             title: "Message & Question - Dashboard",
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -121,19 +121,20 @@ export default {
                     this.messages = response.data.messages;
                 },
                 (error) => {
-                    $nuxt.$emit("error", error)
+                    $nuxt.$emit("error", error);
                 }
-            )
+            );
         },
         getResults(page = 1) {
             this.$axios.get("get-contact-message?page=" + page).then(
                 (response) => {
                     this.messages = response.data.messages;
-                });
+                }
+            );
         },
 
         // View Full Message
-        viewMessage(message){
+        viewMessage(message) {
             this.view = message;
             $("#modal").modal("show");
         },
@@ -152,7 +153,7 @@ export default {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     }
-                )
+                );
             }
         },
 

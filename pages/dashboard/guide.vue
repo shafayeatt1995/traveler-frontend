@@ -111,7 +111,7 @@ export default {
     head() {
         return {
             title: "User - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -150,10 +150,10 @@ export default {
             this.$axios.get("users/" + 2).then(
                 (response) => {
                     this.empty = response.data.users.data.length > 0 ? false : true;
-                    this.users = response.data.users
+                    this.users = response.data.users;
                 },
                 (error) => {
-                    $nuxt.$emit("error", error)
+                    $nuxt.$emit("error", error);
                 }
             )
         },

@@ -80,7 +80,7 @@ export default {
     head() {
         return {
             title: "Edit Profile - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -177,8 +177,8 @@ export default {
                                         this.click = false;
                                         this.$auth.logout("laravelJWT").then(
                                             () => {
-                                                this.$store.dispatch('triggerWishlist');
-                                                this.$router.push("/login")
+                                                this.$store.dispatch("triggerWishlist");
+                                                this.$router.push("/login");
                                                 this.click = true;
                                             },
                                             () => {

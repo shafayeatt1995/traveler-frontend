@@ -148,7 +148,7 @@ export default {
         // Add Subscriber
         Subscribe() {
             if (this.click) {
-                this.click = false
+                this.click = false;
                 this.$axios.post("create-subscriber", this.form).then(
                     (response) => {
                         this.form.email = "";

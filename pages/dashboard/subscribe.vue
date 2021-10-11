@@ -55,7 +55,7 @@ export default {
     head() {
         return {
             title: "Subscriber List - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -73,10 +73,10 @@ export default {
             this.$axios.get("subscriber").then(
                 (response) => {
                     this.empty = response.data.subscribers.data.length > 0 ? false : true;
-                    this.subscribers = response.data.subscribers
+                    this.subscribers = response.data.subscribers;
                 },
                 (error) => {
-                    $nuxt.$emit("error", error)
+                    $nuxt.$emit("error", error);
                 }
             )
         },

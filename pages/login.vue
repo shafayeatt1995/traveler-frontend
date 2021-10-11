@@ -28,7 +28,7 @@ export default {
     head() {
         return {
             title: "Login - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
     data() {

@@ -74,12 +74,12 @@
     <Empty message="No Package Found" v-else/>
 </template>
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: (this.packUser == null ? "Not Found - " : this.packUser.name + " Packages - ") + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

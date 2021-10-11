@@ -27,7 +27,7 @@ export default {
     head() {
         return {
             title: "Want To Be A Guide - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
     data() {

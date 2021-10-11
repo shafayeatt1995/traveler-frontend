@@ -32,7 +32,7 @@ export default {
     head() {
         return {
             title: (this.authCheck ? "Active Account - " : "Not found - ") + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

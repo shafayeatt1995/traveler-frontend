@@ -280,7 +280,7 @@ export default {
     head() {
         return {
             title: "Site Setting - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -372,7 +372,7 @@ export default {
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (this.click) {
-                        this.click = false
+                        this.click = false;
                         this.$axios.post("update-app", this.appSetting).then(
                             (response) => {
                                 $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
@@ -386,7 +386,7 @@ export default {
                         )
                     }
                 }
-            })
+            });
         },
 
         // Update Paypal Payment Information
@@ -584,8 +584,8 @@ export default {
                     if (this.click) {
                         this.click = false;
                         const data = new FormData();
-                        data.append('update', this.preloader.update);
-                        data.append('file', this.preloader.file);
+                        data.append("update", this.preloader.update);
+                        data.append("file", this.preloader.file);
                         this.$axios.post("update-preloader", data).then(
                             (response) => {
                                 $nuxt.$emit("success", "Info Successfully Updated. Wait A Moment For Apply Changes");
@@ -608,10 +608,10 @@ export default {
                 let file = event.target.files[0];
                 let reader = new FileReader();
                 reader.onloadend = () => {
-                    if (status == "icon") {
+                    if (status === "icon") {
                         this.titleIcon.update = true;
                         this.titleIcon.image = reader.result;
-                    } else if (status == "preloader") {
+                    } else if (status === "preloader") {
                         this.preloader.update = true;
                         this.preloader.file = file;
                         this.preloader.image = reader.result;
@@ -628,7 +628,7 @@ export default {
             this.$nuxt.$on("triggergetsetting", () => {
                 setTimeout(() => {
                     this.getSetting();
-                    this.$store.dispatch('triggerinit');
+                    this.$store.dispatch("triggerinit");
                     $nuxt.$emit("success", "Info Apply Successfully");
                 }, 3000);
             });

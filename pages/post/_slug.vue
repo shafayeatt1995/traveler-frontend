@@ -201,12 +201,12 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: (this.post == null ? "Not Found" : this.post.title) + " - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -271,18 +271,19 @@ export default {
             this.$axios.get("comment/" + this.post.id + "?page=" + page).then(
                 (response) => {
                     this.comments = response.data.comments;
-                });
+                }
+            );
         },
 
         // Social Media Share Link
         socialLink(social) {
-            if (social == "facebook") {
+            if (social === "facebook") {
                 window.open("https://www.facebook.com/share.php?u=" + window.location.origin + this.$route.path, "_blank");
-            } else if (social == "twitter") {
+            } else if (social === "twitter") {
                 window.open("http://twitter.com/share?url=" + window.location.origin + this.$route.path, "_blank");
-            } else if (social == "pinterest") {
+            } else if (social === "pinterest") {
                 window.open("http://pinterest.com/pin/create/button/?url=" + window.location.origin + this.$route.path, "_blank");
-            } else if (social == "linkedin") {
+            } else if (social === "linkedin") {
                 window.open("http://www.linkedin.com/shareArticle?url=" + window.location.origin + this.$route.path, "_blank");
             }
         },
@@ -402,9 +403,9 @@ export default {
 
         incrementView() {
             if (process.client) {
-                let find = window.localStorage.getItem(btoa('blog' + this.post.id));
+                let find = window.localStorage.getItem(btoa("blog" + this.post.id));
                 if (!find) {
-                    localStorage.setItem(btoa('blog' + this.post.id), Math.random());
+                    localStorage.setItem(btoa("blog" + this.post.id), Math.random());
                     this.$axios.post("increment-blog/" + this.post.id);
                 }
             }

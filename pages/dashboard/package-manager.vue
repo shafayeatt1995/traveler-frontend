@@ -235,10 +235,10 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 import moment from "moment";
-import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 
 export default {
     components: { DatePicker },
@@ -246,7 +246,7 @@ export default {
     head() {
         return {
             title: "Package Manager - Dashboard",
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -328,15 +328,15 @@ export default {
 
         //Get All Package
         getPackage() {
-            this.$axios.get('package').then(
+            this.$axios.get("package").then(
                 (response) => {
                     this.empty = response.data.packages.data.length > 0 ? false : true;
-                    this.packages = response.data.packages
-                    this.categories = response.data.categories
-                    this.places = response.data.places
+                    this.packages = response.data.packages;
+                    this.categories = response.data.categories;
+                    this.places = response.data.places;
                 },
                 (error) => {
-                    $nuxt.$emit("error", error)
+                    $nuxt.$emit("error", error);
                 }
             )
         },
@@ -383,8 +383,8 @@ export default {
                         this.title = "";
                         this.time = "";
                         this.description = "";
-                        $nuxt.$emit('triggerPackages');
-                        $nuxt.$emit('success', 'Package Created Successfully');
+                        $nuxt.$emit("triggerPackages");
+                        $nuxt.$emit("success", "Package Created Successfully");
                         this.click = true;
                     },
                     (error) => {
@@ -413,8 +413,8 @@ export default {
             this.form.discount = pack.discount;
             this.form.min_booking_amount = pack.min_booking_amount;
             this.form.overview = pack.overview;
-            this.form.start_date = moment(pack.start_date).format('YYYY-MM-DD, hh:mm a');
-            this.form.return_date = moment(pack.return_date).format('YYYY-MM-DD, hh:mm a');
+            this.form.start_date = moment(pack.start_date).format("YYYY-MM-DD, hh:mm a");
+            this.form.return_date = moment(pack.return_date).format("YYYY-MM-DD, hh:mm a");
             this.form.included = JSON.parse(pack.included);
             this.form.excluded = JSON.parse(pack.excluded);
             this.form.tour_plan = JSON.parse(pack.tour_plan);
@@ -464,8 +464,8 @@ export default {
                         this.title = "";
                         this.time = "";
                         this.description = "";
-                        $nuxt.$emit('triggerPackages');
-                        $nuxt.$emit('success', 'Package Updated Successfully');
+                        $nuxt.$emit("triggerPackages");
+                        $nuxt.$emit("success", "Package Updated Successfully");
                         this.click = true;
                     },
                     (error) => {
@@ -479,13 +479,13 @@ export default {
         // Delete Package
         deletePackage(id) {
             this.$swal.fire({
-                title: 'Are you sure?',
+                title: "Are you sure?",
                 text: "You won't be able to revert this!",
-                icon: 'warning',
+                icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (this.click) {
@@ -493,11 +493,11 @@ export default {
                         this.$axios.post("delete-package/" + id).then(
                             () => {
                                 Swal.fire(
-                                    'Deleted!',
-                                    'Package has been deleted.',
-                                    'success'
+                                    "Deleted!",
+                                    "Package has been deleted.",
+                                    "success"
                                 )
-                                $nuxt.$emit('triggerPackages');
+                                $nuxt.$emit("triggerPackages");
                                 this.click = true;
                             },
                             (error) => {
@@ -535,7 +535,7 @@ export default {
 
         // Remove Package Image
         removeImage(image, key) {
-            image !== null ? this.form.delete_images.push(image) : '';
+            image !== null ? this.form.delete_images.push(image) : "";
             image !== null ? this.form.images.splice(key, 1) : this.form.new_images.splice(key, 1);
         },
 
@@ -608,7 +608,7 @@ export default {
     created() {
         if (this.adminOrGuide) {
             this.getPackage();
-            this.$nuxt.$on('triggerPackages', () => {
+            this.$nuxt.$on("triggerPackages", () => {
                 this.getPackage();
             });
         } else {

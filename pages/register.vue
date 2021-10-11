@@ -23,7 +23,7 @@ export default {
     head() {
         return {
             title: "Register - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -45,7 +45,7 @@ export default {
             this.loading = true;
             if (this.click) {
                 this.click = false;
-                this.$axios.post('register', this.credential).then(
+                this.$axios.post("register", this.credential).then(
                     () => {
                         this.$auth.loginWith("laravelJWT", {
                             data: {

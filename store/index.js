@@ -56,114 +56,114 @@ export const getters = {
     user_id(state) {
         return state.auth.loggedIn ? state.auth.user.id : '';
     },
-    
+
     //Paypal id
-    paypal_js(state){
+    paypal_js(state) {
         return state.paypal_id;
     },
 
     //Paypal status
-    paypal_status(state){
+    paypal_status(state) {
         return state.paypalStatus;
     },
 
     //Stripe status
-    stripe_status(state){
+    stripe_status(state) {
         return state.stripeStatus;
     },
 
     //Paypal id
-    project_app_name(state){
+    project_app_name(state) {
         return state.app_name;
     },
 
     //Paypal id
-    base_url(state){
+    base_url(state) {
         return state.link;
     },
 
     //Paypal id
-    asset_url(state){
+    asset_url(state) {
         return state.asset_link;
     },
 
     //Header Logo
-    headerLogo(state){
+    headerLogo(state) {
         return state.header.image;
     },
 
     //Header.phone
-    headerPhone(state){
+    headerPhone(state) {
         return state.header.phone;
     },
 
     //Header Email
-    headerEmail(state){
+    headerEmail(state) {
         return state.header.email;
     },
 
     //Footer Logo
-    footerLogo(state){
+    footerLogo(state) {
         return state.footer.image;
     },
 
     //Footer Logo
-    footerMessage(state){
+    footerMessage(state) {
         return state.footer.message;
     },
 
     //Footer Logo
-    footerSocial(state){
+    footerSocial(state) {
         return state.footer.social;
     },
 
     //Footer Logo
-    footerPhone(state){
+    footerPhone(state) {
         return state.footer.phone;
     },
 
     //Footer Logo
-    footerEmail(state){
+    footerEmail(state) {
         return state.footer.email;
     },
 
     //Footer Logo
-    footerAddress(state){
+    footerAddress(state) {
         return state.footer.address;
     },
 
     //Footer Logo
-    footerNewsletterMessage(state){
+    footerNewsletterMessage(state) {
         return state.footer.newsletterMessage;
     },
 
     //Imgur Api link
-    imgurId(state){
+    imgurId(state) {
         return state.imgur_id;
     },
 
     //Imgur status
-    imgur_status(state){
+    imgur_status(state) {
         return state.imgurStatus;
     },
 
     //Breadcrumb Image
-    breadcrumb_image(state){
+    breadcrumb_image(state) {
         return state.breadcrumb;
     },
 
     //Breadcrumb Image
-    wishlists(state){
+    wishlists(state) {
         return state.allWishlists;
     },
 
     //Breadcrumb Image
-    getWidth(state){
+    getWidth(state) {
         return state.width;
     },
 
     //Breadcrumb Image
-    title_icon(state){
+    title_icon(state) {
         return state.titleIcon;
     },
 }
@@ -177,51 +177,51 @@ export const mutations = {
         state.footer = response.data.footer !== null ? JSON.parse(response.data.footer.info) : {};
         state.imgur_id = response.data.imgurId !== null ? response.data.imgurId : "";
         state.breadcrumb = response.data.breadcrumb !== null ? response.data.breadcrumb.info : "";
-        state.paypalStatus= response.data.paypalStatus;
-        state.stripeStatus= response.data.stripeStatus;
-        state.imgurStatus= response.data.imgurStatus;
-        state.titleIcon= response.data.titleIcon;
+        state.paypalStatus = response.data.paypalStatus;
+        state.stripeStatus = response.data.stripeStatus;
+        state.imgurStatus = response.data.imgurStatus;
+        state.titleIcon = response.data.titleIcon;
     },
 
     //Set Wishlist
-    setWishlist(state, response){
+    setWishlist(state, response) {
         state.allWishlists = response.wishlists;
     },
 
     //Set Wishlist
-    setWidth(state, width){
+    setWidth(state, width) {
         state.width = width;
     },
 }
 
 export const actions = {
     // Get Paypal Information
-    async nuxtServerInit (context) {
+    async nuxtServerInit(context) {
         const response = await axios.get(context.state.link + "start");
         context.commit("getapp", response);
     },
-    triggerinit (context) {
+    triggerinit(context) {
         axios.get(context.state.link + "start").then(
-            (response)=>{
+            (response) => {
                 context.commit("getapp", response);
             }
         )
     },
 
     // Get Wishlist Information
-    triggerWishlist(context){
+    triggerWishlist(context) {
         if (context.state.auth.loggedIn) {
             axios.get(context.state.link + "wishlist/" + context.state.auth.user.id).then(
-                (response)=>{
+                (response) => {
                     context.commit("setWishlist", response.data);
                 }
             )
-        } else{
-            context.commit("setWishlist", {wishlists: []});
+        } else {
+            context.commit("setWishlist", { wishlists: [] });
         }
     },
-    
-    triggerDisplay(context, width){
+
+    triggerDisplay(context, width) {
         context.commit("setWidth", width);
     },
 }

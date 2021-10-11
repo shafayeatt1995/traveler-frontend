@@ -1072,12 +1072,12 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: "Dashboard - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -1250,7 +1250,7 @@ export default {
                     this.dashGuide.booking.amount = response.data.bookingAmount;
                     this.dashGuide.booking.todayQuantity = response.data.todayQuantity;
                     this.dashGuide.booking.todayAmount = response.data.todayAmount;
-                    response.data.bookingChart.forEach(booking => {
+                    response.data.bookingChart.forEach((booking) => {
                         this.dashGuide.bookingChart[booking.date] = booking.ticket;
                     });
                     this.dashGuide.packages = response.data.packages;

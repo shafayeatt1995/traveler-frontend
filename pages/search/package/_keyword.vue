@@ -95,15 +95,15 @@
 </template>
 
 <script>
-import axios from "axios"
-import DatePicker from 'vue2-datepicker';
-import 'vue2-datepicker/index.css';
+import axios from "axios";
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
 export default {
     components: { DatePicker },
     head() {
         return {
             title: this.title + " Search Package - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

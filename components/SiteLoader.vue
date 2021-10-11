@@ -28,7 +28,7 @@ export default {
 
     mounted() {
         document.onreadystatechange = () => {
-            if (document.readyState == "complete") {
+            if (document.readyState === "complete") {
                 this.preloader = false;
             }
         }

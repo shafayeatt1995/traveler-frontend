@@ -37,7 +37,7 @@ export default {
     head() {
         return {
             title: "Active Account - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -54,10 +54,10 @@ export default {
             this.$axios.post("verification/" + this.$route.params.token).then(
                 (response) => {
                     this.$auth.fetchUser();
-                    setTimeout(() => { this.$router.push("/active-account") }, 2000);
+                    setTimeout(() => { this.$router.push("/active-account"); }, 2000);
                 },
                 (error) => {
-                    this.status = "fail"
+                    this.status = "fail";
                     $nuxt.$emit("error", error);
                 },
             )
@@ -91,7 +91,7 @@ export default {
 
     created() {
         if (this.authCheck) {
-            this.verification()
+            this.verification();
         }
     },
 }

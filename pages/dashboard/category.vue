@@ -84,7 +84,7 @@ export default {
     head() {
         return {
             title: "Category - Dashboard",
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -115,7 +115,7 @@ export default {
             this.$axios.get("category").then(
                 (response) => {
                     this.empty = response.data.categories.data.length > 0 ? false : true;
-                    this.categories = response.data.categories
+                    this.categories = response.data.categories;
                 },
                 (error) => {
                     $nuxt.$emit("error", error)

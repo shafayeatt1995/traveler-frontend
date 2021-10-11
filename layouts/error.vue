@@ -5,7 +5,7 @@
 export default {
     head() {
         return {
-            title: 'Not Found - ' + this.appName,
+            title: "Not Found - " + this.appName,
         };
     },
 }

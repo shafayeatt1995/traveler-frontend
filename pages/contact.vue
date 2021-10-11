@@ -43,12 +43,12 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
     head() {
         return {
             title: "Contact Us - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }],
             meta: [{
                 hid: "description",
                 name: "description",
@@ -109,7 +109,7 @@ export default {
         // Submit Message 
         submitMessage() {
             if (this.click) {
-                this.click = false
+                this.click = false;
                 this.$axios.post("submit-message", this.form).then(
                     (response) => {
                         this.form.name = "";

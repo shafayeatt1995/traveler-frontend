@@ -455,7 +455,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
 export default {
@@ -464,7 +464,7 @@ export default {
     head() {
         return {
             title: (this.pack == null ? "Not Found" : this.pack.name) + " - " + this.appName,
-            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }],
             script: [{
                 src: this.paypal,
             }],
@@ -789,9 +789,9 @@ export default {
         // Increment View
         incrementView() {
             if (process.client) {
-                let find = window.localStorage.getItem(btoa('package' + this.pack.id));
+                let find = window.localStorage.getItem(btoa("package" + this.pack.id));
                 if (!find) {
-                    localStorage.setItem(btoa('package' + this.pack.id), Math.random());
+                    localStorage.setItem(btoa("package" + this.pack.id), Math.random());
                     this.$axios.post("increment-package/" + this.pack.id);
                 }
             }
@@ -804,7 +804,7 @@ export default {
                     this.click = false
                     this.$axios.post("create-wishlist/" + id).then(
                         (response) => {
-                            this.$store.dispatch('triggerWishlist');
+                            this.$store.dispatch("triggerWishlist");
                             $nuxt.$emit("success", "Package Successfully Add to Wishlist");
                             this.click = true;
                         },
@@ -825,7 +825,7 @@ export default {
                 this.click = false
                 this.$axios.post("remove-wishlist/" + id).then(
                     () => {
-                        this.$store.dispatch('triggerWishlist');
+                        this.$store.dispatch("triggerWishlist");
                         $nuxt.$emit("success", "Package Successfully Remove From Wishlist");
                         this.click = true;
                     },
