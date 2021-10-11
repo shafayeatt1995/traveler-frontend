@@ -3,19 +3,19 @@ import moment from "moment";
 
 // Date Format
 Vue.filter("date", (value) => {
-    return moment(value).startOf('hour').fromNow();
+    return moment(value).startOf("hour").fromNow();
 });
 
 Vue.filter("normalDate", (value) => {
-    return moment(value).format('ll');
+    return moment(value).format("ll");
 });
 
 Vue.filter("fullDate", (value) => {
-    return moment(value).format('LLLL');
+    return moment(value).format("LLLL");
 });
 
 Vue.filter("year", (value) => {
-    return moment(value).format('YYYY');
+    return moment(value).format("YYYY");
 });
 
 
