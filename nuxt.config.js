@@ -1,9 +1,9 @@
 export default {
-  target: "static",
+  // target: "server",
 
-  generate: {
-    interval: 2400
-  },
+  // generate: {
+  //   interval: 2400
+  // },
 
   head: {
     title: "-",
@@ -13,13 +13,13 @@ export default {
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: 'description', name: 'description', content: 'Traveler Tourism Site' },
-      { hid: 'keywords', name: 'keywords', content: 'Tour, Travel, Trip, tourism, journey' },
-      { hid: 'author', name: 'author', content: 'AmiAnik' },
+      { hid: "description", name: "description", content: "Traveler Tourism Site" },
+      { hid: "keywords", name: "keywords", content: "Tour, Travel, Trip, tourism, journey" },
+      { hid: "author", name: "author", content: "AmiAnik" },
     ],
 
     link: [
-      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico", hid: 'icon', },
+      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico", hid: "icon", },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/bootstrap.min.css", },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/style.css" },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/responsive.css" },
@@ -54,7 +54,7 @@ export default {
   buildModules: [
     "@nuxtjs/fontawesome",
     "@nuxtjs/dotenv",
-    '@nuxtjs/composition-api/module'
+    "@nuxtjs/composition-api/module"
   ],
 
   fontawesome: {
@@ -73,9 +73,8 @@ export default {
     "vue2-editor/nuxt",
     ["nuxt-lazy-load", {
       defaultImage: process.env.assetURL + "images/preloader.svg",
-      loadingClass: 'isLoading',
-      loadedClass: 'isLoaded',
-  
+      loadingClass: "isLoading",
+      loadedClass: "isLoaded",
     }]
   ],
 

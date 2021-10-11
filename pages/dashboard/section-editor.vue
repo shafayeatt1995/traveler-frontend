@@ -570,7 +570,7 @@ export default {
     head() {
         return {
             title: "Section Editor - Dashboard",
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -584,6 +584,7 @@ export default {
             active: "",
             header: {
                 image: "",
+                imgPath: "",
                 oldImage: "",
                 phone: "",
                 email: "",
@@ -639,6 +640,7 @@ export default {
                 (response) => {
                     if (response.data.header !== null) {
                         this.header.oldImage = this.assetURL + JSON.parse(response.data.header.info).image;
+                        this.header.imgPath = JSON.parse(response.data.header.info).image;
                         this.header.phone = JSON.parse(response.data.header.info).phone;
                         this.header.email = JSON.parse(response.data.header.info).email;
                     }
@@ -717,7 +719,7 @@ export default {
 
         //Remove Slider Package
         removePackage(id) {
-            let key = this.sliderPackage.activePackages.findIndex(findKey => findKey == id);
+            let key = this.sliderPackage.activePackages.findIndex((findKey) => findKey == id);
             this.sliderPackage.activePackages.splice(key, 1);
         },
 

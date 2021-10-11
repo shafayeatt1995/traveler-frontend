@@ -24,27 +24,27 @@ export const getters = {
 
     //Admin Check
     isAdmin(state) {
-        return state.auth.loggedIn ? state.auth.user.role_id == 1 ? true : false : false;
+        return state.auth.loggedIn ? state.auth.user.role_id === 1 ? true : false : false;
     },
 
     //Guide Check
     isGuide(state) {
-        return state.auth.loggedIn ? state.auth.user.role_id == 2 ? true : false : false;
+        return state.auth.loggedIn ? state.auth.user.role_id === 2 ? true : false : false;
     },
 
     //User Check
     isUser(state) {
-        return state.auth.loggedIn ? state.auth.user.role_id == 3 ? true : false : false;
+        return state.auth.loggedIn ? state.auth.user.role_id === 3 ? true : false : false;
     },
 
     //Admin or Guide Check
     isAdminOrGuide(state) {
-        return state.auth.loggedIn ? state.auth.user.role_id == 1 || state.auth.user.role_id == 2 ? true : false : false;
+        return state.auth.loggedIn ? state.auth.user.role_id === 1 || state.auth.user.role_id === 2 ? true : false : false;
     },
 
     //Admin or User Check
     isAdminOrUser(state) {
-        return state.auth.loggedIn ? state.auth.user.role_id == 1 || state.auth.user.role_id == 3 ? true : false : false;
+        return state.auth.loggedIn ? state.auth.user.role_id === 1 || state.auth.user.role_id === 3 ? true : false : false;
     },
 
     // Auth User
@@ -56,7 +56,7 @@ export const getters = {
     user_id(state) {
         return state.auth.loggedIn ? state.auth.user.id : '';
     },
-
+    
     //Paypal id
     paypal_js(state){
         return state.paypal_id;

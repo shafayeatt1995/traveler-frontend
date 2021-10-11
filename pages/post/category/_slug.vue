@@ -79,7 +79,7 @@ export default {
     head() {
         return {
             title: (this.category == null ? "Not Found - " : this.category.name + " Posts - ") + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 

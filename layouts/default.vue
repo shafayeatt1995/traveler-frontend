@@ -1,5 +1,6 @@
 <template>
 <div>
+    <SiteLoader />
     <Header />
     <Nuxt />
     <Footer />
@@ -26,22 +27,22 @@ export default {
         this.display();
 
         //Trigger Success Toast Message
-        this.$nuxt.$on("success", success => {
+        this.$nuxt.$on("success", (success) => {
             Toast.fire({ icon: "success", title: success });
         });
 
         //Trigger Error Toast Message
-        this.$nuxt.$on("error", error => {
+        this.$nuxt.$on("error", (error) => {
             Toast.fire({ icon: "error", title: error.response.data.errors ? error.response.data.errors[Object.keys(error.response.data.errors)[0]][0] : error.response.data.error ? error.response.data.error : error.response.data.message ? error.response.data.message : "Something Wrong! Please try Again" });
         });
 
         //Trigger Error Toast Message
-        this.$nuxt.$on("customError", error => {
+        this.$nuxt.$on("customError", (error) => {
             Toast.fire({ icon: "error", title: error });
         });
 
         //Trigger Info Toast Message
-        this.$nuxt.$on("info", info => {
+        this.$nuxt.$on("info", (info) => {
             Toast.fire({ icon: "info", title: info });
         });
     },

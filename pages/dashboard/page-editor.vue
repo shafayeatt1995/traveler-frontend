@@ -99,7 +99,7 @@
                             <div class="px-2" v-if="active == 'faq'">
                                 <div class="form-group">
                                     <label for="faq-topic" class="mt-2">FAQ Topic</label>
-                                    <input class="form-control" id="faq-topic" v-model="faqTopic"/>
+                                    <input class="form-control" id="faq-topic" v-model="faqTopic" />
                                 </div>
                                 <div class="text-center">
                                     <button type="button" class="btn-second my-2" @click="CreateTopic">Create New Topic</button>
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="faq-question" class="mt-2">FAQ Question</label>
-                                    <input class="form-control" id="faq-question" v-model="faqQuestion"/>
+                                    <input class="form-control" id="faq-question" v-model="faqQuestion" />
                                 </div>
                                 <div class="form-group">
                                     <label for="faq-answer" class="mt-2">FAQ Answer</label>
@@ -258,7 +258,7 @@ export default {
     head() {
         return {
             title: "Page Editor - Dashboard",
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: "icon", type: "image/x-icon", href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -308,17 +308,16 @@ export default {
                         this.about.meta = response.data.about.meta;
                         this.about.oldMembers = JSON.parse(response.data.about.page).members;
                     }
-                    
+
                     if (response.data.contact !== null) {
                         this.contact.message = response.data.contact.page;
                         this.contact.meta = response.data.contact.meta;
                     }
-                    
+
                     if (response.data.faq !== null) {
                         this.faq.topics = JSON.parse(response.data.faq.page);
                         this.faq.meta = response.data.faq.meta;
                     }
-
 
                 },
                 (error) => {
@@ -340,7 +339,7 @@ export default {
 
         // Remove About Us Team Member
         removeMember(key, image, status) {
-            if (status == 'old') {
+            if (status == "old") {
                 this.about.deleteMembers.push(image);
                 this.about.oldMembers.splice(key, 1);
             } else {
@@ -383,27 +382,27 @@ export default {
         },
 
         // Create FAQ Topic
-        CreateTopic(){
-            this.faq.topics.push({name: this.faqTopic, qnas: []});
+        CreateTopic() {
+            this.faq.topics.push({ name: this.faqTopic, qnas: [] });
             this.faqTopic = "";
         },
 
         // Remove Topic
-        removeTopic(key){
+        removeTopic(key) {
             this.faq.topics.splice(key, 1)
         },
 
         // Add FAQ Question and Answer
-        addQuestion(){
-            let find = this.faq.topics.find((topic, key)=> {return key == this.faqActiveTopic});
-            find.qnas.push({question: this.faqQuestion, answer: this.faqAnswer});
+        addQuestion() {
+            let find = this.faq.topics.find((topic, key) => { return key == this.faqActiveTopic });
+            find.qnas.push({ question: this.faqQuestion, answer: this.faqAnswer });
             this.faqQuestion = "";
             this.faqAnswer = "";
         },
 
         // Remove FAQ Question and Answer
-        removeQuestion(key, index){
-            let find = this.faq.topics.find((topic, key2)=> {return key2 == key});
+        removeQuestion(key, index) {
+            let find = this.faq.topics.find((topic, key2) => { return key2 == key });
             find.qnas.splice(index, 1);
             this.showQNA = "";
         },
@@ -456,7 +455,7 @@ export default {
                 let file = event.target.files[0];
                 let reader = new FileReader();
                 reader.onloadend = () => {
-                    if (status == 'about') {
+                    if (status == "about") {
                         this.teamMember.image = reader.result;
                     }
                 };
@@ -468,9 +467,6 @@ export default {
     created() {
         if (this.admin) {
             this.getEditPage();
-            // this.$nuxt.$on("triggerPage", () => {
-            //     this.getPage();
-            // });
         } else {
             this.$router.push("/login");
         }

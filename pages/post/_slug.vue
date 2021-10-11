@@ -18,7 +18,7 @@
                             <nuxt-link :to="{name: 'post-category-slug', params: {slug: post.category.slug}}" class="blog-category strong">{{post.category.name}}</nuxt-link>
                         </div>
                     </div>
-                    <div class="blog-img-xl">
+                    <div class="blog-img-xl text-center">
                         <img :data-src="assetURL + post.image" :alt="post.title" class="img-fluid" v-lazy-load />
                         <div class="blog-date">
                             <client-only>

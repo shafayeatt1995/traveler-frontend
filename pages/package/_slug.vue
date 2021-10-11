@@ -464,7 +464,7 @@ export default {
     head() {
         return {
             title: (this.pack == null ? "Not Found" : this.pack.name) + " - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
+            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }],
             script: [{
                 src: this.paypal,
             }],
@@ -666,7 +666,7 @@ export default {
         },
 
         // Delete Replay
-        deleteReplay(id, key) {
+        deleteReplay(id, index) {
             if (this.authCheck) {
                 this.$swal.fire({
                     title: "Are you sure?",
@@ -680,7 +680,7 @@ export default {
                     if (result.isConfirmed) {
                         if (this.click) {
                             this.click = false;
-                            this.$axios.post("delete-replay/" + id, { key: key }).then(
+                            this.$axios.post("delete-replay/" + id, { key: index }).then(
                                 () => {
                                     Swal.fire(
                                         "Deleted!",

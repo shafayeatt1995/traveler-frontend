@@ -56,7 +56,7 @@
                                                     <td class="align-middle">{{booking.phone}}</td>
                                                     <td class="align-middle">{{booking.ticket}}</td>
                                                     <td class="align-middle">${{booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) | currency}}</td>
-                                                    <td class="align-middle">${{booking.payments.reduce((total, payment)=> total + parseFloat(payment.amount), 0) | currency}}</td>
+                                                    <td class="align-middle">${{booking.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0) | currency}}</td>
                                                     <td class="align-middle">
                                                         <span class="text-danger" v-if="booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) > booking.payments.reduce((total, payment) => total + payment.amount, 0)">
                                                             <client-only>
@@ -161,7 +161,7 @@
                                                     <td class="align-middle">{{booking.phone}}</td>
                                                     <td class="align-middle">{{booking.ticket}}</td>
                                                     <td class="align-middle">${{booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) | currency}}</td>
-                                                    <td class="align-middle">${{booking.payments.reduce((total, payment)=> total + parseFloat(payment.amount), 0) | currency}}</td>
+                                                    <td class="align-middle">${{booking.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0) | currency}}</td>
                                                     <td class="align-middle">
                                                         <span class="text-danger" v-if="booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) > booking.payments.reduce((total, payment) => total + payment.amount, 0)">
                                                             <client-only>
@@ -285,23 +285,23 @@
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Ticket Booking:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + value.ticket, 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + value.ticket, 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Full Payment:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + (value.booking_type ? value.ticket : 0), 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Partial Payment:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Ticket Available:</td>
-                                                        <td class="border-0">{{pack.ticket - (pack.bookings.reduce((total, value)=> total + value.ticket, 0))}}</td>
+                                                        <td class="border-0">{{pack.ticket - (pack.bookings.reduce((total, value) => total + value.ticket, 0))}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Booking Collection Amount:</td>
-                                                        <td class="border-0">${{pack.bookings.reduce((total, value)=> total + value.payments.reduce((subTotal, payment)=> subTotal + +payment.amount, 0), 0) | currency}}</td>
+                                                        <td class="border-0">${{pack.bookings.reduce((total, value) => total + value.payments.reduce((subTotal, payment) => subTotal + +payment.amount, 0), 0) | currency}}</td>
                                                     </tr>
                                                 </td>
                                                 <td class="align-middle">
@@ -392,15 +392,15 @@
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Ticket Booking:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + value.ticket, 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + value.ticket, 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Full Payment:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + (value.booking_type ? value.ticket : 0), 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Partial Payment:</td>
-                                                        <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                        <td class="border-0">{{pack.bookings.reduce((total, value) => total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Ticket Available:</td>
@@ -408,7 +408,7 @@
                                                     </tr>
                                                     <tr class="border-0">
                                                         <td class="border-0">Booking Collection Amount:</td>
-                                                        <td class="border-0">${{pack.bookings.reduce((total, value)=> total + value.payments.reduce((subTotal, payment)=> subTotal + +payment.amount, 0), 0) | currency}}</td>
+                                                        <td class="border-0">${{pack.bookings.reduce((total, value) => total + value.payments.reduce((subTotal, payment) => subTotal + +payment.amount, 0), 0) | currency}}</td>
                                                     </tr>
                                                 </td>
                                                 <td class="align-middle">
@@ -575,7 +575,7 @@
                                                     <td class="align-middle">{{booking.phone}}</td>
                                                     <td class="align-middle">{{booking.ticket}}</td>
                                                     <td class="align-middle">${{booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) | currency}}</td>
-                                                    <td class="align-middle">${{booking.payments.reduce((total, payment)=> total + parseFloat(payment.amount), 0) | currency}}</td>
+                                                    <td class="align-middle">${{booking.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0) | currency}}</td>
                                                     <td class="align-middle">
                                                         <span class="text-danger" v-if="booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) > booking.payments.reduce((total, payment) => total + payment.amount, 0)">
                                                             <client-only>
@@ -680,7 +680,7 @@
                                                     <td class="align-middle">{{booking.phone}}</td>
                                                     <td class="align-middle">{{booking.ticket}}</td>
                                                     <td class="align-middle">${{booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) | currency}}</td>
-                                                    <td class="align-middle">${{booking.payments.reduce((total, payment)=> total + parseFloat(payment.amount), 0) | currency}}</td>
+                                                    <td class="align-middle">${{booking.payments.reduce((total, payment) => total + parseFloat(payment.amount), 0) | currency}}</td>
                                                     <td class="align-middle">
                                                         <span class="text-danger" v-if="booking.ticket * (booking.booking_type ? booking.discount == null ? booking.price : booking.discount : booking.price) > booking.payments.reduce((total, payment) => total + payment.amount, 0)">
                                                             <client-only>
@@ -802,23 +802,23 @@
                                             </tr>
                                             <tr class="border-0">
                                                 <td class="border-0">Ticket Booking:</td>
-                                                <td class="border-0">{{pack.bookings.reduce((total, value)=> total + value.ticket, 0)}}</td>
+                                                <td class="border-0">{{pack.bookings.reduce((total, value) => total + value.ticket, 0)}}</td>
                                             </tr>
                                             <tr class="border-0">
                                                 <td class="border-0">Full Payment:</td>
-                                                <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                <td class="border-0">{{pack.bookings.reduce((total, value) => total + (value.booking_type ? value.ticket : 0), 0)}}</td>
                                             </tr>
                                             <tr class="border-0">
                                                 <td class="border-0">Partial Payment:</td>
-                                                <td class="border-0">{{pack.bookings.reduce((total, value)=> total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
+                                                <td class="border-0">{{pack.bookings.reduce((total, value) => total + (!value.booking_type ? value.ticket : 0), 0)}}</td>
                                             </tr>
                                             <tr class="border-0">
                                                 <td class="border-0">Ticket Available:</td>
-                                                <td class="border-0">{{pack.ticket - (pack.bookings.reduce((total, value)=> total + value.ticket, 0))}}</td>
+                                                <td class="border-0">{{pack.ticket - (pack.bookings.reduce((total, value) => total + value.ticket, 0))}}</td>
                                             </tr>
                                             <tr class="border-0">
                                                 <td class="border-0">Booking Collection Amount:</td>
-                                                <td class="border-0">${{pack.bookings.reduce((total, value)=> total + value.payments.reduce((subTotal, payment)=> subTotal + +payment.amount, 0), 0) | currency}}</td>
+                                                <td class="border-0">${{pack.bookings.reduce((total, value) => total + value.payments.reduce((subTotal, payment) => subTotal + +payment.amount, 0), 0) | currency}}</td>
                                             </tr>
                                         </td>
                                         <td class="align-middle">
@@ -1077,7 +1077,7 @@ export default {
     head() {
         return {
             title: "Dashboard - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
 
@@ -1142,10 +1142,10 @@ export default {
                     this.dashAdmin.booking.guideRequest = response.data.guideRequest;
                     this.dashAdmin.booking.todayQuantity = response.data.todayQuantity;
                     this.dashAdmin.booking.todayAmount = response.data.todayAmount;
-                    response.data.bookingChart.forEach(booking => {
+                    response.data.bookingChart.forEach((booking) => {
                         this.dashAdmin.bookingChart[booking.date] = booking.ticket;
                     });
-                    response.data.destinationPackage.forEach(destination => {
+                    response.data.destinationPackage.forEach((destination) => {
                         this.dashAdmin.destinationPackage.push([destination.name, destination.running_packages_count]);
                     });
                     this.dashAdmin.topGuide = response.data.topGuide;

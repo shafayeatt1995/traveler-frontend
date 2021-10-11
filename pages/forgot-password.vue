@@ -1,25 +1,26 @@
 <template>
-    <div class="login-form">
-        <form @submit.prevent="submit" class="container" v-if="!authCheck">
-            <div class="col-lg-6 offset-lg-3 input-form">
-                <h1 class="text-center my-4">Forgot Password</h1>
-                <input type="email" id="email" placeholder="Type Your Email" v-model="credential.email" />
-                <button type="submit" class="strong">
-                    <transition name="fade" mode="out-in">
-                        <Loading v-if="loading"/>
-                        <span v-else>Reset Password</span>
-                    </transition>
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="login-form">
+    <form @submit.prevent="submit" class="container" v-if="!authCheck">
+        <div class="col-lg-6 offset-lg-3 input-form">
+            <h1 class="text-center my-4">Forgot Password</h1>
+            <input type="email" id="email" placeholder="Type Your Email" v-model="credential.email" />
+            <button type="submit" class="strong">
+                <transition name="fade" mode="out-in">
+                    <Loading v-if="loading" />
+                    <span v-else>Reset Password</span>
+                </transition>
+            </button>
+        </div>
+    </form>
+</div>
 </template>
+
 <script>
 export default {
     head() {
         return {
             title: "Forgot Password - " + this.appName,
-            link: [{rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
+            link: [{ rel: 'icon', type: 'image/x-icon', href: this.assetURL + this.favicon, }]
         };
     },
     data() {
@@ -34,15 +35,15 @@ export default {
 
     methods: {
         submit() {
-            if(this.click) {
+            if (this.click) {
                 this.click = false
                 this.$axios.post("forget-password", this.credential).then(
-                    (response)=>{
+                    (response) => {
                         this.credential.email = "";
                         $nuxt.$emit("success", "Reset Password Link Send Your Email");
                         this.click = true;
                     },
-                    (error)=>{
+                    (error) => {
                         $nuxt.$emit("error", error);
                         this.click = true;
                     },

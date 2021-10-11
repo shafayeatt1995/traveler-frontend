@@ -128,9 +128,9 @@ export default {
     async asyncData(context) {
         let response = await axios.post(context.env.baseURL + "search-package", { keyword: context.params.keyword })
         let categoryList = [];
-        let searchDuration = [];
-        response.data.packages.data.filter(pack => categoryList.some(list => list.id == pack.category_id) ? "" : categoryList.push(pack.category));
-        response.data.packages.data.filter(pack => searchDuration.some(duration => duration == pack.duration_day) ? "" : searchDuration.push(pack.duration_day));
+        let getSearchDuration = [];
+        response.data.packages.data.filter((pack) => categoryList.some((list) => list.id == pack.category_id) ? "" : categoryList.push(pack.category));
+        response.data.packages.data.filter((pack) => getSearchDuration.some((duration) => duration == pack.duration_day) ? "" : getSearchDuration.push(pack.duration_day));
         return {
             title: context.params.keyword,
             search: {
@@ -142,7 +142,7 @@ export default {
                 durations: [],
             },
             searchCategory: categoryList,
-            searchDuration: searchDuration,
+            searchDuration: getSearchDuration,
             packages: response.data.packages,
             categories: response.data.categories,
             popular: response.data.popular,

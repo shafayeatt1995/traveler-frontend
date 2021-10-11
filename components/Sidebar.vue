@@ -92,12 +92,6 @@
                 <nuxt-link :to="{name: 'dashboard-guide-request'}" class="strong">Guide Request</nuxt-link>
             </li>
             <li v-if="admin">
-                <nuxt-link :to="{name: 'dashboard-page-editor'}" class="strong">Page Editor</nuxt-link>
-            </li>
-            <li v-if="admin">
-                <nuxt-link :to="{name: 'dashboard-section-editor'}" class="strong">Section Editor</nuxt-link>
-            </li>
-            <li v-if="admin">
                 <nuxt-link :to="{name: 'dashboard-admin'}" class="strong">Admin List</nuxt-link>
             </li>
             <li v-if="admin">
@@ -111,6 +105,12 @@
             </li>
             <li v-if="authCheck">
                 <nuxt-link :to="{name: 'dashboard-edit-profile'}" class="strong">Edit Profile</nuxt-link>
+            </li>
+            <li v-if="admin">
+                <nuxt-link :to="{name: 'dashboard-page-editor'}" class="strong">Page Editor</nuxt-link>
+            </li>
+            <li v-if="admin">
+                <nuxt-link :to="{name: 'dashboard-section-editor'}" class="strong">Section Editor</nuxt-link>
             </li>
             <li v-if="admin">
                 <nuxt-link :to="{name: 'dashboard-site-setting'}" class="strong">Site Setting</nuxt-link>
