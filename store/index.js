@@ -200,6 +200,13 @@ export const actions = {
         const response = await axios.get(context.state.link + "start");
         context.commit("getapp", response);
     },
+    nuxtClientInit(context) {
+        axios.get(context.state.link + "start").then(
+            (response) => {
+                context.commit("getapp", response);
+            }
+        )
+    },
     triggerinit(context) {
         axios.get(context.state.link + "start").then(
             (response) => {

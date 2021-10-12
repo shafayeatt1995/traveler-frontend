@@ -12,7 +12,7 @@
                     <p>{{message}}</p>
                     <div class="footer-social-icons">
                         <h5>Follow Us:</h5>
-                        <ul>
+                        <ul v-if="social">
                             <li>
                                 <a :href="'https://' + social.facebook" target="_blank">
                                     <client-only>

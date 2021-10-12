@@ -1,9 +1,16 @@
 export default {
+  //// For Server Side rendaring(SSR) (Node.js Server Required)
   // target: "server",
 
+  ////For Static Site Generation(SSG)
+  // target: "static",
   // generate: {
   //   interval: 2400
   // },
+
+  //For Single Page Application(SPA)
+  ssr: process.env.MODE === "spa" ? false : true,
+
 
   head: {
     title: "-",
@@ -19,7 +26,6 @@ export default {
     ],
 
     link: [
-      // { rel: "icon", type: "image/x-icon", href: "/favicon.ico", hid: "icon", },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/bootstrap.min.css", },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/style.css" },
       { rel: "stylesheet", href: process.env.assetURL + "assets/css/responsive.css" },
@@ -54,7 +60,6 @@ export default {
   buildModules: [
     "@nuxtjs/fontawesome",
     "@nuxtjs/dotenv",
-    "@nuxtjs/composition-api/module"
   ],
 
   fontawesome: {
@@ -71,6 +76,7 @@ export default {
     "@nuxtjs/auth-next",
     "vue-sweetalert2/nuxt",
     "vue2-editor/nuxt",
+    'nuxt-client-init-module',
     ["nuxt-lazy-load", {
       defaultImage: process.env.assetURL + "images/preloader.svg",
       loadingClass: "isLoading",
