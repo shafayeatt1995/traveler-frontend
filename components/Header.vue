@@ -354,7 +354,6 @@ export default {
     },
 
     mounted() {
-        console.log();
         if (process.env.MODE == "spa") {
             if (document.readyState == "complete") {
                 this.preloader = false;
